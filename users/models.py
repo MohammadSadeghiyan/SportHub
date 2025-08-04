@@ -51,7 +51,7 @@ class Reseption(MidUser):
     pass
 
 class SportHistory(models.Model):
-    user=models.ForeignKey(Athlete,on_delete=models.SET_NULL,null=True,related_name='sport_historys')
+    athlete=models.ForeignKey(Athlete,on_delete=models.CASCADE,related_name='sport_historys')
     coach=models.ForeignKey(Coach,on_delete=models.SET_NULL,null=True,related_name='users_coaching')
     start_date=models.DateField(blank=True,null=True)
     end_date=models.DateField(null=True,blank=True)
@@ -59,10 +59,10 @@ class SportHistory(models.Model):
     balance_for_coaching_rial=models.DecimalField(verbose_name='balance for coaching(rial)',max_digits=15,decimal_places=0)
 
     def __str__(self):
-        return f'{self.user.username}_{self.coach.username}_{self.start_date}'
+        return f'{self.athlete.username}_{self.coach.username}_{self.start_date}'
 
 class WorkHistory(models.Model):
-    user=models.ForeignKey(MidUser,on_delete=models.SET_NULL,null=True,blank=True,related_name='work_histories')
+    user=models.ForeignKey(MidUser,on_delete=models.CASCADE,blank=True,related_name='work_histories')
     activity_type=models.CharField(max_length=50)
     activity_description=models.TextField(verbose_name='activity description(not required)',blank=True,null=True)
     start_activity=models.DateField()
@@ -74,11 +74,6 @@ class WorkHistory(models.Model):
         return f'{self.user}_{self.activity_type}_{self.end_activity.year}'
 
 
-
-
-    
-
-
-
-
-
+class Message(models.Model):
+    sender=models.ForeignKey(MidUser,on_delete=models.SET_NULL,null=True,related_name='')
+    reciver=models.ForeignKey(MidUser,on_delete=models.CASCADE,related_name='')

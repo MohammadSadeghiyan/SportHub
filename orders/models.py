@@ -15,11 +15,20 @@ class Order(models.Model):
     user=models.ForeignKey(MidUser,on_delete=models.CASCADE,related_name='orders')
     created_at=models.DateField(auto_now_add=True)
     status=models.CharField(max_length=7,choices=STATUS_CHOICES,default='pending')
+    price=models.DecimalField(max_digits=18,decimal_places=0,blank=True,null=True)
+
+
+    def __str__(self):
+        return f'{self.user.username}_{self.status}'
+
 
 
 class AbstractOrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
     price = models.DecimalField(max_digits=15, decimal_places=0,blank=True)
+    
+    def __str__(self):
+        return f'{self.order.user.username}_{self.order.status}'
     
     class Meta:
         abstract = True

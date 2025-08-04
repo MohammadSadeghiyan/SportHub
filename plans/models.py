@@ -10,7 +10,7 @@ class Excersice(models.Model):
         ('f','finished')
     ]
     name=models.CharField()
-    athlete=models.ForeignKey(Athlete,on_delete=models.SET_NULL,null=True,related_name='excersices')
+    athlete=models.ForeignKey(Athlete,on_delete=models.CASCADE,related_name='excersices')
     coach=models.ForeignKey(Coach,on_delete=models.SET_NULL,null=True,related_name='excersices')
     description=models.TextField()
     start_date=models.DateField()
@@ -42,7 +42,7 @@ class Excersice_history(models.Model):
 
     
 class NutritionPlan(models.Model):
-    athlete=models.ForeignKey(Athlete,on_delete=models.SET_NULL,null=True,related_name='nutritionplans')
+    athlete=models.ForeignKey(Athlete,on_delete=models.CASCADE,related_name='nutritionplans')
     coach=models.ForeignKey(Coach,on_delete=models.SET_NULL,null=True,related_name='nutritionplan')
     name=models.CharField(max_length=40)
     description = models.TextField(blank=True)  
@@ -70,7 +70,7 @@ class Meal(models.Model):
         ('dinner', 'Dinner')
     ]
 
-    nutrition_plan = models.ForeignKey(NutritionPlan, on_delete=models.CASCADE, related_name='meals')
+    nutrition_plan = models.ForeignKey(NutritionPlan, on_delete=models.SET_NULL,null=True, related_name='meals')
     day = models.CharField(max_length=10, choices=DAY_CHOICES)
     meal_type = models.CharField(max_length=10, choices=MEAL_TYPE)
     content = models.TextField()  
