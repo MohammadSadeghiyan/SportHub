@@ -3,8 +3,12 @@ from django.dispatch import receiver
 from users.models import MidUser
 from sporthub.settings import MEDIA_ROOT
 import os
+import time
 @receiver(post_save,sender=MidUser)
 def set_image_name_base_username(sender,instance,**kwargs):
+        if hasattr(instance, '_saving_from_signal') and instance._saving_from_signal:
+            return
+        instance._saving_from_signal = True
         if instance.image:
             image_relative_path_without_name=f'images/profile/{instance.role}'
             old_path=instance.image.path

@@ -12,3 +12,4 @@ def upload_to_role_based_path(instance,filename):
     if instance.username :
         return f"images/profile/{instance.role}/{instance.username}{extenstion}"
     return f"images/profile/{instance.role}/{filename}"
+
