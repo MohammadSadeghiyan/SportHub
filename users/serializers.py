@@ -41,46 +41,31 @@ class MidUserSerializer(serializers.ModelSerializer):
                 'balance_rial','status']
         read_only_fields = ('status','role')
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        request=self.context.get('request')
-        user=request.user
-        if request.method in ['PUT','PATCH']:
-            self.fields['password'].required=False
 
-
-# class ReseptionSerializer(serializers.HyperlinkedModelSerializer):
-#     url=serializers.HyperlinkedIdentityField(view_name='',lookup_field='pk',
-#                                              read_only=True)
-#     user=MidUserSerializer()
-#     class Meta:
-#         model=Receptionist
-#         fields=['url','user']
+class ReceptionistSerializer(serializers.HyperlinkedModelSerializer):
+    url=serializers.HyperlinkedIdentityField(view_name='users:receptionist-detail',lookup_field='pk',
+                                             read_only=True)
+    user=MidUserSerializer()
+    class Meta:
+        model=Receptionist
+        fields=['url','user']
         
         
         
 
-#     def create(self, validated_data):
-#         request=self.context.get('request')
-#         user=request.user
-#         user_data=validated_data.pop('user')
-#         password=user_data.pop('password')
-#         user=Receptionist(**user_data)
-#         user.set_password(password)
-#         user.save()
-#         return user
     
-#     def update(self, instance, validated_data):
-#         user_data=validated_data.pop('user')
-#         password = validated_data.pop('password', None)
-#         if password is not None:
-#             instance.set_password(password)
+    def update(self, instance, validated_data):
+        user_data=validated_data.pop('user',None)
+        if user_data:
+            password = validated_data.pop('password', None)
+            if password is not None:
+                instance.set_password(password)
             
-#         for attr, value in validated_data.items():
-#             setattr(instance, attr, value)
+            for attr, value in validated_data.items():
+                setattr(instance, attr, value)
 
-#         instance.save()
-#         return instance
+        instance.save()
+        return instance
 
 # class AthleteSerializer(serializers.HyperlinkedModelSerializer):
 #     url=serializers.HyperlinkedIdentityField(view_name='',lookup_field='pk',read_only=True)

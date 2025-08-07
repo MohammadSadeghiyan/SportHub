@@ -11,7 +11,7 @@ class ReportViewSet(viewsets.ModelViewSet):
         user=self.request.user
         if user.is_superuser:
             return Report.objects.all()
-        manager=Manager.objects.filter(pk=user.pk).first()
+        manager=Manager.objects.filter(pk=user.pk).prefetch_related('reports').first()
         return manager.reports.all()
     
     serializer_class=ReportSerializer
