@@ -26,8 +26,7 @@ class Class(models.Model):
     end_date=models.DateField()
     capacity=models.PositiveSmallIntegerField()
     coach=models.ForeignKey(Coach,on_delete=models.SET_NULL,null=True,related_name='classes')
-    salary_to_gym_per_athlete_rail=models.DecimalField(max_digits=15,decimal_places=0,blank=True,null=True)
-    class_salary_get_per_athlete_rial=models.DecimalField(max_digits=15,decimal_places=0)
+    class_salary_get_per_athlete_rial=models.DecimalField(max_digits=9,decimal_places=0)
 
     @property
     def get_full_price(self):
@@ -35,7 +34,7 @@ class Class(models.Model):
             athlete_registered=self.reserves.filter(status='ack')
             total=0
             for athlete in athlete_registered:
-                total+=athlete.salary_rial-self.salary_to_gym_per_athlete_rail
+                total+=athlete.salary_rial*.9
             return total
         
     
@@ -50,9 +49,10 @@ class Reservation(models.Model):
     ]
     class_ref=models.ForeignKey(Class,on_delete=models.SET_NULL,null=True,related_name='reserves')
     athlete=models.ForeignKey(Athlete,on_delete=models.SET_NULL,null=True,related_name='reserves')
-    salary_rial=models.DecimalField(max_digits=15,decimal_places=0)
+    salary_rial=models.DecimalField(max_digits=9,decimal_places=0)
     status=models.CharField(max_length=4,choices=STATUS_CHOICES,default='wait')
-    
+    date=models.DateTimeField(auto_now_add=True)
+    registered_date=models.DateField(null=True)
 
     def __str__(self):
         return f'{self.class_ref.name}_{self.status}'

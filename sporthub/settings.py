@@ -27,16 +27,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_jalali',
     'rest_framework',
     'phonenumber_field',
-    "azbankgateways",
+    'azbankgateways',
     'users.apps.UsersConfig',
     'plans.apps.PlansConfig',
     'memberships.apps.MembershipsConfig',
     'orders.apps.OrdersConfig',
     'payments.apps.PaymentsConfig',
     'reports.apps.ReportsConfig',
-    'training.apps.TrainingConfig'
+    'training.apps.TrainingConfig',
 ]
 
 MIDDLEWARE = [
@@ -81,6 +82,11 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432',
     }
+
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
 }
 
 
@@ -128,6 +134,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     )
 }
 
