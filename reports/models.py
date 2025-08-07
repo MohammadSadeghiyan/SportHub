@@ -20,4 +20,4 @@ class Report(models.Model):
     expired_user=models.PositiveIntegerField()
 
     def __str__(self):
-        return f'{self.pk}_{self.type}'
+        return f'{self.pk}_{self.type_name}'

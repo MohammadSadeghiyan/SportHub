@@ -1,13 +1,16 @@
 from users.models import MidUser,Manager
 from training.models import Reservation
 from orders.models import Order,MembershipItem
+from memberships.models import Membership
 from decimal import Decimal
+from django.db.models import Prefetch
 from payments.models import RecpetionistPayment
 from .helpers import set_start_date
 from .models import Report
 def count_active_user(start_date):
-    active_user=MidUser.objects.filter(last_login__gte=start_date).exclude(role='receptionist').filter(memberships__status=True)\
-                                                                                            .distinct().count()
+    active_user=MidUser.objects.filter(last_login__gte=start_date).exclude(role='receptionist')\
+                                                                        .filter(memberships__status=True)\
+                                                                            .distinct().count()
     return active_user
 
 def count_inactive_user(start_date):
@@ -52,8 +55,8 @@ def calculate_total_sale(start_date,end_date):
 
 def calculate_total_payment(start_date,end_date):
     price_payments=RecpetionistPayment.objects.filter(date__gte=start_date,date__lte=end_date).values_list('salary',flat=True)
-    if not price_payments:return 0 
-    return sum(price_payments)
+    if not price_payments:return Decimal(0) 
+    return Decimal(sum(price_payments))
 
 def calculate_report_data(start_date,end_date):
     output={}

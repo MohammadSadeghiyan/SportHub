@@ -10,9 +10,7 @@ def set_start_date(end_date,type_name):
     return start_date
 def find_first_user_date_joined():
     if MidUser.objects.exists():
-        return MidUser.objects.order_by('date_joined')\
-                                .prefetch_related('work_histories','send_messages','recived_messages','memberships','orders',
-                                                  'payments').select_related().first().date_joined.date()
+        return MidUser.objects.order_by('date_joined').first().date_joined.date()
                                     
     return timezone.now().date()
 
