@@ -14,5 +14,6 @@ manager_router.register('reports',ReportViewSet,basename='manager-reports')
 
 urlpatterns=[
     path('',include(router.urls)),
-    path('',include(manager_router.urls))
+    path('',include(manager_router.urls)),
+    path('',include('apps.reports.urls'))
                   ]
