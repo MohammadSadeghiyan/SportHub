@@ -2,6 +2,7 @@
 
 from pathlib import Path
 from decouple import config
+import datetime
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -27,17 +28,28 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_jalali',
     'rest_framework',
     'phonenumber_field',
     'azbankgateways',
-    'users.apps.UsersConfig',
-    'plans.apps.PlansConfig',
-    'memberships.apps.MembershipsConfig',
-    'orders.apps.OrdersConfig',
-    'payments.apps.PaymentsConfig',
-    'reports.apps.ReportsConfig',
-    'training.apps.TrainingConfig',
+    'rest_framework_simplejwt',
+
+    'apps.basicusers.apps.BasicusersConfig',
+    'apps.coaches.apps.CoachesConfig',
+    'apps.managers.apps.ManagersConfig',
+    'apps.receptionists.apps.ReceptionistsConfig',
+    'apps.reports.apps.ReportsConfig',
+    'apps.gym.apps.GymConfig',
+    'apps.memberships.apps.MembershipsConfig',
+    'apps.mysessions.apps.MysessionsConfig',
+    'apps.classes.apps.ClassesConfig',
+    'apps.mymessages.apps.MymessagesConfig',
+    'apps.athletes.apps.AthletesConfig',
+    'apps.reservations.apps.ReservationsConfig',
+    'apps.orders.apps.OrdersConfig',
+    'apps.payments.apps.PaymentsConfig',
+    'apps.plans.apps.PlansConfig',
+    'apps.sporthistories.apps.SporthistoriesConfig',
+    'apps.workhistories.apps.WorkhistoriesConfig'
 ]
 
 MIDDLEWARE = [
@@ -138,7 +150,7 @@ REST_FRAMEWORK = {
     )
 }
 
-AUTH_USER_MODEL = 'users.BaseUser'
+AUTH_USER_MODEL = 'basicusers.BaseUser'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT=BASE_DIR / "media"
@@ -166,4 +178,9 @@ AZ_IRANIAN_BANK_GATEWAYS = {
     ],  # اختیاری
     "IS_SAFE_GET_GATEWAY_PAYMENT": False,  # اختیاری، بهتر است True بزارید.
     "CUSTOM_APP": 'payment',  # اختیاری
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
 }
