@@ -1,6 +1,7 @@
 from django.db import models
 from .helpers import date_validator
 from apps.managers.models import Manager
+from shortuuidfield import ShortUUIDField
 # Create your models here.
 
 class Report(models.Model):
@@ -20,6 +21,6 @@ class Report(models.Model):
     active_user=models.PositiveIntegerField()
     inactive_user=models.PositiveIntegerField()
     expired_user=models.PositiveIntegerField()
-
+    public_id=ShortUUIDField(editable=False,unique=True)
     def __str__(self):
         return f'{self.pk}_{self.type_name}'

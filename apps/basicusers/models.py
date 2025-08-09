@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
 from .helpers import upload_to_role_based_path,validate_iran_home_phone
+from shortuuidfield import ShortUUIDField
 
 # Create your models here.
 
@@ -15,6 +16,7 @@ class BaseUser(AbstractUser):
     
     ]
     role=models.CharField(max_length=20,choices=ROLE_CHOICE,default='athlete')
+    public_id = ShortUUIDField(unique=True, editable=False)
     def __str__(self):
         return self.username+'_'+self.role
     

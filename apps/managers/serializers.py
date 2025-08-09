@@ -2,10 +2,9 @@ from rest_framework import serializers
 from .models import Manager
 from rest_framework_nested.relations import NestedHyperlinkedRelatedField
 class ManagerSerializer(serializers.HyperlinkedModelSerializer):
-    url=serializers.HyperlinkedIdentityField(view_name='manager-detail',read_only=True)
-    reports=NestedHyperlinkedRelatedField(view_name='manager-reports-detail',many=True,read_only=True
-                                            ,parent_lookup_kwargs={'manager_pk':'manager__pk'})
-    #reports=serializers.HyperlinkedIdentityField(view_name='manager-reports-list',lookup_url_kwargs='manager_pk')
+    url=serializers.HyperlinkedIdentityField(view_name='manager-detail',lookup_field='public_id',read_only=True)
+    reports=NestedHyperlinkedRelatedField(view_name='manager-reports-detail',lookup_field='public_id',many=True,read_only=True
+                                            ,parent_lookup_kwargs={'manager_public_id':'manager__public_id'})
     password=serializers.CharField(max_length=255,write_only=True)
     class Meta:
         model=Manager

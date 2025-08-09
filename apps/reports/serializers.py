@@ -28,7 +28,7 @@ class ReportSerializer(serializers.ModelSerializer):
     start_date=JalaliDateField(read_only=True)
     class Meta:
         model=Report
-        fields='__all__'
+        fields = ['start_date','end_date']+[f.name for f in Report._meta.get_fields() if f.name not in ['public_id','id','manager']]
         read_only_fields=[field.name for field in Report._meta.fields if field.name not in['type_name','end_date','name']]
 
 

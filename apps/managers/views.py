@@ -8,7 +8,7 @@ from .permissions import IsSuperOrManager
 class ManagerViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Manager.objects.all()
-
+    lookup_field='public_id'
     serializer_class=ManagerSerializer
     permission_classes=[permissions.IsAuthenticated,IsSuperOrManager]
     
