@@ -11,7 +11,7 @@ class IsSuperOrReportManager(permissions.BasePermission):
         user=request.user
         if user.is_superuser:
             return True
-        if obj.managers.filter(username=user.username).exists():
+        if obj.manager and obj.manager.username==user.username:
             return True
         return False
         

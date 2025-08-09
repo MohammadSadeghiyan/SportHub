@@ -10,21 +10,19 @@ from .models import Report
 
 class ReportService:
 
-    def __init__(self,data,user=None):
+    def __init__(self,data,user_id):
         self.end_date=data.get('end_date',None)#None could happened when update call
         self.type_name=data.get('type_name',None)#None could happend when update call
         self.name=data.get('name',None)#None could happened when update call 
-        self.user=user
+        self.user=Manager.objects.get(pk=user_id)
         if self.end_date and self.type_name:
             self.start_date=set_start_date(end_date=self.end_date,type_name=self.type_name)
     
     def make_report(self):
 
-        other_data=self.calculate_report_data(self.start_date,self.end_date)
-        report=Report(**other_data,start_date=self.start_date,end_date=self.end_date,name=self.name,type_name=self.type_name)
+        other_data=self.calculate_report_data()
+        report=Report(**other_data,start_date=self.start_date,end_date=self.end_date,name=self.name,type_name=self.type_name,manager=self.user)
         report.save()
-        manager=Manager.objects.filter(pk=self.user.pk).first()
-        manager.save()
         return report
 
     def calculate_report_data(self):

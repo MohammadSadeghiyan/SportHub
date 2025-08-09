@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'azbankgateways',
     'rest_framework_simplejwt',
-
+    'django_extensions',
     'apps.basicusers.apps.BasicusersConfig',
     'apps.coaches.apps.CoachesConfig',
     'apps.managers.apps.ManagersConfig',

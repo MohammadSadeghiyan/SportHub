@@ -1,13 +1,16 @@
 from rest_framework import serializers
 from .models import Manager
-
+from rest_framework_nested.relations import NestedHyperlinkedRelatedField
 class ManagerSerializer(serializers.HyperlinkedModelSerializer):
-    url=serializers.HyperlinkedIdentityField(view_name='users:manager-detail',read_only=True)
+    url=serializers.HyperlinkedIdentityField(view_name='manager-detail',read_only=True)
+    reports=NestedHyperlinkedRelatedField(view_name='manager-reports-detail',many=True,read_only=True
+                                            ,parent_lookup_kwargs={'manager_pk':'manager__pk'})
+    #reports=serializers.HyperlinkedIdentityField(view_name='manager-reports-list',lookup_url_kwargs='manager_pk')
     password=serializers.CharField(max_length=255,write_only=True)
     class Meta:
         model=Manager
-        fields=['url','username','password','role']
-        read_only_fields=('role',)
+        fields=['url','username','password','role','reports']
+        read_only_fields=('role','reports')
 
 
     

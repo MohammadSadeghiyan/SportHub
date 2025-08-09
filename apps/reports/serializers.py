@@ -23,8 +23,7 @@ class JalaliDateField(serializers.DateField):
             return j_date.strftime('%Y/%m/%d')
         return value
 
-class ReportSerializer(serializers.HyperlinkedModelSerializer):
-    url=serializers.HyperlinkedIdentityField(view_name='reports:report-detail',read_only=True,lookup_field='pk')
+class ReportSerializer(serializers.ModelSerializer):
     end_date=JalaliDateField()
     start_date=JalaliDateField(read_only=True)
     class Meta:
