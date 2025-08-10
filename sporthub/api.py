@@ -13,6 +13,8 @@ manager_router.register('reports',ReportViewSet,basename='manager-reports')
 
 
 urlpatterns=[
+    path('',include('apps.coaches.urls')),
     path('',include(router.urls)),
     path('',include(manager_router.urls)),
+   
                   ]

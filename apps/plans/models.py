@@ -2,7 +2,7 @@ from django.db import models
 from apps.athletes.models import Athlete
 from apps.coaches.models import Coach
 from django.db.models import UniqueConstraint
-
+from apps.sporthistories.models import SportHistory
 # Create your models here.
 
 class Excersice(models.Model):
@@ -12,8 +12,7 @@ class Excersice(models.Model):
         ('f','finished')
     ]
     name=models.CharField()
-    athlete=models.ForeignKey(Athlete,on_delete=models.CASCADE,related_name='excersices')
-    coach=models.ForeignKey(Coach,on_delete=models.SET_NULL,null=True,related_name='excersices')
+    sport_history=models.ForeignKey(SportHistory,on_delete=models.CASCADE,related_name='excersices')
     description=models.TextField()
     start_date=models.DateField()
     end_date=models.DateField(blank=True,null=True)
@@ -22,7 +21,7 @@ class Excersice(models.Model):
     class Meta:
         constraints = [
             UniqueConstraint(
-                fields=['athlete','name'],
+                fields=['sport_history','name'],
                 name='unique_excersice'
             )
         ]
@@ -39,19 +38,19 @@ class Excersice_history(models.Model):
 
 
     def __str__(self):
-        return f'{self.excersice.name}_{self.excersice.athlete}_{self.time}'
+        return f'{self.excersice.name}_{self.excersice.sport_history.athlete.username}_{self.time}'
 
 
     
 class NutritionPlan(models.Model):
     athlete=models.ForeignKey(Athlete,on_delete=models.CASCADE,related_name='nutritionplans')
-    coach=models.ForeignKey(Coach,on_delete=models.SET_NULL,null=True,related_name='nutritionplan')
+    coach=models.ForeignKey(Coach,on_delete=models.SET_NULL,null=True,related_name='nutrition_plans')
     name=models.CharField(max_length=40)
     description = models.TextField(blank=True)  
     start_date = models.DateField()
     end_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    registered_at = models.DateTimeField(null=True)
     salary_rial=models.DecimalField(max_digits=9,decimal_places=0)
 
 

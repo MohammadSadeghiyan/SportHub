@@ -4,8 +4,8 @@ from apps.coaches.models import Coach
 # Create your models here.
 
 class SportHistory(models.Model):
-    athlete=models.ForeignKey(Athlete,on_delete=models.CASCADE,related_name='sport_historys')
-    coach=models.ForeignKey(Coach,on_delete=models.SET_NULL,null=True,related_name='users_coaching')
+    athlete=models.ForeignKey(Athlete,on_delete=models.CASCADE,related_name='sport_histories')
+    coach=models.ForeignKey(Coach,on_delete=models.SET_NULL,null=True,related_name='sport_histories')
     start_date=models.DateField(blank=True,null=True)
     end_date=models.DateField(null=True,blank=True)
     confirmation_coach=models.BooleanField(default=False)
