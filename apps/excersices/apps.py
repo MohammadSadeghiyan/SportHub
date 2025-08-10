@@ -3,4 +3,4 @@ from django.apps import AppConfig
 
 class ExcersicesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'excersices'
+    name = 'apps.excersices'

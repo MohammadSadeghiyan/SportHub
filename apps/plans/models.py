@@ -1,47 +1,7 @@
 from django.db import models
 from apps.athletes.models import Athlete
 from apps.coaches.models import Coach
-from django.db.models import UniqueConstraint
-from apps.sporthistories.models import SportHistory
-# Create your models here.
 
-class Excersice(models.Model):
-    STATUS_TYPE=[
-        ('ns','not start'),
-        ('w','working'),
-        ('f','finished')
-    ]
-    name=models.CharField()
-    sport_history=models.ForeignKey(SportHistory,on_delete=models.CASCADE,related_name='excersices')
-    description=models.TextField()
-    start_date=models.DateField()
-    end_date=models.DateField(blank=True,null=True)
-    status=models.CharField(max_length=2,choices=STATUS_TYPE,default='ns')
-
-    class Meta:
-        constraints = [
-            UniqueConstraint(
-                fields=['sport_history','name'],
-                name='unique_excersice'
-            )
-        ]
-
-    def __str__(self):
-        return f'{self.athlete}_{self.name}'
-
-class Excersice_history(models.Model):
-    excersice=models.ForeignKey(Excersice,on_delete=models.SET_NULL,null=True,related_name='excersice_history')
-    time=models.DateField()
-    excersice_time=models.DurationField()
-    description=models.TextField()
-
-
-
-    def __str__(self):
-        return f'{self.excersice.name}_{self.excersice.sport_history.athlete.username}_{self.time}'
-
-
-    
 class NutritionPlan(models.Model):
     athlete=models.ForeignKey(Athlete,on_delete=models.CASCADE,related_name='nutritionplans')
     coach=models.ForeignKey(Coach,on_delete=models.SET_NULL,null=True,related_name='nutrition_plans')

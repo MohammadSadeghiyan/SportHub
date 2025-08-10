@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'phonenumber_field',
     'azbankgateways',
+    'drf_spectacular',
     'rest_framework_simplejwt',
     'django_extensions',
     'apps.basicusers.apps.BasicusersConfig',
@@ -49,7 +50,8 @@ INSTALLED_APPS = [
     'apps.payments.apps.PaymentsConfig',
     'apps.plans.apps.PlansConfig',
     'apps.sporthistories.apps.SporthistoriesConfig',
-    'apps.workhistories.apps.WorkhistoriesConfig'
+    'apps.workhistories.apps.WorkhistoriesConfig',
+    'apps.excersices.apps.ExcersicesConfig',
 ]
 
 MIDDLEWARE = [
@@ -147,7 +149,15 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-    )
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Sport Hub API Project',
+    'DESCRIPTION': 'modern sport hub api',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
 }
 
 AUTH_USER_MODEL = 'basicusers.BaseUser'
