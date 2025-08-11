@@ -58,16 +58,19 @@ class ExcersiceHistoryViewSet(viewsets.ModelViewSet):
         user=self.request.user
         excersice_history_fields=[f.name for f in Excersice_history._meta.get_fields()]
         excersice_fields=['excersice__name','excersice__status']
-        athlete_fields=['excersice__sport_history__athlete__username']+\
-                            ['excersice__sport_history__athlete__public_id' if user.role=='athlete'else None]
-        fields_pass_to_only=excersice_history_fields+excersice_fields+athlete_fields
+        athlete_fields=['excersice__sport_history__athlete__username']
+        coach_fields=[]
         if user.role=='athlete':
-            return Excersice_history.objects.filter(excersice__athlete__public_id=user.public_id)\
+            athlete_fields.append('excersice__sport_history__athlete__public_id')
+        elif user.role=='coach':coach_fields.append('excersice__sport_history__coach__public_id')
+        fields_pass_to_only=excersice_history_fields+excersice_fields+athlete_fields+coach_fields
+        if user.role=='athlete':
+            return Excersice_history.objects.filter(excersice__sport_history__athlete__public_id=user.public_id)\
                                                 .select_related('excersice__sport_history__athlete')\
                                                     .only(*fields_pass_to_only)
         elif user.role=='coach':
             return Excersice_history.objects.filter(excersice__coach__public_id=user.public_id).\
-                                                select_related('excersice__sport_history__athlete')\
+                                                select_related('excersice__sport_history__athlete','excersice__sport_history__coach')\
                                                     .only(*fields_pass_to_only)
 
     lookup_field='public_id'

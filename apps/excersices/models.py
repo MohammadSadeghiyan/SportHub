@@ -34,7 +34,7 @@ class Excersice(models.Model):
 class Excersice_history(models.Model):
     public_id=ShortUUIDField(editable=False,unique=True)
     excersice=models.ForeignKey(Excersice,on_delete=models.CASCADE,related_name='excersice_history')
-    time=models.DateField()
+    time=models.DateField(auto_now_add=True)
     excersice_time=models.DurationField()
     description=models.TextField()
 

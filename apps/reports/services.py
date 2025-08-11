@@ -11,9 +11,9 @@ from .models import Report
 class ReportService:
 
     def __init__(self,data,user_id):
-        self.end_date=data.get('end_date',None)#None could happened when update call
-        self.type_name=data.get('type_name',None)#None could happend when update call
-        self.name=data.get('name',None)#None could happened when update call 
+        self.end_date=data.get('end_date',None)#None could happened when patch request used
+        self.type_name=data.get('type_name',None)#None could happend when patch request used
+        self.name=data.get('name',None)#None could happened when patch request used
         self.user=Manager.objects.get(public_id=user_id)
         if self.end_date and self.type_name:
             self.start_date=set_start_date(end_date=self.end_date,type_name=self.type_name)

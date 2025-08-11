@@ -13,9 +13,7 @@ class IsCoachOrAthleteExcersice(permissions.BasePermission):
         return False
     def has_object_permission(self, request, view, obj):
         user=request.user
-        if user.role=='manager' and request.method in permissions.SAFE_METHODS:
-            return True
-        return obj.sport_history.coach.public_id==user.public_id or obj.sport_history.athlete.public_id==user.public_id
+        return user.role=='manager' or obj.sport_history.coach.public_id==user.public_id or obj.sport_history.athlete.public_id==user.public_id
     
 
 class IsCoachOrAthleteHistory(permissions.BasePermission):
@@ -30,8 +28,8 @@ class IsCoachOrAthleteHistory(permissions.BasePermission):
     
     def has_object_permission(self, request, view, obj):
         user=request.user
-        if user.role=='manager' and request.method in permissions.SAFE_METHODS:
+        if user.role=='manager':
             return True
-        elif user.role=='coach' and request.method in permissions.SAFE_METHODS:
-            return True
-        return user.public_id==obj.excersice.sport_history.athlete.public_id
+        elif user.role=='athlete':
+            return user.public_id==obj.excersice.sport_history.athlete.public_id
+        return user.public_id==obj.excersice.sport_history.coach.public_id
