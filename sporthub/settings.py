@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'azbankgateways',
     'drf_spectacular',
+    'django_filters',
     'rest_framework_simplejwt',
     'django_extensions',
     'apps.basicusers.apps.BasicusersConfig',
@@ -151,6 +152,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Sport Hub API Project',

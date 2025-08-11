@@ -22,6 +22,7 @@ urlpatterns=[
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/',include('apps.coaches.urls')),
+    path('api/',include('apps.excersices.urls')),
     path('api/',include(router.urls)),
     path('api/',include(manager_router.urls)),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
