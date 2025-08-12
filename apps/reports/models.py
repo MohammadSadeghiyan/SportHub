@@ -6,7 +6,7 @@ from shortuuidfield import ShortUUIDField
 
 class Report(models.Model):
     TYPE_CHOICE=[
-        ('year','YEAR'),
+        ('year','Year'),
         ('month','Month'),
         ('day','Day')
     ]

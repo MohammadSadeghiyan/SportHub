@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django_extensions',
     'apps.basicusers.apps.BasicusersConfig',
+    'apps.djalalidates.apps.DjalalidatesConfig',
     'apps.managers.apps.ManagersConfig',
     'apps.coaches.apps.CoachesConfig',
     'apps.receptionists.apps.ReceptionistsConfig',
@@ -153,13 +154,14 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 15,
 }
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Sport Hub API Project',
     'DESCRIPTION': 'modern sport hub api',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
-    # OTHER SETTINGS
 }
 
 AUTH_USER_MODEL = 'basicusers.BaseUser'

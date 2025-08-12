@@ -1,36 +1,18 @@
 from rest_framework import serializers
 from .models import Report
 from rest_framework import serializers
-import jdatetime
-import datetime
 from .helpers import date_validator
-class JalaliDateField(serializers.DateField):
-    def to_internal_value(self, data):
-        try:
-            if isinstance(data, str) and data.startswith('20'):
-                return super().to_internal_value(data)
-            year, month, day = map(int, data.split('/'))
-            j_date = jdatetime.date(year, month, day)
-            g_date = j_date.togregorian()
-            return g_date 
-        except Exception as e:
-            raise serializers.ValidationError(f"date is not ok: {e}")
-
-    def to_representation(self, value):
-        
-        if isinstance(value, datetime.date):
-            j_date = jdatetime.date.fromgregorian(date=value)
-            return j_date.strftime('%Y/%m/%d')
-        return value
+from apps.djalalidates.serializers import JalaliDateField
 
 class ReportSerializer(serializers.ModelSerializer):
     end_date=JalaliDateField()
     start_date=JalaliDateField(read_only=True)
+    type_name_display=serializers.CharField(source='get_type_name_display',read_only=True)
+    type_name=serializers.ChoiceField(write_only=True,choices=Report.TYPE_CHOICE)
     class Meta:
         model=Report
-        fields = ['start_date','end_date']+[f.name for f in Report._meta.get_fields() if f.name not in ['public_id','id','manager']]
+        fields = ['start_date','end_date','type_name_display']+[f.name for f in Report._meta.get_fields() if f.name not in ['id','manager']]
         read_only_fields=[field.name for field in Report._meta.fields if field.name not in['type_name','end_date','name']]
-
 
     def validate_start_date(self,value):
         date_validator(value)

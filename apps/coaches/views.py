@@ -1,9 +1,9 @@
 from .models import Coach
-from .serializers import CoachSerializer
+from .serializers import *
 from rest_framework import permissions,viewsets
-from .permissions import IsSuperOrManagerOrCoach
+from .permissions import IsManagerOrCoachOrReadOnly
 from django.utils import timezone
-
+from .filters import CoachFilter
 from rest_framework.exceptions import ValidationError
 class CoachViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
@@ -11,10 +11,16 @@ class CoachViewSet(viewsets.ModelViewSet):
         if user.is_superuser or user.role=='manager':
             return Coach.objects.all()
         return Coach.objects.get(pk=user.pk)
+    
+    def get_serializer_class(self):
+        if self.request.user.role=='athlete':
+            return PublicCoachSerializer
+        return CoachSerializer
+
+
     lookup_field='public_id'
-    lookup_url_kwarg='public_id'
-    serializer_class=CoachSerializer
-    permission_classes=[permissions.IsAuthenticated,IsSuperOrManagerOrCoach]
+    permission_classes=[permissions.IsAuthenticated,IsManagerOrCoachOrReadOnly]
+    filterset_class=CoachFilter
 
     def perform_destroy(self, instance):
         data={}

@@ -19,7 +19,7 @@ class ReportService:
             self.start_date=set_start_date(end_date=self.end_date,type_name=self.type_name)
     
     def make_report(self):
-
+        
         other_data=self.calculate_report_data()
         report=Report(**other_data,start_date=self.start_date,end_date=self.end_date,name=self.name,type_name=self.type_name,manager=self.user)
         report.save()

@@ -3,8 +3,14 @@ from .models import *
 from apps.sporthistories.models import SportHistory
 from drf_spectacular.utils import extend_schema_field
 from drf_spectacular.types import OpenApiTypes
-class ExcersiceHistorySerializer(serializers.ModelSerializer):
+from apps.djalalidates.serializers import JalaliDateField
+
+
+
+class ExcersiceHistorySerializer(serializers.HyperlinkedModelSerializer):
+    url=serializers.HyperlinkedIdentityField(view_name='excersices:excersice-detail',lookup_field='public_id',read_only=True)
     excersice=serializers.SlugRelatedField(queryset=Excersice.objects.all(),slug_field='public_id')
+    time=JalaliDateField(read_only=True)
     class Meta:
         model =Excersice_history
         fields='__all__'   
@@ -15,27 +21,33 @@ class ExcersiceHistorySerializer(serializers.ModelSerializer):
             return value
         raise serializers.ValidationError({'excersice':'this excersice isnt for you'})
 
-class ExcersiceSerializer(serializers.ModelSerializer):
+class ExcersiceSerializer(serializers.HyperlinkedModelSerializer):
+    url=serializers.HyperlinkedIdentityField(view_name='excersices:excersice-detail',lookup_field='public_id',read_only=True)
     sport_history=serializers.SlugRelatedField(queryset=SportHistory.objects.all(),slug_field='public_id')
     excersice_history=serializers.SerializerMethodField()
+    start_date=JalaliDateField()
+    end_date=JalaliDateField()
     class Meta:
         model=Excersice
-        fields=[f.name for f in Excersice._meta.get_fields() if f.name!='id']+['excersice_history']
+        fields=['url']+[f.name for f in Excersice._meta.get_fields() if f.name!='id']+['excersice_history']
     
     def __init__(self, *args,**kwargs):
         super().__init__(*args, **kwargs)
-        user=self.context.get('request').user
-        if user.role=='coach':
-            self.fields['status'].read_only=True
-            if self.context.get('request').method in ['PUT',"PATCH"]:
+        request=self.context.get('request',None)
+        if request:
+            user=request.user
+
+            if user.role=='coach':
+                self.fields['status'].read_only=True
+                if self.context.get('request').method in ['PUT',"PATCH"]:
+                    self.fields['sport_history'].read_only=True
+            
+            if user.role=='athlete':
                 self.fields['sport_history'].read_only=True
+                self.fields['start_date'].read_only=True
+                self.fields['end_date'].read_only=True
+                self.fields['description'].read_only=True
         
-        if user.role=='athlete':
-            self.fields['sport_history'].read_only=True
-            self.fields['start_date'].read_only=True
-            self.fields['end_date'].read_only=True
-            self.fields['description'].read_only=True
-    
     def validate(self, data):
         if data['sport_history'] and data['name']:
             sport_history=data['sport_history']

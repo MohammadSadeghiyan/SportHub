@@ -3,28 +3,43 @@ from .models import *
 from .serializers import *
 from .permissions import *
 from .filters import *
+from .helpers import *
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from django.db.models import Prefetch
+from drf_spectacular.types import OpenApiTypes
 from rest_framework.exceptions import PermissionDenied
 # Create your views here.
 
 @extend_schema(
     parameters=[
         OpenApiParameter(name='include', description='Include related fields',location=OpenApiParameter.QUERY,
-                                                 required=False, type=str,enum=['history'])
+                                                 required=False, type=str,enum=['history']),
+        OpenApiParameter(name='end_date', description='date of ending report time(djalali date(shamsi))'
+                         ,location=OpenApiParameter.QUERY, required=False, type=OpenApiTypes.DATE),
+            
+        OpenApiParameter(name='end_date__gte', description='date of ending excersice time is grater than or equal(djalali date(shamsi))'
+                         ,location=OpenApiParameter.QUERY, required=False, type=OpenApiTypes.DATE),
+        
+        OpenApiParameter(name='end_date__lte', description='date of ending excersice time is less than or equal(djalali date(shamsi))'
+                         ,location=OpenApiParameter.QUERY, required=False, type=OpenApiTypes.DATE),
+
+        OpenApiParameter(name='start_date', description='date of start excersice (djalali date(shamsi))'
+                         ,location=OpenApiParameter.QUERY, required=False, type=OpenApiTypes.DATE),
+            
+        OpenApiParameter(name='start_date__gte', description='date of start excersice is grater than or equal(djalali date(shamsi))'
+                         ,location=OpenApiParameter.QUERY, required=False, type=OpenApiTypes.DATE),
+        
+        OpenApiParameter(name='start_date__lte', description='date of start excersice is less than or equal(djalali date(shamsi))'
+                         ,location=OpenApiParameter.QUERY, required=False, type=OpenApiTypes.DATE),
+        OpenApiParameter(name='sport_history', description='uuid of sport history related to the excersice'
+                         ,location=OpenApiParameter.QUERY, required=False, type=OpenApiTypes.UUID)
     ]
 )
 class ExcersiceViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user=self.request.user
         params = self.request.query_params
-        include=params.get('include')      
-        excersice_fields=[f.name for f in Excersice._meta.get_fields()]
-        history_fields = ['excersice_history__'+f.name for f in Excersice_history._meta.get_fields()] \
-                            if include and 'history' in include else ['excersice_history__public_id']
-        realted_fields=['sport_history__coach__public_id','sport_history__athlete__public_id'
-                        ,'excersice_history__excersice__public_id']
-        fields_pass_to_only=excersice_fields+history_fields+realted_fields
+        fields_pass_to_only,history_fields=get_fields_excersice_pass_to_only(params)
         if user.role=='coach':
             return Excersice.objects.filter(sport_history__coach__public_id=user.public_id).\
                     select_related('sport_history__athlete','sport_history__coach')\
@@ -53,18 +68,19 @@ class ExcersiceViewSet(viewsets.ModelViewSet):
 
 
     
-    
+
+@extend_schema( 
+    parameters=[
+        OpenApiParameter(name='excersice', description='public_id of excersice iexact',location=OpenApiParameter.QUERY, 
+                         required=False, type=OpenApiTypes.UUID),
+       
+         OpenApiParameter(name='description_icontains', description='description of report excersice history contain'
+                          ,location=OpenApiParameter.QUERY,required=False, type=str), 
+        ]   )
 class ExcersiceHistoryViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user=self.request.user
-        excersice_history_fields=[f.name for f in Excersice_history._meta.get_fields()]
-        excersice_fields=['excersice__name','excersice__status']
-        athlete_fields=['excersice__sport_history__athlete__username']
-        coach_fields=[]
-        if user.role=='athlete':
-            athlete_fields.append('excersice__sport_history__athlete__public_id')
-        elif user.role=='coach':coach_fields.append('excersice__sport_history__coach__public_id')
-        fields_pass_to_only=excersice_history_fields+excersice_fields+athlete_fields+coach_fields
+        fields_pass_to_only=get_fields_excersice_history_pass_to_only(user)
         if user.role=='athlete':
             return Excersice_history.objects.filter(excersice__sport_history__athlete__public_id=user.public_id)\
                                                 .select_related('excersice__sport_history__athlete')\
