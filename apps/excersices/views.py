@@ -10,7 +10,8 @@ from rest_framework.exceptions import PermissionDenied
 
 @extend_schema(
     parameters=[
-        OpenApiParameter(name='include', description='Include related fields', required=False, type=str,enum=['history'])
+        OpenApiParameter(name='include', description='Include related fields',location=OpenApiParameter.QUERY,
+                                                 required=False, type=str,enum=['history'])
     ]
 )
 class ExcersiceViewSet(viewsets.ModelViewSet):

@@ -7,7 +7,7 @@ class ReportFilter(FilterSet):
         models=Report
         fields={
             'name':['iexact','icontains'],
-            'type_name':['iexact','icontains'],
+            'type_name':['exact'],
             'end_date':['exact','gte','lte'],
             'start_date':['exact','gte','lte']
         }
