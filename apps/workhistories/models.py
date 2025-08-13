@@ -1,8 +1,10 @@
 from django.db import models
 from apps.basicusers.models import MidUser
+from shortuuidfield import ShortUUIDField
 # Create your models here.
 
 class WorkHistory(models.Model):
+    public_id=ShortUUIDField(editable=False,unique=True)
     user=models.ForeignKey(MidUser,on_delete=models.CASCADE,blank=True,related_name='work_histories')
     activity_type=models.CharField(max_length=50)
     activity_description=models.TextField(verbose_name='activity description(not required)',blank=True,null=True)

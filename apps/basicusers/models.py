@@ -18,7 +18,7 @@ class BaseUser(AbstractUser):
     role=models.CharField(max_length=20,choices=ROLE_CHOICE,default='athlete')
     public_id = ShortUUIDField(unique=True, editable=False)
     def __str__(self):
-        return self.username+'_'+self.role
+        return self.username+'_'+self.get_role_display()
     
     
 class MidUser(BaseUser):

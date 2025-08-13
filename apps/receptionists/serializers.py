@@ -4,13 +4,15 @@ from .models import Receptionist
 
 
 class ReceptionistSerializer(MidUserSerializer,serializers.HyperlinkedModelSerializer):
-    url=serializers.HyperlinkedIdentityField(view_name='users:receptionist-detail',read_only=True)
+    url=serializers.HyperlinkedIdentityField(view_name='receptionists:receptionist-detail',read_only=True)
+    work_histories=serializers.HyperlinkedRelatedField(view_name='workhistories:receptionist-workhistory-detail'
+                                                       ,lookup_field='public_id',many=True,read_only=True)
     specific_payments=serializers.HyperlinkedRelatedField(view_name='payments:specificpayments-detail'
                                                             ,many=True,read_only=True)
     reserve_requests=serializers.HyperlinkedRelatedField(view_name='training:reserve-detail',many=True,read_only=True)
     class Meta(MidUserSerializer.Meta):
         model=Receptionist
-        fields=MidUserSerializer.Meta.fields+['url','specific_payments','reserve_requests']
+        fields=MidUserSerializer.Meta.fields+['url','specific_payments','reserve_requests','work_histories']
 
 
     def create(self, validated_data):
@@ -19,13 +21,8 @@ class ReceptionistSerializer(MidUserSerializer,serializers.HyperlinkedModelSeria
         receptionist.set_password(password)
         receptionist.save()
         return 
-    
         
         
-        
-
-   
-    
     def update(self, instance, validated_data):
         password = validated_data.pop('password', None)
         if password is not None:

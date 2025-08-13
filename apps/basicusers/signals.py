@@ -5,7 +5,18 @@ from apps.receptionists.models import Receptionist
 from apps.athletes.models import Athlete
 from sporthub.settings import MEDIA_ROOT
 import os
+from django.contrib.auth import get_user_model
 from .helpers import check_file_name_exsit_with_any_extnestion,delete_file_with_exact_base_name
+from django.conf import settings
+
+User = get_user_model()
+@receiver(post_save, sender=User)
+def assign_admin_role_to_superuser(sender, instance, created, **kwargs):
+    if created and instance.is_superuser:
+       instance.role='admin'
+       instance.save()
+       return
+
 
 @receiver(post_save,sender=Coach)
 @receiver(post_save,sender=Athlete)

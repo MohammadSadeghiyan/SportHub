@@ -7,7 +7,7 @@ class IsManagerOrCoachOrReadOnly(permissions.BasePermission):
             return True
         if user.role in ['receptionist','manager'] and (request.method in permissions.SAFE_METHODS or request.method=='POST') :
             return True
-        elif user.role=='coach':
+        elif user.role=='coach' and request.method!="POST":
             return True
     
 

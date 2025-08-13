@@ -4,8 +4,6 @@ from .models import MidUser
 from apps.djalalidates.serializers import JalaliDateField
 class MidUserSerializer(serializers.ModelSerializer):
     password=serializers.CharField(max_length=255,write_only=True)
-    work_histories=serializers.HyperlinkedRelatedField(view_name='workhistories:workhistory-detail',lookup_field='public_id',
-                                                       many=True,read_only=True)
     memberships=serializers.HyperlinkedRelatedField(read_only=True,view_name='memberships:membership-detail',many=True
                                                         ,lookup_field='public_id')
     status=serializers.CharField(source='get_status_display',read_only=True)
@@ -15,7 +13,7 @@ class MidUserSerializer(serializers.ModelSerializer):
         fields=['public_id','username','password','role','memberships',
                 'home_address','phone_number',
                 'home_number','father_name','age',
-                'balance_rial','status','image','work_histories']
+                'balance_rial','status','image']
         read_only_fields = ('date_joined','public_id','status','role','balance_rial')
 
     def validate_home_number(self,value):
@@ -24,9 +22,7 @@ class MidUserSerializer(serializers.ModelSerializer):
     
     def to_representation(self, instance):
         rep=super().to_representation(instance)
-        if instance.role=='athlete':rep.pop('work_histories')
         if instance.role=='receptionist':rep.pop('memberships')
         return rep
-
 
         

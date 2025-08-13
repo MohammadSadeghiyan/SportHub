@@ -29,6 +29,8 @@ class PublicCoachSerializer(serializers.HyperlinkedModelSerializer,MidUserSerial
 
 class CoachSerializer(serializers.HyperlinkedModelSerializer,MidUserSerializer):
     url=serializers.HyperlinkedIdentityField(view_name='coaches:coach-detail',lookup_field='public_id',read_only=True)
+    work_histories=serializers.HyperlinkedRelatedField(view_name='workhistories:coach-workhistory-detail',lookup_field='public_id',
+                                                       many=True,read_only=True)
     classes=serializers.HyperlinkedRelatedField(read_only=True,lookup_field='public_id'
                                                 ,view_name='classes:class-detail',many=True)
     athletes=serializers.HyperlinkedRelatedField(view_name='athletes:athlete-detail'
@@ -37,7 +39,7 @@ class CoachSerializer(serializers.HyperlinkedModelSerializer,MidUserSerializer):
                                                         ,lookup_field='public_id',read_only=True,many=True)
     class Meta(MidUserSerializer.Meta):
         model = Coach
-        fields=['url']+MidUserSerializer.Meta.fields+['classes','athletes','sport_histories']
+        fields=['url']+MidUserSerializer.Meta.fields+['classes','athletes','sport_histories','work_histories']
 
     def create(self, validated_data):
         password=validated_data.pop('password')
