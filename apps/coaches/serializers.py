@@ -10,7 +10,6 @@ class PublicCoachSerializer(serializers.HyperlinkedModelSerializer,MidUserSerial
     active_athletes_number=serializers.SerializerMethodField()
     all_athletes_number=serializers.SerializerMethodField()
 
-    
     def get_active_athletes_number(self,obj):
         count=SportHistory.objects.filter(coach=obj,confirmation_coach=True,end_date__gt=timezone.now().date())\
                                     .select_related('athlete').only('athlete__public_id').distinct().count()
@@ -39,6 +38,26 @@ class CoachSerializer(serializers.HyperlinkedModelSerializer,MidUserSerializer):
     class Meta(MidUserSerializer.Meta):
         model = Coach
         fields=['url']+MidUserSerializer.Meta.fields+['classes','athletes','sport_histories']
+
+    def create(self, validated_data):
+        password=validated_data.pop('password')
+        user=Coach(**validated_data,role='coach')
+        user.set_password(password)
+        user.save()
+        return user
+    
+    def update(self, instance, validated_data):
+        password = validated_data.pop('password', None)
+                
+                
+        if password:
+            instance.set_password(password)
+            
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance
+    
 
         
 

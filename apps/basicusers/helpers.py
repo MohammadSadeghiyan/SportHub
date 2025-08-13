@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 import re
 import os
+from sporthub.settings import MEDIA_ROOT
 
 def validate_iran_home_phone(value):
     pattern = r'^0\d{2}\d{8}$'
@@ -9,7 +10,34 @@ def validate_iran_home_phone(value):
     
 def upload_to_role_based_path(instance,filename):
     _,extenstion=os.path.splitext(filename)
-    if instance.username :
+    print(filename)
+    if instance.username and not check_file_name_exsit_with_any_extnestion(os.path.join(MEDIA_ROOT,'images','profile',instance.role)
+                                                                           ,instance.username,extenstion):
         return f"images/profile/{instance.role}/{instance.username}{extenstion}"
     return f"images/profile/{instance.role}/{filename}"
+
+def check_file_name_exsit_with_any_extnestion(directory_path, file_base_name,base_extension=None):
+    for filename in os.listdir(directory_path):
+        name, extension= os.path.splitext(filename)
+        if name == file_base_name :
+            if base_extension:
+                if base_extension!=extension:
+                    return True
+                return False
+            return True
+    return False
+
+
+
+def delete_file_with_exact_base_name(directory_path, file_base_name,base_extension=None):
+    print('ok')
+    for filename in os.listdir(directory_path):
+        name, extension= os.path.splitext(filename)
+        if name == file_base_name :
+            if base_extension:
+                if base_extension!=extension:
+                    os.remove(os.path.join(directory_path,filename)) 
+                continue
+            os.remove(os.path.join(directory_path,filename)) 
+
 
