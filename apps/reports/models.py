@@ -2,6 +2,7 @@ from django.db import models
 from .helpers import date_validator
 from apps.managers.models import Manager
 from shortuuidfield import ShortUUIDField
+from django.core.validators import MinValueValidator
 # Create your models here.
 
 class Report(models.Model):
@@ -15,8 +16,8 @@ class Report(models.Model):
     type_name=models.CharField(max_length=5,choices=TYPE_CHOICE)
     start_date=models.DateField(blank=True,validators=[date_validator])
     end_date=models.DateField(validators=[date_validator])
-    total_sale=models.DecimalField(max_digits=15,decimal_places=0)
-    total_payment=models.DecimalField(max_digits=15,decimal_places=0)
+    total_sale=models.DecimalField(max_digits=15,decimal_places=0,validators=[MinValueValidator(0)])
+    total_payment=models.DecimalField(max_digits=15,decimal_places=0,validators=[MinValueValidator(0)])
     total_reserve=models.PositiveIntegerField()
     active_user=models.PositiveIntegerField()
     inactive_user=models.PositiveIntegerField()

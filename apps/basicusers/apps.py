@@ -6,4 +6,4 @@ class BasicusersConfig(AppConfig):
     name = 'apps.basicusers'
 
     def ready(self):
-        from .signals import set_image_name_base_username
+        from .signals import set_image_name_base_username,assign_admin_role_to_superuser

@@ -4,6 +4,7 @@ from apps.sporthistories.models import SportHistory
 from apps.reservations.models import Reservation
 from apps.plans.models import NutritionPlan
 from apps.memberships.models import Membership
+from django.core.validators import MinValueValidator
 # Create your models here.
 
 class Order(models.Model):
@@ -15,7 +16,7 @@ class Order(models.Model):
     user=models.ForeignKey(MidUser,on_delete=models.CASCADE,related_name='orders')
     created_at=models.DateField(auto_now_add=True)
     status=models.CharField(max_length=7,choices=STATUS_CHOICES,default='pending')
-    price=models.DecimalField(max_digits=9,decimal_places=0,blank=True,null=True)
+    price=models.DecimalField(max_digits=9,decimal_places=0,blank=True,null=True,validators=[MinValueValidator(0)])
     registered_at=models.DateField(null=True,blank=True)
 
     def __str__(self):
@@ -25,7 +26,7 @@ class Order(models.Model):
 
 class AbstractOrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='%(class)s_items')
-    price = models.DecimalField(max_digits=9, decimal_places=0,blank=True)
+    price = models.DecimalField(max_digits=9, decimal_places=0,blank=True,validators=[MinValueValidator(0)])
     
     def __str__(self):
         return f'{self.order.user.username}_{self.order.status}'

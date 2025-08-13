@@ -1,6 +1,7 @@
 from django.db import models
 from apps.athletes.models import Athlete
 from apps.coaches.models import Coach
+from django.core.validators import MinValueValidator
 
 class NutritionPlan(models.Model):
     athlete=models.ForeignKey(Athlete,on_delete=models.CASCADE,related_name='nutritionplans')
@@ -11,7 +12,7 @@ class NutritionPlan(models.Model):
     end_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     registered_at = models.DateTimeField(null=True)
-    salary_rial=models.DecimalField(max_digits=9,decimal_places=0)
+    salary_rial=models.DecimalField(max_digits=9,decimal_places=0,validators=[MinValueValidator(0)])
 
 
 

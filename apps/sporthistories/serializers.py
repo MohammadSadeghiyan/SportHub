@@ -1,0 +1,47 @@
+from rest_framework import serializers
+from .models import SportHistory
+from drf_spectacular.utils import extend_schema_field
+from drf_spectacular.types import OpenApiTypes
+from apps.djalalidates.serializers import JalaliDateField
+from apps.athletes.models import Athlete
+from apps.coaches.models import Coach
+from typing import Union
+from .helpers import *
+
+class SportHistorySerializer(serializers.HyperlinkedModelSerializer):
+    url=serializers.HyperlinkedIdentityField(view_name='sport-histories:sport-history-detail')
+    coach=serializers.SlugRelatedField(queryset=Coach.objects.all(),slug_field='public_id')
+    athlete=serializers.SlugRelatedField(queryset=Athlete.objects.all(),slug_field='public_id')
+    excersices=serializers.SerializerMethodField()
+    start_date=JalaliDateField()
+    end_date=JalaliDateField(read_only=True)
+    class Meta:
+        model=SportHistory
+        fields=['url']+[f.name for f in SportHistory._meta.get_fields() if f.name!='id']
+        read_only_fields=('balance_for_coaching_rial','status')
+    
+    def __init__(self, instance=None, data=..., **kwargs):
+        super().__init__(instance, data, **kwargs)
+        user=self.context.get('request').user
+        if user.role=='coach':
+            read_only_fields=coach_sport_history_serializer_read_only_fields()
+            for fields in read_only_fields:
+                self.fields[fields].read_only=True
+        
+        elif user.role == 'athlete':
+            read_only_fields=athlete_sport_history_serializer_read_only_fields()
+            for fields in read_only_fields:
+                self.fields[fields].read_only=True
+        else :self.fields['coconfirmation_coach'].read_only=True
+        
+
+
+    @extend_schema_field(Union[OpenApiTypes.URI, None])
+    def get_excersices(self,obj):
+        request=self.context.get('request')
+        include=request.query_params.get('include','')
+        if 'excersice' in include:
+           return make_uri_excersice(obj,request)
+        return None
+    
+        

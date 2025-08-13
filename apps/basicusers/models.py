@@ -33,5 +33,5 @@ class MidUser(BaseUser):
     father_name=models.CharField(verbose_name='father name',max_length=100)
     age=models.PositiveSmallIntegerField()
     image=models.ImageField(upload_to=upload_to_role_based_path,null=True,blank=True)
-    balance_rial=models.DecimalField(verbose_name='balance',max_digits=12,decimal_places=0,default=0,blank=True)
+    balance_rial=models.DecimalField(verbose_name='balance(rial)',max_digits=12,decimal_places=0,default=0,blank=True)
     status=models.CharField(max_length=4,choices=STATUS_CHOICE,default='ac')

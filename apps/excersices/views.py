@@ -4,36 +4,14 @@ from .serializers import *
 from .permissions import *
 from .filters import *
 from .helpers import *
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.utils import extend_schema
 from django.db.models import Prefetch
-from drf_spectacular.types import OpenApiTypes
 from rest_framework.exceptions import PermissionDenied
+from .api_params import *
 # Create your views here.
 
 @extend_schema(
-    parameters=[
-        OpenApiParameter(name='include', description='Include related fields',location=OpenApiParameter.QUERY,
-                                                 required=False, type=str,enum=['history']),
-        OpenApiParameter(name='end_date', description='date of ending report time(djalali date(shamsi))'
-                         ,location=OpenApiParameter.QUERY, required=False, type=OpenApiTypes.DATE),
-            
-        OpenApiParameter(name='end_date__gte', description='date of ending excersice time is grater than or equal(djalali date(shamsi))'
-                         ,location=OpenApiParameter.QUERY, required=False, type=OpenApiTypes.DATE),
-        
-        OpenApiParameter(name='end_date__lte', description='date of ending excersice time is less than or equal(djalali date(shamsi))'
-                         ,location=OpenApiParameter.QUERY, required=False, type=OpenApiTypes.DATE),
-
-        OpenApiParameter(name='start_date', description='date of start excersice (djalali date(shamsi))'
-                         ,location=OpenApiParameter.QUERY, required=False, type=OpenApiTypes.DATE),
-            
-        OpenApiParameter(name='start_date__gte', description='date of start excersice is grater than or equal(djalali date(shamsi))'
-                         ,location=OpenApiParameter.QUERY, required=False, type=OpenApiTypes.DATE),
-        
-        OpenApiParameter(name='start_date__lte', description='date of start excersice is less than or equal(djalali date(shamsi))'
-                         ,location=OpenApiParameter.QUERY, required=False, type=OpenApiTypes.DATE),
-        OpenApiParameter(name='sport_history', description='uuid of sport history related to the excersice'
-                         ,location=OpenApiParameter.QUERY, required=False, type=OpenApiTypes.UUID)
-    ]
+    parameters=EXCERSICE_PARAMS
 )
 class ExcersiceViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
@@ -70,13 +48,7 @@ class ExcersiceViewSet(viewsets.ModelViewSet):
     
 
 @extend_schema( 
-    parameters=[
-        OpenApiParameter(name='excersice', description='public_id of excersice iexact',location=OpenApiParameter.QUERY, 
-                         required=False, type=OpenApiTypes.UUID),
-       
-         OpenApiParameter(name='description_icontains', description='description of report excersice history contain'
-                          ,location=OpenApiParameter.QUERY,required=False, type=str), 
-        ]   )
+    parameters= EXCERSICE_HISTORY_PARAMS )
 class ExcersiceHistoryViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user=self.request.user

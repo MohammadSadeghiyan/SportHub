@@ -27,7 +27,7 @@ class ManagerOrRecptionistOrSelfCoach(permissions.BasePermission):
     
     def has_object_permission(self, request, view, obj):
         user=request.user
-        if user.role=='manager' and request.method in permissions.SAFE_METHODS:
+        if user.role=='manager':
             return True
         if request.role=='receptionist':
             return True

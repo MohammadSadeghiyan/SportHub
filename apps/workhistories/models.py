@@ -14,5 +14,5 @@ class WorkHistory(models.Model):
     
 
     def __str__(self):
-        return f'{self.user}_{self.activity_type}_{self.end_activity.year}'
+        return f'{self.user.username}_{self.activity_type}_{self.end_activity.year}'
 

@@ -1,6 +1,7 @@
 from django.db import models
 from apps.coaches.models import Coach
 from apps.mysessions.models import Mysession
+from django.core.validators import MinValueValidator
 # Create your models here.
 
 
@@ -13,7 +14,7 @@ class Class(models.Model):
     end_date=models.DateField()
     capacity=models.PositiveSmallIntegerField()
     coach=models.ForeignKey(Coach,on_delete=models.SET_NULL,null=True,related_name='classes')
-    class_salary_get_per_athlete_rial=models.DecimalField(max_digits=9,decimal_places=0)
+    class_salary_get_per_athlete_rial=models.DecimalField(max_digits=9,decimal_places=0,validators=[MinValueValidator(0)])
 
     @property
     def get_full_price(self):
