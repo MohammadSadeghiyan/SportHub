@@ -3,6 +3,7 @@ from apps.basicusers.models import MidUser
 from apps.orders.models import Order
 from apps.receptionists.models import Receptionist
 from django.core.validators import MinValueValidator
+from shortuuidfield import ShortUUIDField
 # Create your models here.
 
 class Payment(models.Model):
@@ -11,6 +12,7 @@ class Payment(models.Model):
         ('paid','Paid'),
         ('failed','failed')
     ]
+    public_id=ShortUUIDField(editable=False,unique=True)
     user = models.ForeignKey(MidUser, on_delete=models.SET_NULL, null=True, related_name='payments')
     amount = models.DecimalField(max_digits=9, decimal_places=0,blank=True,validators=[MinValueValidator(0)])
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending',blank=True)
@@ -25,6 +27,7 @@ class Payment(models.Model):
 
 
 class RecpetionistPayment(models.Model):
+    public_id=ShortUUIDField(editable=False,unique=True)
     user=models.ForeignKey(Receptionist,on_delete=models.SET_NULL,null=True,related_name='specific_payments')
     date=models.DateTimeField(auto_now_add=True)
     salary=models.DecimalField(max_digits=9,decimal_places=0,validators=[MinValueValidator(0)])

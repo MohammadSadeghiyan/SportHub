@@ -5,6 +5,7 @@ from apps.reservations.models import Reservation
 from apps.plans.models import NutritionPlan
 from apps.memberships.models import Membership
 from django.core.validators import MinValueValidator
+from shortuuidfield import ShortUUIDField
 # Create your models here.
 
 class Order(models.Model):
@@ -13,6 +14,7 @@ class Order(models.Model):
         ('paid','Paid'),
         ('failed','failed')
     ]
+    public_id=ShortUUIDField(editable=False,unique=True)
     user=models.ForeignKey(MidUser,on_delete=models.CASCADE,related_name='orders')
     created_at=models.DateField(auto_now_add=True)
     status=models.CharField(max_length=7,choices=STATUS_CHOICES,default='pending')

@@ -2,10 +2,12 @@ from django.db import models
 from apps.coaches.models import Coach
 from apps.mysessions.models import Mysession
 from django.core.validators import MinValueValidator
+from shortuuidfield import ShortUUIDField
 # Create your models here.
 
 
 class Class(models.Model):
+    public_id=ShortUUIDField(editable=False,unique=True)
     name=models.CharField(max_length=100)
     session=models.ForeignKey(Mysession,on_delete=models.SET_NULL,null=True,related_name='classes')
     start_date=models.DateField()

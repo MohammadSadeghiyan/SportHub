@@ -2,8 +2,10 @@ from django.db import models
 from apps.athletes.models import Athlete
 from apps.coaches.models import Coach
 from django.core.validators import MinValueValidator
+from shortuuidfield import ShortUUIDField
 
 class NutritionPlan(models.Model):
+    public_id=ShortUUIDField(editable=False,unique=True)
     athlete=models.ForeignKey(Athlete,on_delete=models.CASCADE,related_name='nutritionplans')
     coach=models.ForeignKey(Coach,on_delete=models.SET_NULL,null=True,related_name='nutrition_plans')
     name=models.CharField(max_length=40)
@@ -31,7 +33,6 @@ class Meal(models.Model):
         ('lunch', 'Lunch'),
         ('dinner', 'Dinner')
     ]
-
     nutrition_plan = models.ForeignKey(NutritionPlan, on_delete=models.CASCADE, null=True,related_name='meals')
     day = models.CharField(max_length=10, choices=DAY_CHOICES)
     meal_type = models.CharField(max_length=10, choices=MEAL_TYPE)

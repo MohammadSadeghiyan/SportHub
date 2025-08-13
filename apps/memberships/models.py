@@ -1,6 +1,7 @@
 from django.db import models
 from apps.basicusers.models import MidUser
 from django.core.validators import MinValueValidator
+from shortuuidfield import ShortUUIDField
 # Create your models here.
 
 class Membership(models.Model):
@@ -8,6 +9,7 @@ class Membership(models.Model):
         ('year','Year'),
         ('month','Month')
     ]
+    public_id=ShortUUIDField(editable=False,unique=True)
     user=models.ForeignKey(MidUser,on_delete=models.SET_NULL,null=True,related_name='memberships')
     status=models.BooleanField(default=False)
     type=models.CharField(max_length=7,choices=membership_type)
