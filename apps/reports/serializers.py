@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Report
 from rest_framework import serializers
-from .helpers import date_validator
+from apps.djalalidates.helpers import date_validator
 from apps.djalalidates.serializers import JalaliDateField
 
 class ReportSerializer(serializers.ModelSerializer):

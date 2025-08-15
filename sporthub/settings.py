@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'apps.sporthistories.apps.SporthistoriesConfig',
     'apps.workhistories.apps.WorkhistoriesConfig',
     'apps.excersices.apps.ExcersicesConfig',
+    'apps.pricing.apps.PricingConfig',
 ]
 
 MIDDLEWARE = [

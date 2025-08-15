@@ -1,5 +1,5 @@
 from django.db import models
-from .helpers import date_validator
+from apps.djalalidates.helpers import date_validator
 from apps.managers.models import Manager
 from shortuuidfield import ShortUUIDField
 from django.core.validators import MinValueValidator

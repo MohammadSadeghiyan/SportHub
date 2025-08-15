@@ -25,7 +25,6 @@ class Order(models.Model):
         return f'{self.user.username}_{self.status}'
 
 
-
 class AbstractOrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='%(class)s_items')
     price = models.DecimalField(max_digits=9, decimal_places=0,blank=True,validators=[MinValueValidator(0)])
@@ -38,6 +37,10 @@ class AbstractOrderItem(models.Model):
 
 class SportHistoryItem(AbstractOrderItem):
     sporthistory=models.ForeignKey(SportHistory,on_delete=models.CASCADE,related_name='orders')
+
+    def save(self,*args,**kwargs):
+        self.price=self.sporthistory.balance_for_coaching_rial
+        super().save(*args,**kwargs)
 
 class MembershipItem(AbstractOrderItem):
     membership = models.ForeignKey(Membership, on_delete=models.CASCADE,related_name='orders')

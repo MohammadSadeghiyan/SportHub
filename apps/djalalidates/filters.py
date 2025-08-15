@@ -3,6 +3,7 @@ import jdatetime
 def filter_date(queryset,name,value):
             if not value:
                 return queryset
+            
             try:
                 if value.count('/')!=2:
                     raise ValidationError('date must be have this format yyyy/mm/dd')

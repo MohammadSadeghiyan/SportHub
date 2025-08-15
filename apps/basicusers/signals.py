@@ -7,7 +7,6 @@ from sporthub.settings import MEDIA_ROOT
 import os
 from django.contrib.auth import get_user_model
 from .helpers import check_file_name_exsit_with_any_extnestion,delete_file_with_exact_base_name
-from django.conf import settings
 
 User = get_user_model()
 @receiver(post_save, sender=User)

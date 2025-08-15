@@ -12,7 +12,7 @@ class Membership(models.Model):
     public_id=ShortUUIDField(editable=False,unique=True)
     user=models.ForeignKey(MidUser,on_delete=models.SET_NULL,null=True,related_name='memberships')
     status=models.BooleanField(default=False)
-    type=models.CharField(max_length=7,choices=membership_type)
+    type=models.CharField(max_length=5,choices=membership_type)
     start_date=models.DateField(blank=True,null=True)
     end_date=models.DateField(blank=True,null=True)
     membership_cost_rial=models.DecimalField(verbose_name='membership cost(rial)',max_digits=9,decimal_places=0,

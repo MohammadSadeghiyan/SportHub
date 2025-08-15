@@ -1,17 +1,26 @@
 from django.db import models
 from shortuuidfield import ShortUUIDField
+from django.contrib.postgres.fields import ArrayField
 # Create your models here.
 
 class Mysession(models.Model):
-    DAY_CHOICES=[
-        ('even','Even'),
-        ('odd','Odd'),
-        ('all','All')
-    ]
+    DAYS_OF_WEEK = (
+    ('mon', 'Monday'),
+    ('tue', 'Tuesday'),
+    ('wed', 'Wednesday'),
+    ('thu', 'Thursday'),
+    ('fri', 'Friday'),
+    ('sat', 'Saturday'),
+    ('sun', 'Sunday'),
+    )
     public_id=ShortUUIDField(editable=False,unique=True)
-    days_of_week=models.CharField(max_length=4,choices=DAY_CHOICES)
+    days = ArrayField(
+        models.CharField(max_length=3, choices=DAYS_OF_WEEK),
+        default=list,
+        blank=True
+    )
     start_time=models.TimeField()
     end_time=models.TimeField()
 
     def __str__(self):
-        return f'{self.pk}_{self.days_of_week}'
+        return f'{self.public_id}_{self.days}'

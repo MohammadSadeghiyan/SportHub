@@ -3,12 +3,16 @@ from apps.athletes.models import Athlete
 from apps.coaches.models import Coach
 from shortuuidfield import ShortUUIDField
 from django.core.validators import MinValueValidator
+from apps.pricing.models import SportHistoryPricing
+from django.core.exceptions import ValidationError
+from apps.pricing.models import SportHistoryPricing
 # Create your models here.
 
 class SportHistory(models.Model):
     STATUS_CHOICES=(
         ('ns','not start'),
         ('s','start'),
+        ('c','cancel')
     )
     status=models.CharField(max_length=2,choices=STATUS_CHOICES,default='ns')
     public_id=ShortUUIDField(editable=False,unique=True)
@@ -19,6 +23,24 @@ class SportHistory(models.Model):
     confirmation_coach=models.BooleanField(default=False)
     balance_for_coaching_rial=models.DecimalField(verbose_name='balance for coaching(rial)',max_digits=12,decimal_places=0,
                                                   validators=[MinValueValidator(0)])
+    pricing=models.ForeignKey(SportHistoryPricing,on_delete=models.SET_NULL,null=True,related_name='sporthistories')
+    
+
+    def save(self,*args,**kwargs):
+        if self.status!='c':
+
+            priceing=SportHistoryPricing.objects.filter(start_start_date__gte=self.start_date,end_start_date__lte=self.start_date)
+            if priceing.exists():
+                self.pricing=priceing.first()
+                self.balance_for_coaching_rial=priceing.first().price_per_day*((self.end_date-self.start_date).days)
+                super().save(*args,**kwargs)
+            else :raise ValidationError({'sport price':'price for this sport history is not defined please talk with gym receptionists'})
+        
+        
+       
+
+
+
 
 
   

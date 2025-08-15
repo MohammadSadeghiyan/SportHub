@@ -1,5 +1,5 @@
 from rest_framework import permissions
-
+from django.utils import timezone
 class ManagerOrReceptionOrSelfCoachOrSelfAthlete(permissions.BasePermission):
 
     def has_permission(self, request, view):
@@ -9,6 +9,8 @@ class ManagerOrReceptionOrSelfCoachOrSelfAthlete(permissions.BasePermission):
         elif user.role!='manager':return True
     
     def has_object_permission(self, request, view, obj):
+        if obj.status=='s' and obj.end_date<=timezone.now().date() and request.method in ['PUT',"PATCH",'DELETE']:
+            return False
         user=request.user
         if user.role=='manager':
             return True

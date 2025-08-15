@@ -7,6 +7,7 @@ from apps.athletes.models import Athlete
 from apps.coaches.models import Coach
 from typing import Union
 from .helpers import *
+from apps.djalalidates.helpers import start_date_validator
 
 class SportHistorySerializer(serializers.HyperlinkedModelSerializer):
     url=serializers.HyperlinkedIdentityField(view_name='sport-histories:sport-history-detail')
@@ -20,6 +21,11 @@ class SportHistorySerializer(serializers.HyperlinkedModelSerializer):
         fields=['url']+[f.name for f in SportHistory._meta.get_fields() if f.name!='id']
         read_only_fields=('balance_for_coaching_rial','status')
     
+    def validate_start_date(self,value):
+        start_date_validator(value)
+        return value
+    
+
     def __init__(self, instance=None, data=..., **kwargs):
         super().__init__(instance, data, **kwargs)
         user=self.context.get('request').user
