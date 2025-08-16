@@ -22,10 +22,9 @@ class ClassItemPricingFilter(AbstractPricingFilter):
         model=ClassItemPricing
         fields={
             **AbstractPricingFilter.Meta.fields,
-            'public_id':['exact'],
             'max_capacity':['range','exact','gte','lte'],
             'min_capacity':['range','exact','lte','gte'],
-            'price_per_hour':['range','exact','lte','gte']
+            'price_per_hour':['range']
 
         }
 
@@ -38,7 +37,7 @@ class MembershipPricingFilter(AbstractPricingFilter):
         fields={
             **AbstractPricingFilter.Meta.fields,
             'type_name':['exact'],
-            'price':['exact','range','gte','lte']
+            'price':['range','exact']
 
         }
 
@@ -48,7 +47,7 @@ class SportHistoryPricingFilter(AbstractPricingFilter):
         model=SportHistoryPricing
         fields={
             **AbstractPricingFilter.Meta.fields,
-            'price_per_day':['exact','range','lte','gte']
+            'price_per_day':['exact','range']
         }
 
 
@@ -58,5 +57,5 @@ class NutritionPricingFilter(AbstractPricingFilter):
         model=NutritionPricing
         fields={
             **AbstractPricingFilter.Meta.fields,
-            'price_per_day':['exact','range','lte','gte']
+            'price_per_day':['exact','range']
         }

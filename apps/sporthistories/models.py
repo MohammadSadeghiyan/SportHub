@@ -23,7 +23,6 @@ class SportHistory(models.Model):
     confirmation_coach=models.BooleanField(default=False)
     balance_for_coaching_rial=models.DecimalField(verbose_name='balance for coaching(rial)',max_digits=12,decimal_places=0,
                                                   validators=[MinValueValidator(0)])
-    pricing=models.ForeignKey(SportHistoryPricing,on_delete=models.SET_NULL,null=True,related_name='sporthistories')
     
 
     def save(self,*args,**kwargs):

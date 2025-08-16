@@ -5,6 +5,8 @@ from .serializers import *
 from .filters import *
 from .services import *
 from django.db.models import Prefetch
+from drf_spectacular.utils import extend_schema
+from .api_params import *
 # Create your views here.
 
 class ClassPricingViewSet(viewsets.ModelViewSet):
@@ -23,7 +25,9 @@ class ClassPricingViewSet(viewsets.ModelViewSet):
     def perform_destroy(self, instance):
         ClassItemPricing.delete(instance)
 
-
+@extend_schema(
+    parameters=CLASS_ITEM_PRICING_ITEMS
+)
 class ClassItemPricingViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return ClassItemPricing.objects.all()
@@ -37,7 +41,9 @@ class ClassItemPricingViewSet(viewsets.ModelViewSet):
         ClassItemPricingService.update(serializer,instance)
         return super().perform_update(serializer)
 
-    
+@extend_schema(
+     parameters=MEMBERSHIP_PRICING_ITEMS
+ )   
 class MembershipPricingViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return MembershipPricing.objects.all()
@@ -56,7 +62,9 @@ class MembershipPricingViewSet(viewsets.ModelViewSet):
         MembershipPricingService.update(serializer,instance)
         return super().perform_update(serializer)
     
-
+@extend_schema(
+    parameters=SPORTHISTORY_PRICING_ITEMS
+)
 class SportHistoryPricingViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return SportHistoryPricing.objects.all()
@@ -75,7 +83,9 @@ class SportHistoryPricingViewSet(viewsets.ModelViewSet):
         SportHistoryPricingService.update(serializer,instance)
         return super().perform_update(serializer)
     
-
+@extend_schema(
+    parameters=NUTRITION_PRICING_ITEMS
+)
 class NutritionPricingViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return NutritionPricing.objects.all()
