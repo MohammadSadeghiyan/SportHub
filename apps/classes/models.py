@@ -37,7 +37,7 @@ class Class(models.Model):
     end_date=models.DateField()
     capacity=models.PositiveSmallIntegerField()
     coach=models.ForeignKey(Coach,on_delete=models.SET_NULL,null=True,related_name='classes')
-    class_salary_get_per_athlete_rial=models.DecimalField(max_digits=9,decimal_places=0,validators=[MinValueValidator(0)])
+    class_salary_get_per_athlete_rial=models.DecimalField(max_digits=9,decimal_places=0,blank=True,validators=[MinValueValidator(0)])
     
     def __str__(self):
         return f'{self.name}_{self.capacity}'

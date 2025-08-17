@@ -16,7 +16,7 @@ class Membership(models.Model):
     start_date=models.DateField(blank=True,null=True)
     end_date=models.DateField(blank=True,null=True)
     membership_cost_rial=models.DecimalField(verbose_name='membership cost(rial)',max_digits=9,decimal_places=0,
-                                             validators=[MinValueValidator(0)])
+                                             blank=True,validators=[MinValueValidator(0)])
 
 
     def __str__(self):

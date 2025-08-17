@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'apps.coaches.apps.CoachesConfig',
     'apps.receptionists.apps.ReceptionistsConfig',
     'apps.reports.apps.ReportsConfig',
-    'apps.gym.apps.GymConfig',
     'apps.memberships.apps.MembershipsConfig',
     'apps.mysessions.apps.MysessionsConfig',
     'apps.classes.apps.ClassesConfig',
@@ -199,3 +198,5 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
 }
+
+
