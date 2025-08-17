@@ -18,6 +18,10 @@ class Class(models.Model):
     ('sat', 'Saturday'),
     ('sun', 'Sunday'),
 )
+    STATUS_CHOICES=(
+        ('a','Active'),
+        ('ia','Inactive'),
+    )
     public_id=ShortUUIDField(editable=False,unique=True)
     name=models.CharField(max_length=100)
     session=models.ManyToManyField(Mysession,related_name='classes')
@@ -27,14 +31,13 @@ class Class(models.Model):
         default=list,
         blank=True
     )
-
+    status=models.CharField(max_length=2,choices=STATUS_CHOICES,default='ia')
     start_time=models.TimeField()
     end_time=models.TimeField()
     end_date=models.DateField()
     capacity=models.PositiveSmallIntegerField()
     coach=models.ForeignKey(Coach,on_delete=models.SET_NULL,null=True,related_name='classes')
     class_salary_get_per_athlete_rial=models.DecimalField(max_digits=9,decimal_places=0,validators=[MinValueValidator(0)])
-    pricing=models.ForeignKey(ClassItemPricing,on_delete=models.SET_NULL,null=True,related_name='classses')
     
     def __str__(self):
         return f'{self.name}_{self.capacity}'
