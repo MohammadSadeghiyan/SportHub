@@ -1,10 +1,9 @@
-from rest_framework.exceptions import PermissionDenied
 from django.utils import timezone
-
-def delete_coach(instance):
-      
+from rest_framework.exceptions import PermissionDenied
+def delete_athlete(instance):
         data={}
-        if instance.classes.filter(start_date__lte=timezone.now().date(),end_date__gte=timezone.now().date()).exists():
+        if instance.reserves.filter(status='ack').exists() and instance.reserves.class_ref.filter(start_date__lte=timezone.now().date()
+                                                                                  ,end_date__gte=timezone.now().date()).exists():
             data['class']='you have a active class so you cant delete your account and go'
         if instance.balance_rial:
             data['balance']='you have a positive balance please first get it and then if dont have a active class, delete'
