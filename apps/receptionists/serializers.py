@@ -7,9 +7,10 @@ class ReceptionistSerializer(MidUserSerializer,serializers.HyperlinkedModelSeria
     url=serializers.HyperlinkedIdentityField(view_name='receptionists:receptionist-detail',read_only=True)
     work_histories=serializers.HyperlinkedRelatedField(view_name='workhistories:receptionist-workhistory-detail'
                                                        ,lookup_field='public_id',many=True,read_only=True)
-    specific_payments=serializers.HyperlinkedRelatedField(view_name='payments:specificpayments-detail'
-                                                            ,many=True,read_only=True)
-    reserve_requests=serializers.HyperlinkedRelatedField(view_name='training:reserve-detail',many=True,read_only=True)
+    specific_payments=serializers.HyperlinkedRelatedField(view_name='payments:specificpayments-detail',
+                                                            lookup_field='pbulic_id',many=True,read_only=True)
+    reserve_requests=serializers.HyperlinkedRelatedField(view_name='reservations:reserve-detail',lookup_field='public_id'
+                                                         ,many=True,read_only=True)
     class Meta(MidUserSerializer.Meta):
         model=Receptionist
         fields=MidUserSerializer.Meta.fields+['url','specific_payments','reserve_requests','work_histories']
@@ -20,7 +21,7 @@ class ReceptionistSerializer(MidUserSerializer,serializers.HyperlinkedModelSeria
         receptionist=Receptionist(**validated_data,role='receptionist')
         receptionist.set_password(password)
         receptionist.save()
-        return 
+        return receptionist
         
         
     def update(self, instance, validated_data):

@@ -1,4 +1,4 @@
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save,post_delete
 from django.dispatch import receiver
 from apps.coaches.models import Coach
 from apps.receptionists.models import Receptionist
@@ -36,12 +36,9 @@ def set_image_name_base_username(sender,instance,**kwargs):
                 else :
                      delete_file_with_exact_base_name(os.path.join(MEDIA_ROOT,image_relative_path_without_name),root,extension)
             else :
-                print('ll')
                 if not check_file_name_exsit_with_any_extnestion(os.path.join(MEDIA_ROOT,image_relative_path_without_name),instance.username):
-                    print('nn')
-                   
+                    print('ok')
                 else : 
-                     print('mm')
                      delete_file_with_exact_base_name(os.path.join(MEDIA_ROOT,image_relative_path_without_name),instance.username,extension)
                 new_image_full_name=instance.username+extension
                 new_path = os.path.join(MEDIA_ROOT,image_relative_path_without_name, new_image_full_name)
@@ -49,3 +46,15 @@ def set_image_name_base_username(sender,instance,**kwargs):
                 os.rename(old_path, new_path)
                 instance.image.name=os.path.join(image_relative_path_without_name,new_image_full_name)
                 instance.save(update_fields=['image'])
+
+
+@receiver(post_delete,sender=Coach)
+@receiver(post_delete,sender=Athlete)
+@receiver(post_delete,sender=Receptionist)
+def delete_image_instance(sender,instance,**kwargs):
+    if instance.image:  
+        if instance.image.path and os.path.isfile(instance.image.path):
+            try:
+                os.remove(instance.image.path)
+            except Exception as e:
+                print(f"Error deleting file {instance.image.path}: {e}")    

@@ -17,6 +17,8 @@ def upload_to_role_based_path(instance,filename):
     return f"images/profile/{instance.role}/{filename}"
 
 def check_file_name_exsit_with_any_extnestion(directory_path, file_base_name,base_extension=None):
+    if not os.path.exists(directory_path):
+        os.makedirs(directory_path, exist_ok=True)
     for filename in os.listdir(directory_path):
         name, extension= os.path.splitext(filename)
         if name == file_base_name :
@@ -30,7 +32,8 @@ def check_file_name_exsit_with_any_extnestion(directory_path, file_base_name,bas
 
 
 def delete_file_with_exact_base_name(directory_path, file_base_name,base_extension=None):
-    print('ok')
+    if not os.path.exists(directory_path):
+          return
     for filename in os.listdir(directory_path):
         name, extension= os.path.splitext(filename)
         if name == file_base_name :

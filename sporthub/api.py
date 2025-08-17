@@ -25,6 +25,7 @@ urlpatterns=[
     path('api/',include('apps.coaches.urls')),
     path('api/',include('apps.excersices.urls')),
     path('api/',include('apps.sporthistories.urls')),
+    path('api/',include('apps.receptionists.urls')),
     path('api/',include('apps.workhistories.urls')),
     path('api/',include(router.urls)),
     path('api/',include(manager_router.urls)),
