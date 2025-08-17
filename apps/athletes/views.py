@@ -32,7 +32,7 @@ class AthleteViewSet(viewsets.ModelViewSet):
         
     permission_classes=[permissions.IsAuthenticated,ReceptionistCreateReadOrManagerReadOnlyOrAthleteOrCoachReadOnly]
     lookup_field='public_id'
-    filterset_classes=AthleteFilter
+    filterset_class=AthleteFilter
 
 
     def perform_destroy(self, instance):
