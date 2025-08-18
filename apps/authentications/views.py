@@ -7,7 +7,6 @@ from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 
@@ -56,6 +55,7 @@ class LoginView(generics.CreateAPIView):
             'refresh': str(refresh),
             'access': str(refresh.access_token),
         }, status=status.HTTP_200_OK)
+    
 
 
 class LogoutView(APIView):
@@ -73,15 +73,5 @@ class LogoutView(APIView):
             return Response({"detail": "Invalid refresh token."}, status=status.HTTP_400_BAD_REQUEST)
 
        
-        auth = JWTAuthentication()
-        header = auth.get_header(request)
-        if header is not None:
-            raw_token = auth.get_raw_token(header)
-            if raw_token is not None:
-                try:
-                    t = RefreshToken(raw_token)
-                    t.blacklist()
-                except:
-                    pass
 
         return Response({"detail": "Successfully logged out."}, status=status.HTTP_200_OK)
