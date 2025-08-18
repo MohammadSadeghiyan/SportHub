@@ -5,14 +5,14 @@ from shortuuidfield import ShortUUIDField
 # Create your models here.
 
 class Membership(models.Model):
-    membership_type=[
+    MEMBERSHIP_CHOICES=[
         ('year','Year'),
         ('month','Month')
     ]
     public_id=ShortUUIDField(editable=False,unique=True)
     user=models.ForeignKey(MidUser,on_delete=models.SET_NULL,null=True,related_name='memberships')
     status=models.BooleanField(default=False)
-    type=models.CharField(max_length=5,choices=membership_type)
+    type_name=models.CharField(max_length=5,choices=MEMBERSHIP_CHOICES)
     start_date=models.DateField(blank=True,null=True)
     end_date=models.DateField(blank=True,null=True)
     membership_cost_rial=models.DecimalField(verbose_name='membership cost(rial)',max_digits=9,decimal_places=0,

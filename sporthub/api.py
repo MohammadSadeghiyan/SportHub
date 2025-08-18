@@ -28,6 +28,7 @@ urlpatterns=[
     path('api/',include('apps.receptionists.urls')),
     path('api/',include('apps.workhistories.urls')),
     path('api/',include('apps.classes.urls')),
+    path('api/',include('apps.memberships.urls')),
     path('api/',include(router.urls)),
     path('api/',include(manager_router.urls)),
     path('api/',include('apps.pricing.urls')),

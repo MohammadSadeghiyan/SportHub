@@ -43,12 +43,12 @@ class ClassService:
             coach=Coach.objects.get(public_id=user.public_id)
         else :coach=serializer.validated_data.get('coach',instance.coach)
         days=serializer.validated_data.instance.get('days',instance.days)
-        start_date=serializer.validated_data['start_date']
-        end_date=serializer.validated_data['end_date']
-        start_time=serializer.validated_data['start_time']
-        end_time=serializer.validated_data['end_time']
-        session=serializer.validated_data['session']
-        capacity=serializer.validated_data['capacity']
+        start_date=serializer.validated_data.get('start_date',instance.start_date)
+        end_date=serializer.validated_data.get('end_date',instance.end_date)
+        start_time=serializer.validated_data.get('start_time',instance.start_time)
+        end_time=serializer.validated_data.get('end_time',instance.end_time)
+        session=serializer.validated_data.get('session',instance.session)
+        capacity=serializer.validated_data.get('capacity',instance.capacity)
 
         confilicts=Class.objects.exclude(public_id=instance.public_id).filter(coach=coach).filter(days__overlap=days)\
                         .filter(start_date__lte=end_date,end_date__gte=start_date)\
@@ -62,6 +62,15 @@ class ClassService:
         class_salary_get_per_athlete_rial=pricing.first().price_per_hour*(end_time-start_time)*count_class_days(start_date,end_date,days)
         if start_date>timezone.now().date():status='ia'
         else:status='ac'
+        athlete_class=instance.reserves.filter(status='ack').value_list('athlete',flat=True)
+        if athlete_class:
+
+            for athlete in athlete_class:
+                athlete.balance_rial+=instance.class_salary_get_per_athlete_rial
+                instance.coach-=instance.class_salary_get_per_athlete_rial
+                athlete.save()
+            instance.coach.save()
+
         instance.delete()
         #add celery for message to users of class if want get new class
         serializer.instance=Class.objects.create(coach=coach,**serializer.validated_data
@@ -82,7 +91,9 @@ class ClassService:
             for athlete in athlete_class:
                 athlete.balance_rial+=instance.class_salary_get_per_athlete_rial
                 instance.coach-=instance.class_salary_get_per_athlete_rial
+                athlete.save()
 
+            instance.coach.save()
             return instance.delete()
         
         return instance.delete()
