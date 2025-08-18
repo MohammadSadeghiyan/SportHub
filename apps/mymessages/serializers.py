@@ -20,5 +20,7 @@ class MyMessageSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_reciver_url(self,obj):
         request=self.context.get('request')
-        return {'sender':request.build_absolute_uri(f'/api/{obj.reciver.role}/{obj.reciver.public_id}')}
+        if request.user.role=='coach':
+            return {'sender':request.build_absolute_uri(f'/api/{obj.reciver.role}es/{obj.reciver.public_id}')}
+        else : return {'sender':request.build_absolute_uri(f'/api/{obj.reciver.role}s/{obj.reciver.public_id}')}
         
