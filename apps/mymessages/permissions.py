@@ -2,6 +2,12 @@ from rest_framework import permissions
 
 class SenderOrReciverOrManager(permissions.BasePermission):
 
+    def has_permission(self, request, view):
+        if request.user.role=='manager' :
+            if request.method in permissions.SAFE_METHODS:
+                return True
+            else :return False
+        return True
     
     def has_object_permission(self, request, view, obj):
         if request.user.role=='manager' :
