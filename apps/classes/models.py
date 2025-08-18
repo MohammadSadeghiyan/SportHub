@@ -21,6 +21,7 @@ class Class(models.Model):
     STATUS_CHOICES=(
         ('a','Active'),
         ('ia','Inactive'),
+        ('f','Finished')
     )
     public_id=ShortUUIDField(editable=False,unique=True)
     name=models.CharField(max_length=100)

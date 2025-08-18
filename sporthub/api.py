@@ -31,6 +31,7 @@ urlpatterns=[
     path('api/',include('apps.classes.urls')),
     path('api/',include('apps.memberships.urls')),
     path('api/',include('apps.mymessages.urls')),
+    path('api/',include('apps.mysessions.urls')),
     path('api/',include(router.urls)),
     path('api/',include(manager_router.urls)),
     path('api/',include('apps.pricing.urls')),
