@@ -1,0 +1,5805 @@
+openapi: 3.0.3
+info:
+  title: Sport Hub API Project
+  version: 1.0.0
+  description: modern sport hub api
+paths:
+  /api/athlete-memberships/:
+    get:
+      operationId: athlete_memberships_retrieve
+      tags:
+      - athlete-memberships
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: athlete_memberships_create
+      tags:
+      - athlete-memberships
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          description: No response body
+  /api/athlete-memberships/{public_id}/:
+    get:
+      operationId: athlete_memberships_retrieve_2
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - athlete-memberships
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: athlete_memberships_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - athlete-memberships
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: athlete_memberships_partial_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - athlete-memberships
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: athlete_memberships_destroy
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - athlete-memberships
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/athletes/:
+    get:
+      operationId: athletes_retrieve
+      tags:
+      - athletes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: athletes_create
+      tags:
+      - athletes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          description: No response body
+  /api/athletes/{public_id}/:
+    get:
+      operationId: athletes_retrieve_2
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - athletes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: athletes_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - athletes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: athletes_partial_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - athletes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: athletes_destroy
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - athletes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/auth/login/:
+    post:
+      operationId: auth_login_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Login'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Login'
+          description: ''
+  /api/auth/logout/:
+    post:
+      operationId: auth_logout_create
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/auth/signup/:
+    post:
+      operationId: auth_signup_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Register'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Register'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Register'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Register'
+          description: ''
+  /api/class-item-pricing/:
+    get:
+      operationId: class_item_pricing_list
+      parameters:
+      - in: query
+        name: end_start_date
+        schema:
+          type: string
+      - in: query
+        name: end_start_date__gte
+        schema:
+          type: string
+      - in: query
+        name: end_start_date__lte
+        schema:
+          type: string
+      - in: query
+        name: gym_fee
+        schema:
+          type: number
+      - in: query
+        name: gym_fee__gte
+        schema:
+          type: number
+      - in: query
+        name: gym_fee__lte
+        schema:
+          type: number
+      - in: query
+        name: gym_fee__range
+        schema:
+          type: array
+          items:
+            type: number
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: max_capacity
+        schema:
+          type: integer
+      - in: query
+        name: max_capacity__gte
+        schema:
+          type: integer
+      - in: query
+        name: max_capacity__lte
+        schema:
+          type: integer
+      - in: query
+        name: max_capacity__range
+        schema:
+          type: array
+          items:
+            type: integer
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: min_capacity
+        schema:
+          type: integer
+      - in: query
+        name: min_capacity__gte
+        schema:
+          type: integer
+      - in: query
+        name: min_capacity__lte
+        schema:
+          type: integer
+      - in: query
+        name: min_capacity__range
+        schema:
+          type: array
+          items:
+            type: integer
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: price_per_hour__range
+        schema:
+          type: array
+          items:
+            type: number
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: session_ref
+        schema:
+          type: string
+      - in: query
+        name: start_start_date
+        schema:
+          type: string
+      - in: query
+        name: start_start_date__gte
+        schema:
+          type: string
+      - in: query
+        name: start_start_date__lte
+        schema:
+          type: string
+      tags:
+      - class-item-pricing
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedClassItemPricingList'
+          description: ''
+    post:
+      operationId: class_item_pricing_create
+      tags:
+      - class-item-pricing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassItemPricing'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ClassItemPricing'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ClassItemPricing'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassItemPricing'
+          description: ''
+  /api/class-item-pricing/{public_id}/:
+    get:
+      operationId: class_item_pricing_retrieve
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - class-item-pricing
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassItemPricing'
+          description: ''
+    put:
+      operationId: class_item_pricing_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - class-item-pricing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassItemPricing'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ClassItemPricing'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ClassItemPricing'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassItemPricing'
+          description: ''
+    patch:
+      operationId: class_item_pricing_partial_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - class-item-pricing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedClassItemPricing'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedClassItemPricing'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedClassItemPricing'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassItemPricing'
+          description: ''
+    delete:
+      operationId: class_item_pricing_destroy
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - class-item-pricing
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/class-pricing/:
+    get:
+      operationId: class_pricing_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - class-pricing
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedClassPricingList'
+          description: ''
+    post:
+      operationId: class_pricing_create
+      tags:
+      - class-pricing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassPricing'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ClassPricing'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ClassPricing'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassPricing'
+          description: ''
+  /api/class-pricing/{public_id}/:
+    get:
+      operationId: class_pricing_retrieve
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - class-pricing
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassPricing'
+          description: ''
+    put:
+      operationId: class_pricing_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - class-pricing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassPricing'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ClassPricing'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ClassPricing'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassPricing'
+          description: ''
+    patch:
+      operationId: class_pricing_partial_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - class-pricing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedClassPricing'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedClassPricing'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedClassPricing'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassPricing'
+          description: ''
+    delete:
+      operationId: class_pricing_destroy
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - class-pricing
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/classes/:
+    get:
+      operationId: classes_retrieve
+      tags:
+      - classes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: classes_create
+      tags:
+      - classes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          description: No response body
+  /api/classes/{public_id}/:
+    get:
+      operationId: classes_retrieve_2
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - classes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: classes_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - classes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: classes_partial_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - classes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: classes_destroy
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - classes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/coach-memeberships/:
+    get:
+      operationId: coach_memeberships_retrieve
+      tags:
+      - coach-memeberships
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: coach_memeberships_create
+      tags:
+      - coach-memeberships
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          description: No response body
+  /api/coach-memeberships/{public_id}/:
+    get:
+      operationId: coach_memeberships_retrieve_2
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - coach-memeberships
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: coach_memeberships_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - coach-memeberships
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: coach_memeberships_partial_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - coach-memeberships
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: coach_memeberships_destroy
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - coach-memeberships
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/coaches/:
+    get:
+      operationId: coaches_retrieve
+      tags:
+      - coaches
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: coaches_create
+      tags:
+      - coaches
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          description: No response body
+  /api/coaches-workhistories/:
+    get:
+      operationId: coaches_workhistories_retrieve
+      tags:
+      - coaches-workhistories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: coaches_workhistories_create
+      tags:
+      - coaches-workhistories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          description: No response body
+  /api/coaches-workhistories/{public_id}/:
+    get:
+      operationId: coaches_workhistories_retrieve_2
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - coaches-workhistories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: coaches_workhistories_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - coaches-workhistories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: coaches_workhistories_partial_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - coaches-workhistories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: coaches_workhistories_destroy
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - coaches-workhistories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/coaches/{public_id}/:
+    get:
+      operationId: coaches_retrieve_2
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - coaches
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: coaches_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - coaches
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: coaches_partial_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - coaches
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: coaches_destroy
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - coaches
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/excersice-histories/:
+    get:
+      operationId: excersice_histories_list
+      parameters:
+      - in: query
+        name: description_icontains
+        schema:
+          type: string
+        description: description of report excersice history contain
+      - in: query
+        name: excersice
+        schema:
+          type: string
+          format: uuid
+        description: public_id of excersice iexact
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - excersice-histories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedExcersiceHistoryList'
+          description: ''
+    post:
+      operationId: excersice_histories_create
+      parameters:
+      - in: query
+        name: description_icontains
+        schema:
+          type: string
+        description: description of report excersice history contain
+      - in: query
+        name: excersice
+        schema:
+          type: string
+          format: uuid
+        description: public_id of excersice iexact
+      tags:
+      - excersice-histories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExcersiceHistory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ExcersiceHistory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ExcersiceHistory'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExcersiceHistory'
+          description: ''
+  /api/excersice-histories/{public_id}/:
+    get:
+      operationId: excersice_histories_retrieve
+      parameters:
+      - in: query
+        name: description_icontains
+        schema:
+          type: string
+        description: description of report excersice history contain
+      - in: query
+        name: excersice
+        schema:
+          type: string
+          format: uuid
+        description: public_id of excersice iexact
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - excersice-histories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExcersiceHistory'
+          description: ''
+    put:
+      operationId: excersice_histories_update
+      parameters:
+      - in: query
+        name: description_icontains
+        schema:
+          type: string
+        description: description of report excersice history contain
+      - in: query
+        name: excersice
+        schema:
+          type: string
+          format: uuid
+        description: public_id of excersice iexact
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - excersice-histories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExcersiceHistory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ExcersiceHistory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ExcersiceHistory'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExcersiceHistory'
+          description: ''
+    patch:
+      operationId: excersice_histories_partial_update
+      parameters:
+      - in: query
+        name: description_icontains
+        schema:
+          type: string
+        description: description of report excersice history contain
+      - in: query
+        name: excersice
+        schema:
+          type: string
+          format: uuid
+        description: public_id of excersice iexact
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - excersice-histories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedExcersiceHistory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedExcersiceHistory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedExcersiceHistory'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExcersiceHistory'
+          description: ''
+    delete:
+      operationId: excersice_histories_destroy
+      parameters:
+      - in: query
+        name: description_icontains
+        schema:
+          type: string
+        description: description of report excersice history contain
+      - in: query
+        name: excersice
+        schema:
+          type: string
+          format: uuid
+        description: public_id of excersice iexact
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - excersice-histories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/excersices/:
+    get:
+      operationId: excersices_retrieve
+      parameters:
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: date of ending report time(djalali date(shamsi))
+      - in: query
+        name: end_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of ending excersice time is grater than or equal(djalali
+          date(shamsi))
+      - in: query
+        name: end_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of ending excersice time is less than or equal(djalali date(shamsi))
+      - in: query
+        name: include
+        schema:
+          type: string
+          enum:
+          - history
+        description: Include related fields
+      - in: query
+        name: sport_history
+        schema:
+          type: string
+          format: uuid
+        description: uuid of sport history related to the excersice
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: date of start excersice (djalali date(shamsi))
+      - in: query
+        name: start_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of start excersice is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: start_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of start excersice is less than or equal(djalali date(shamsi))
+      tags:
+      - excersices
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: excersices_create
+      parameters:
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: date of ending report time(djalali date(shamsi))
+      - in: query
+        name: end_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of ending excersice time is grater than or equal(djalali
+          date(shamsi))
+      - in: query
+        name: end_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of ending excersice time is less than or equal(djalali date(shamsi))
+      - in: query
+        name: include
+        schema:
+          type: string
+          enum:
+          - history
+        description: Include related fields
+      - in: query
+        name: sport_history
+        schema:
+          type: string
+          format: uuid
+        description: uuid of sport history related to the excersice
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: date of start excersice (djalali date(shamsi))
+      - in: query
+        name: start_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of start excersice is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: start_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of start excersice is less than or equal(djalali date(shamsi))
+      tags:
+      - excersices
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          description: No response body
+  /api/excersices/{public_id}/:
+    get:
+      operationId: excersices_retrieve_2
+      parameters:
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: date of ending report time(djalali date(shamsi))
+      - in: query
+        name: end_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of ending excersice time is grater than or equal(djalali
+          date(shamsi))
+      - in: query
+        name: end_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of ending excersice time is less than or equal(djalali date(shamsi))
+      - in: query
+        name: include
+        schema:
+          type: string
+          enum:
+          - history
+        description: Include related fields
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: sport_history
+        schema:
+          type: string
+          format: uuid
+        description: uuid of sport history related to the excersice
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: date of start excersice (djalali date(shamsi))
+      - in: query
+        name: start_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of start excersice is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: start_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of start excersice is less than or equal(djalali date(shamsi))
+      tags:
+      - excersices
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: excersices_update
+      parameters:
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: date of ending report time(djalali date(shamsi))
+      - in: query
+        name: end_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of ending excersice time is grater than or equal(djalali
+          date(shamsi))
+      - in: query
+        name: end_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of ending excersice time is less than or equal(djalali date(shamsi))
+      - in: query
+        name: include
+        schema:
+          type: string
+          enum:
+          - history
+        description: Include related fields
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: sport_history
+        schema:
+          type: string
+          format: uuid
+        description: uuid of sport history related to the excersice
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: date of start excersice (djalali date(shamsi))
+      - in: query
+        name: start_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of start excersice is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: start_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of start excersice is less than or equal(djalali date(shamsi))
+      tags:
+      - excersices
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: excersices_partial_update
+      parameters:
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: date of ending report time(djalali date(shamsi))
+      - in: query
+        name: end_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of ending excersice time is grater than or equal(djalali
+          date(shamsi))
+      - in: query
+        name: end_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of ending excersice time is less than or equal(djalali date(shamsi))
+      - in: query
+        name: include
+        schema:
+          type: string
+          enum:
+          - history
+        description: Include related fields
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: sport_history
+        schema:
+          type: string
+          format: uuid
+        description: uuid of sport history related to the excersice
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: date of start excersice (djalali date(shamsi))
+      - in: query
+        name: start_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of start excersice is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: start_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of start excersice is less than or equal(djalali date(shamsi))
+      tags:
+      - excersices
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: excersices_destroy
+      parameters:
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: date of ending report time(djalali date(shamsi))
+      - in: query
+        name: end_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of ending excersice time is grater than or equal(djalali
+          date(shamsi))
+      - in: query
+        name: end_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of ending excersice time is less than or equal(djalali date(shamsi))
+      - in: query
+        name: include
+        schema:
+          type: string
+          enum:
+          - history
+        description: Include related fields
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: sport_history
+        schema:
+          type: string
+          format: uuid
+        description: uuid of sport history related to the excersice
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: date of start excersice (djalali date(shamsi))
+      - in: query
+        name: start_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of start excersice is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: start_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of start excersice is less than or equal(djalali date(shamsi))
+      tags:
+      - excersices
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/managers/:
+    get:
+      operationId: managers_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - managers
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedManagerList'
+          description: ''
+    post:
+      operationId: managers_create
+      tags:
+      - managers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Manager'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Manager'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Manager'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Manager'
+          description: ''
+  /api/managers/{manager_public_id}/reports/:
+    get:
+      operationId: managers_reports_list
+      parameters:
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: date of ending report (djalali date(shamsi))
+      - in: query
+        name: end_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of ending report  is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: end_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of ending report  is less than or equal(djalali date(shamsi))
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: path
+        name: manager_public_id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: name__iexact
+        schema:
+          type: string
+        description: name of report iexact
+      - in: query
+        name: name_icontains
+        schema:
+          type: string
+        description: name of report contains
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: date of start report (djalali date(shamsi))
+      - in: query
+        name: start_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of start report  is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: start_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of start report  is less than or equal(djalali date(shamsi))
+      - in: query
+        name: type_name
+        schema:
+          type: string
+          enum:
+          - day
+          - month
+          - year
+        description: type of report
+      tags:
+      - managers
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedReportList'
+          description: ''
+    post:
+      operationId: managers_reports_create
+      parameters:
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: date of ending report (djalali date(shamsi))
+      - in: query
+        name: end_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of ending report  is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: end_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of ending report  is less than or equal(djalali date(shamsi))
+      - in: path
+        name: manager_public_id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: name__iexact
+        schema:
+          type: string
+        description: name of report iexact
+      - in: query
+        name: name_icontains
+        schema:
+          type: string
+        description: name of report contains
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: date of start report (djalali date(shamsi))
+      - in: query
+        name: start_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of start report  is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: start_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of start report  is less than or equal(djalali date(shamsi))
+      - in: query
+        name: type_name
+        schema:
+          type: string
+          enum:
+          - day
+          - month
+          - year
+        description: type of report
+      tags:
+      - managers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Report'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Report'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Report'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+          description: ''
+  /api/managers/{manager_public_id}/reports/{public_id}/:
+    get:
+      operationId: managers_reports_retrieve
+      parameters:
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: date of ending report (djalali date(shamsi))
+      - in: query
+        name: end_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of ending report  is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: end_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of ending report  is less than or equal(djalali date(shamsi))
+      - in: path
+        name: manager_public_id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: name__iexact
+        schema:
+          type: string
+        description: name of report iexact
+      - in: query
+        name: name_icontains
+        schema:
+          type: string
+        description: name of report contains
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: date of start report (djalali date(shamsi))
+      - in: query
+        name: start_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of start report  is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: start_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of start report  is less than or equal(djalali date(shamsi))
+      - in: query
+        name: type_name
+        schema:
+          type: string
+          enum:
+          - day
+          - month
+          - year
+        description: type of report
+      tags:
+      - managers
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+          description: ''
+    put:
+      operationId: managers_reports_update
+      parameters:
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: date of ending report (djalali date(shamsi))
+      - in: query
+        name: end_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of ending report  is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: end_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of ending report  is less than or equal(djalali date(shamsi))
+      - in: path
+        name: manager_public_id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: name__iexact
+        schema:
+          type: string
+        description: name of report iexact
+      - in: query
+        name: name_icontains
+        schema:
+          type: string
+        description: name of report contains
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: date of start report (djalali date(shamsi))
+      - in: query
+        name: start_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of start report  is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: start_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of start report  is less than or equal(djalali date(shamsi))
+      - in: query
+        name: type_name
+        schema:
+          type: string
+          enum:
+          - day
+          - month
+          - year
+        description: type of report
+      tags:
+      - managers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Report'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Report'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Report'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+          description: ''
+    patch:
+      operationId: managers_reports_partial_update
+      parameters:
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: date of ending report (djalali date(shamsi))
+      - in: query
+        name: end_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of ending report  is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: end_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of ending report  is less than or equal(djalali date(shamsi))
+      - in: path
+        name: manager_public_id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: name__iexact
+        schema:
+          type: string
+        description: name of report iexact
+      - in: query
+        name: name_icontains
+        schema:
+          type: string
+        description: name of report contains
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: date of start report (djalali date(shamsi))
+      - in: query
+        name: start_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of start report  is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: start_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of start report  is less than or equal(djalali date(shamsi))
+      - in: query
+        name: type_name
+        schema:
+          type: string
+          enum:
+          - day
+          - month
+          - year
+        description: type of report
+      tags:
+      - managers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedReport'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedReport'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedReport'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+          description: ''
+    delete:
+      operationId: managers_reports_destroy
+      parameters:
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: date of ending report (djalali date(shamsi))
+      - in: query
+        name: end_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of ending report  is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: end_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of ending report  is less than or equal(djalali date(shamsi))
+      - in: path
+        name: manager_public_id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: name__iexact
+        schema:
+          type: string
+        description: name of report iexact
+      - in: query
+        name: name_icontains
+        schema:
+          type: string
+        description: name of report contains
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: date of start report (djalali date(shamsi))
+      - in: query
+        name: start_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of start report  is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: start_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of start report  is less than or equal(djalali date(shamsi))
+      - in: query
+        name: type_name
+        schema:
+          type: string
+          enum:
+          - day
+          - month
+          - year
+        description: type of report
+      tags:
+      - managers
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/managers/{public_id}/:
+    get:
+      operationId: managers_retrieve
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - managers
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Manager'
+          description: ''
+    put:
+      operationId: managers_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - managers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Manager'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Manager'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Manager'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Manager'
+          description: ''
+    patch:
+      operationId: managers_partial_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - managers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedManager'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedManager'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedManager'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Manager'
+          description: ''
+    delete:
+      operationId: managers_destroy
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - managers
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/meals/:
+    get:
+      operationId: meals_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - meals
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMealList'
+          description: ''
+    post:
+      operationId: meals_create
+      tags:
+      - meals
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Meal'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Meal'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Meal'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meal'
+          description: ''
+  /api/meals/{public_id}/:
+    get:
+      operationId: meals_retrieve
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - meals
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meal'
+          description: ''
+    put:
+      operationId: meals_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - meals
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Meal'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Meal'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Meal'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meal'
+          description: ''
+    patch:
+      operationId: meals_partial_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - meals
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMeal'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMeal'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMeal'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meal'
+          description: ''
+    delete:
+      operationId: meals_destroy
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - meals
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/membership-pricing/:
+    get:
+      operationId: membership_pricing_list
+      parameters:
+      - in: query
+        name: end_start_date
+        schema:
+          type: string
+      - in: query
+        name: end_start_date__gte
+        schema:
+          type: string
+      - in: query
+        name: end_start_date__lte
+        schema:
+          type: string
+      - in: query
+        name: gym_fee
+        schema:
+          type: number
+      - in: query
+        name: gym_fee__gte
+        schema:
+          type: number
+      - in: query
+        name: gym_fee__lte
+        schema:
+          type: number
+      - in: query
+        name: gym_fee__range
+        schema:
+          type: array
+          items:
+            type: number
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: price
+        schema:
+          type: number
+      - in: query
+        name: price__range
+        schema:
+          type: array
+          items:
+            type: number
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: start_start_date
+        schema:
+          type: string
+      - in: query
+        name: start_start_date__gte
+        schema:
+          type: string
+      - in: query
+        name: start_start_date__lte
+        schema:
+          type: string
+      - in: query
+        name: type_name
+        schema:
+          type: string
+          enum:
+          - month
+          - year
+        description: |-
+          * `year` - Year
+          * `month` - Month
+      tags:
+      - membership-pricing
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMembershipPricingList'
+          description: ''
+    post:
+      operationId: membership_pricing_create
+      tags:
+      - membership-pricing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MembershipPricing'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MembershipPricing'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MembershipPricing'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MembershipPricing'
+          description: ''
+  /api/membership-pricing/{public_id}/:
+    get:
+      operationId: membership_pricing_retrieve
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - membership-pricing
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MembershipPricing'
+          description: ''
+    put:
+      operationId: membership_pricing_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - membership-pricing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MembershipPricing'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MembershipPricing'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MembershipPricing'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MembershipPricing'
+          description: ''
+    patch:
+      operationId: membership_pricing_partial_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - membership-pricing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMembershipPricing'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMembershipPricing'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMembershipPricing'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MembershipPricing'
+          description: ''
+    delete:
+      operationId: membership_pricing_destroy
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - membership-pricing
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/messages/:
+    get:
+      operationId: messages_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - messages
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMyMessageList'
+          description: ''
+    post:
+      operationId: messages_create
+      tags:
+      - messages
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MyMessage'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MyMessage'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MyMessage'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MyMessage'
+          description: ''
+  /api/messages/{public_id}/:
+    get:
+      operationId: messages_retrieve
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - messages
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MyMessage'
+          description: ''
+    put:
+      operationId: messages_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - messages
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MyMessage'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MyMessage'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MyMessage'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MyMessage'
+          description: ''
+    patch:
+      operationId: messages_partial_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - messages
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMyMessage'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMyMessage'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMyMessage'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MyMessage'
+          description: ''
+    delete:
+      operationId: messages_destroy
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - messages
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/nutrition-pricing/:
+    get:
+      operationId: nutrition_pricing_list
+      parameters:
+      - in: query
+        name: end_start_date
+        schema:
+          type: string
+      - in: query
+        name: end_start_date__gte
+        schema:
+          type: string
+      - in: query
+        name: end_start_date__lte
+        schema:
+          type: string
+      - in: query
+        name: gym_fee
+        schema:
+          type: number
+      - in: query
+        name: gym_fee__gte
+        schema:
+          type: number
+      - in: query
+        name: gym_fee__lte
+        schema:
+          type: number
+      - in: query
+        name: gym_fee__range
+        schema:
+          type: array
+          items:
+            type: number
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: price_per_day
+        schema:
+          type: number
+      - in: query
+        name: price_per_day__range
+        schema:
+          type: array
+          items:
+            type: number
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: start_start_date
+        schema:
+          type: string
+      - in: query
+        name: start_start_date__gte
+        schema:
+          type: string
+      - in: query
+        name: start_start_date__lte
+        schema:
+          type: string
+      tags:
+      - nutrition-pricing
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedNutritionPricingList'
+          description: ''
+    post:
+      operationId: nutrition_pricing_create
+      tags:
+      - nutrition-pricing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NutritionPricing'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NutritionPricing'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NutritionPricing'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NutritionPricing'
+          description: ''
+  /api/nutrition-pricing/{public_id}/:
+    get:
+      operationId: nutrition_pricing_retrieve
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - nutrition-pricing
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NutritionPricing'
+          description: ''
+    put:
+      operationId: nutrition_pricing_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - nutrition-pricing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NutritionPricing'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NutritionPricing'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NutritionPricing'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NutritionPricing'
+          description: ''
+    patch:
+      operationId: nutrition_pricing_partial_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - nutrition-pricing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedNutritionPricing'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedNutritionPricing'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedNutritionPricing'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NutritionPricing'
+          description: ''
+    delete:
+      operationId: nutrition_pricing_destroy
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - nutrition-pricing
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/nutritionplans/:
+    get:
+      operationId: nutritionplans_retrieve
+      tags:
+      - nutritionplans
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: nutritionplans_create
+      tags:
+      - nutritionplans
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          description: No response body
+  /api/nutritionplans/{public_id}/:
+    get:
+      operationId: nutritionplans_retrieve_2
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - nutritionplans
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: nutritionplans_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - nutritionplans
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: nutritionplans_partial_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - nutritionplans
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: nutritionplans_destroy
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - nutritionplans
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/receptionists/:
+    get:
+      operationId: receptionists_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - receptionists
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedReceptionistList'
+          description: ''
+    post:
+      operationId: receptionists_create
+      tags:
+      - receptionists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Receptionist'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Receptionist'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Receptionist'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receptionist'
+          description: ''
+  /api/receptionists-workhistories/:
+    get:
+      operationId: receptionists_workhistories_retrieve
+      tags:
+      - receptionists-workhistories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: receptionists_workhistories_create
+      tags:
+      - receptionists-workhistories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          description: No response body
+  /api/receptionists-workhistories/{public_id}/:
+    get:
+      operationId: receptionists_workhistories_retrieve_2
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - receptionists-workhistories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: receptionists_workhistories_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - receptionists-workhistories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: receptionists_workhistories_partial_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - receptionists-workhistories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: receptionists_workhistories_destroy
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - receptionists-workhistories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/receptionists/{id}/:
+    get:
+      operationId: receptionists_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - receptionists
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receptionist'
+          description: ''
+    put:
+      operationId: receptionists_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - receptionists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Receptionist'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Receptionist'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Receptionist'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receptionist'
+          description: ''
+    patch:
+      operationId: receptionists_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - receptionists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedReceptionist'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedReceptionist'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedReceptionist'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receptionist'
+          description: ''
+    delete:
+      operationId: receptionists_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - receptionists
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/reservations/:
+    get:
+      operationId: reservations_retrieve
+      tags:
+      - reservations
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: reservations_create
+      tags:
+      - reservations
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          description: No response body
+  /api/reservations/{public_id}/:
+    get:
+      operationId: reservations_retrieve_2
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - reservations
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: reservations_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - reservations
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: reservations_partial_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - reservations
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: reservations_destroy
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - reservations
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/sessions/:
+    get:
+      operationId: sessions_list
+      parameters:
+      - in: query
+        name: classes
+        schema:
+          type: string
+      - in: query
+        name: days
+        schema:
+          type: string
+      - in: query
+        name: days__contains
+        schema:
+          type: string
+      - in: query
+        name: end_time
+        schema:
+          type: string
+          format: time
+      - in: query
+        name: end_time__gte
+        schema:
+          type: string
+          format: time
+      - in: query
+        name: end_time__lte
+        schema:
+          type: string
+          format: time
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: name__icontains
+        schema:
+          type: string
+      - in: query
+        name: name__iexact
+        schema:
+          type: string
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: start_time
+        schema:
+          type: string
+          format: time
+      - in: query
+        name: start_time__gte
+        schema:
+          type: string
+          format: time
+      - in: query
+        name: start_time__lte
+        schema:
+          type: string
+          format: time
+      tags:
+      - sessions
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMySessionList'
+          description: ''
+    post:
+      operationId: sessions_create
+      tags:
+      - sessions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MySession'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MySession'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MySession'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MySession'
+          description: ''
+  /api/sessions/{public_id}/:
+    get:
+      operationId: sessions_retrieve
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - sessions
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MySession'
+          description: ''
+    put:
+      operationId: sessions_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - sessions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MySession'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MySession'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MySession'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MySession'
+          description: ''
+    patch:
+      operationId: sessions_partial_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - sessions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMySession'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMySession'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMySession'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MySession'
+          description: ''
+    delete:
+      operationId: sessions_destroy
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - sessions
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/sport-histories/:
+    get:
+      operationId: sport_histories_retrieve
+      parameters:
+      - in: query
+        name: balance_for_coaching_rial
+        schema:
+          type: integer
+        description: exact balance of sport history
+      - in: query
+        name: balance_for_coaching_rial__gte
+        schema:
+          type: integer
+        description: balance of sport history is grater than or equal
+      - in: query
+        name: balance_for_coaching_rial__lte
+        schema:
+          type: integer
+        description: balance of sport history is less than or equal
+      - in: query
+        name: balance_for_coaching_rial__range
+        schema:
+          type: integer
+        description: range of balance of sport history
+      - in: query
+        name: confirmation_coach
+        schema:
+          type: boolean
+        description: stauts of sport history coach confirmation
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: date of ending coopreation time(djalali date(shamsi))
+      - in: query
+        name: end_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of ending coopreation is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: end_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of ending coopreation is less than or equal(djalali date(shamsi))
+      - in: query
+        name: include
+        schema:
+          type: string
+          enum:
+          - excersice
+        description: Include related fields
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: date of start coopreation (djalali date(shamsi))
+      - in: query
+        name: start_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of start coopreation is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: start_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of start coopreation is less than or equal(djalali date(shamsi))
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - not start
+          - start
+        description: 'stauts of sport history '
+      tags:
+      - sport-histories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: sport_histories_create
+      parameters:
+      - in: query
+        name: balance_for_coaching_rial
+        schema:
+          type: integer
+        description: exact balance of sport history
+      - in: query
+        name: balance_for_coaching_rial__gte
+        schema:
+          type: integer
+        description: balance of sport history is grater than or equal
+      - in: query
+        name: balance_for_coaching_rial__lte
+        schema:
+          type: integer
+        description: balance of sport history is less than or equal
+      - in: query
+        name: balance_for_coaching_rial__range
+        schema:
+          type: integer
+        description: range of balance of sport history
+      - in: query
+        name: confirmation_coach
+        schema:
+          type: boolean
+        description: stauts of sport history coach confirmation
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: date of ending coopreation time(djalali date(shamsi))
+      - in: query
+        name: end_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of ending coopreation is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: end_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of ending coopreation is less than or equal(djalali date(shamsi))
+      - in: query
+        name: include
+        schema:
+          type: string
+          enum:
+          - excersice
+        description: Include related fields
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: date of start coopreation (djalali date(shamsi))
+      - in: query
+        name: start_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of start coopreation is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: start_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of start coopreation is less than or equal(djalali date(shamsi))
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - not start
+          - start
+        description: 'stauts of sport history '
+      tags:
+      - sport-histories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          description: No response body
+  /api/sport-histories/{public_id}/:
+    get:
+      operationId: sport_histories_retrieve_2
+      parameters:
+      - in: query
+        name: balance_for_coaching_rial
+        schema:
+          type: integer
+        description: exact balance of sport history
+      - in: query
+        name: balance_for_coaching_rial__gte
+        schema:
+          type: integer
+        description: balance of sport history is grater than or equal
+      - in: query
+        name: balance_for_coaching_rial__lte
+        schema:
+          type: integer
+        description: balance of sport history is less than or equal
+      - in: query
+        name: balance_for_coaching_rial__range
+        schema:
+          type: integer
+        description: range of balance of sport history
+      - in: query
+        name: confirmation_coach
+        schema:
+          type: boolean
+        description: stauts of sport history coach confirmation
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: date of ending coopreation time(djalali date(shamsi))
+      - in: query
+        name: end_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of ending coopreation is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: end_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of ending coopreation is less than or equal(djalali date(shamsi))
+      - in: query
+        name: include
+        schema:
+          type: string
+          enum:
+          - excersice
+        description: Include related fields
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: date of start coopreation (djalali date(shamsi))
+      - in: query
+        name: start_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of start coopreation is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: start_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of start coopreation is less than or equal(djalali date(shamsi))
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - not start
+          - start
+        description: 'stauts of sport history '
+      tags:
+      - sport-histories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: sport_histories_update
+      parameters:
+      - in: query
+        name: balance_for_coaching_rial
+        schema:
+          type: integer
+        description: exact balance of sport history
+      - in: query
+        name: balance_for_coaching_rial__gte
+        schema:
+          type: integer
+        description: balance of sport history is grater than or equal
+      - in: query
+        name: balance_for_coaching_rial__lte
+        schema:
+          type: integer
+        description: balance of sport history is less than or equal
+      - in: query
+        name: balance_for_coaching_rial__range
+        schema:
+          type: integer
+        description: range of balance of sport history
+      - in: query
+        name: confirmation_coach
+        schema:
+          type: boolean
+        description: stauts of sport history coach confirmation
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: date of ending coopreation time(djalali date(shamsi))
+      - in: query
+        name: end_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of ending coopreation is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: end_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of ending coopreation is less than or equal(djalali date(shamsi))
+      - in: query
+        name: include
+        schema:
+          type: string
+          enum:
+          - excersice
+        description: Include related fields
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: date of start coopreation (djalali date(shamsi))
+      - in: query
+        name: start_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of start coopreation is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: start_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of start coopreation is less than or equal(djalali date(shamsi))
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - not start
+          - start
+        description: 'stauts of sport history '
+      tags:
+      - sport-histories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: sport_histories_partial_update
+      parameters:
+      - in: query
+        name: balance_for_coaching_rial
+        schema:
+          type: integer
+        description: exact balance of sport history
+      - in: query
+        name: balance_for_coaching_rial__gte
+        schema:
+          type: integer
+        description: balance of sport history is grater than or equal
+      - in: query
+        name: balance_for_coaching_rial__lte
+        schema:
+          type: integer
+        description: balance of sport history is less than or equal
+      - in: query
+        name: balance_for_coaching_rial__range
+        schema:
+          type: integer
+        description: range of balance of sport history
+      - in: query
+        name: confirmation_coach
+        schema:
+          type: boolean
+        description: stauts of sport history coach confirmation
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: date of ending coopreation time(djalali date(shamsi))
+      - in: query
+        name: end_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of ending coopreation is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: end_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of ending coopreation is less than or equal(djalali date(shamsi))
+      - in: query
+        name: include
+        schema:
+          type: string
+          enum:
+          - excersice
+        description: Include related fields
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: date of start coopreation (djalali date(shamsi))
+      - in: query
+        name: start_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of start coopreation is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: start_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of start coopreation is less than or equal(djalali date(shamsi))
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - not start
+          - start
+        description: 'stauts of sport history '
+      tags:
+      - sport-histories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: sport_histories_destroy
+      parameters:
+      - in: query
+        name: balance_for_coaching_rial
+        schema:
+          type: integer
+        description: exact balance of sport history
+      - in: query
+        name: balance_for_coaching_rial__gte
+        schema:
+          type: integer
+        description: balance of sport history is grater than or equal
+      - in: query
+        name: balance_for_coaching_rial__lte
+        schema:
+          type: integer
+        description: balance of sport history is less than or equal
+      - in: query
+        name: balance_for_coaching_rial__range
+        schema:
+          type: integer
+        description: range of balance of sport history
+      - in: query
+        name: confirmation_coach
+        schema:
+          type: boolean
+        description: stauts of sport history coach confirmation
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: date of ending coopreation time(djalali date(shamsi))
+      - in: query
+        name: end_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of ending coopreation is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: end_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of ending coopreation is less than or equal(djalali date(shamsi))
+      - in: query
+        name: include
+        schema:
+          type: string
+          enum:
+          - excersice
+        description: Include related fields
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: date of start coopreation (djalali date(shamsi))
+      - in: query
+        name: start_date__gte
+        schema:
+          type: string
+          format: date
+        description: date of start coopreation is grater than or equal(djalali date(shamsi))
+      - in: query
+        name: start_date__lte
+        schema:
+          type: string
+          format: date
+        description: date of start coopreation is less than or equal(djalali date(shamsi))
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - not start
+          - start
+        description: 'stauts of sport history '
+      tags:
+      - sport-histories
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/sporthistory-pricing/:
+    get:
+      operationId: sporthistory_pricing_list
+      parameters:
+      - in: query
+        name: end_start_date
+        schema:
+          type: string
+      - in: query
+        name: end_start_date__gte
+        schema:
+          type: string
+      - in: query
+        name: end_start_date__lte
+        schema:
+          type: string
+      - in: query
+        name: gym_fee
+        schema:
+          type: number
+      - in: query
+        name: gym_fee__gte
+        schema:
+          type: number
+      - in: query
+        name: gym_fee__lte
+        schema:
+          type: number
+      - in: query
+        name: gym_fee__range
+        schema:
+          type: array
+          items:
+            type: number
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: price_per_day
+        schema:
+          type: number
+      - in: query
+        name: price_per_day__range
+        schema:
+          type: array
+          items:
+            type: number
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: start_start_date
+        schema:
+          type: string
+      - in: query
+        name: start_start_date__gte
+        schema:
+          type: string
+      - in: query
+        name: start_start_date__lte
+        schema:
+          type: string
+      tags:
+      - sporthistory-pricing
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSportHistoryPricingList'
+          description: ''
+    post:
+      operationId: sporthistory_pricing_create
+      tags:
+      - sporthistory-pricing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SportHistoryPricing'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SportHistoryPricing'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SportHistoryPricing'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SportHistoryPricing'
+          description: ''
+  /api/sporthistory-pricing/{public_id}/:
+    get:
+      operationId: sporthistory_pricing_retrieve
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - sporthistory-pricing
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SportHistoryPricing'
+          description: ''
+    put:
+      operationId: sporthistory_pricing_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - sporthistory-pricing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SportHistoryPricing'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SportHistoryPricing'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SportHistoryPricing'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SportHistoryPricing'
+          description: ''
+    patch:
+      operationId: sporthistory_pricing_partial_update
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - sporthistory-pricing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedSportHistoryPricing'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedSportHistoryPricing'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedSportHistoryPricing'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SportHistoryPricing'
+          description: ''
+    delete:
+      operationId: sporthistory_pricing_destroy
+      parameters:
+      - in: path
+        name: public_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - sporthistory-pricing
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/token/:
+    post:
+      operationId: token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/token/refresh/:
+    post:
+      operationId: token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+components:
+  schemas:
+    ClassItemPricing:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        pricing:
+          type: string
+          format: uri
+          readOnly: true
+        session_ref:
+          type: string
+        session_url:
+          type: string
+          format: uri
+          readOnly: true
+        start_start_date:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+        end_start_date:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+        public_id:
+          type: string
+          readOnly: true
+        gym_fee:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+        min_capacity:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        max_capacity:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        price_per_hour:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+      required:
+      - end_start_date
+      - max_capacity
+      - min_capacity
+      - pricing
+      - public_id
+      - session_ref
+      - session_url
+      - start_start_date
+      - url
+    ClassPricing:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClassItemPricing'
+      required:
+      - items
+      - url
+    DayEnum:
+      enum:
+      - saturday
+      - sunday
+      - monday
+      - tuesday
+      - wednesday
+      - thursday
+      - firday
+      type: string
+      description: |-
+        * `saturday` - Saturday
+        * `sunday` - Sunday
+        * `monday` - Monday
+        * `tuesday` - Tuesday
+        * `wednesday` - wednesday
+        * `thursday` - Thursday
+        * `firday` - Friday
+    DaysEnum:
+      enum:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+      - sat
+      - sun
+      type: string
+      description: |-
+        * `mon` - Monday
+        * `tue` - Tuesday
+        * `wed` - Wednesday
+        * `thu` - Thursday
+        * `fri` - Friday
+        * `sat` - Saturday
+        * `sun` - Sunday
+    ExcersiceHistory:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        excersice:
+          type: string
+        time:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+          readOnly: true
+        public_id:
+          type: string
+          readOnly: true
+        excersice_time:
+          type: string
+        description:
+          type: string
+      required:
+      - description
+      - excersice
+      - excersice_time
+      - public_id
+      - time
+      - url
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - password
+      - username
+    Manager:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 255
+        role:
+          allOf:
+          - $ref: '#/components/schemas/RoleEnum'
+          readOnly: true
+        reports:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        public_id:
+          type: string
+          readOnly: true
+      required:
+      - password
+      - public_id
+      - reports
+      - role
+      - url
+      - username
+    Meal:
+      type: object
+      properties:
+        day:
+          $ref: '#/components/schemas/DayEnum'
+        meal_type:
+          $ref: '#/components/schemas/MealTypeEnum'
+        nutrition_plan:
+          type: string
+          format: uri
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        athlete_done:
+          type: boolean
+        athlete_date_done:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+        athlete_discription:
+          type: string
+        meal_discription:
+          type: string
+      required:
+      - athlete_date_done
+      - athlete_discription
+      - day
+      - meal_discription
+      - meal_type
+      - nutrition_plan
+      - url
+    MealTypeEnum:
+      enum:
+      - breakfast
+      - lunch
+      - dinner
+      type: string
+      description: |-
+        * `breakfast` - Breakfast
+        * `lunch` - Lunch
+        * `dinner` - Dinner
+    MembershipPricing:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        start_start_date:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+        end_start_date:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+        public_id:
+          type: string
+          readOnly: true
+        gym_fee:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+        type_name:
+          $ref: '#/components/schemas/MembershipPricingTypeNameEnum'
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+      required:
+      - end_start_date
+      - public_id
+      - start_start_date
+      - type_name
+      - url
+    MembershipPricingTypeNameEnum:
+      enum:
+      - year
+      - month
+      type: string
+      description: |-
+        * `year` - Year
+        * `month` - Month
+    MyMessage:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        created_at:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+          readOnly: true
+        updated_at:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+          readOnly: true
+        sender:
+          type: string
+          readOnly: true
+        reciver:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+        reciver_url:
+          type: string
+          readOnly: true
+        text:
+          type: string
+        titel:
+          type: string
+          maxLength: 100
+        public_id:
+          type: string
+          readOnly: true
+      required:
+      - created_at
+      - public_id
+      - reciver
+      - reciver_url
+      - sender
+      - text
+      - titel
+      - updated_at
+      - url
+    MySession:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        start_time:
+          type: string
+          format: time
+        end_time:
+          type: string
+          format: time
+        days:
+          type: array
+          items:
+            $ref: '#/components/schemas/DaysEnum'
+        public_id:
+          type: string
+          readOnly: true
+        classes:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+      required:
+      - classes
+      - end_time
+      - name
+      - public_id
+      - start_time
+      - url
+    NutritionPricing:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        start_start_date:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+        end_start_date:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+        public_id:
+          type: string
+          readOnly: true
+        gym_fee:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+        price_per_day:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+      required:
+      - end_start_date
+      - price_per_day
+      - public_id
+      - start_start_date
+      - url
+    PaginatedClassItemPricingList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClassItemPricing'
+    PaginatedClassPricingList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClassPricing'
+    PaginatedExcersiceHistoryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExcersiceHistory'
+    PaginatedManagerList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Manager'
+    PaginatedMealList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Meal'
+    PaginatedMembershipPricingList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MembershipPricing'
+    PaginatedMyMessageList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MyMessage'
+    PaginatedMySessionList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MySession'
+    PaginatedNutritionPricingList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/NutritionPricing'
+    PaginatedReceptionistList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Receptionist'
+    PaginatedReportList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Report'
+    PaginatedSportHistoryPricingList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SportHistoryPricing'
+    PatchedClassItemPricing:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        pricing:
+          type: string
+          format: uri
+          readOnly: true
+        session_ref:
+          type: string
+        session_url:
+          type: string
+          format: uri
+          readOnly: true
+        start_start_date:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+        end_start_date:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+        public_id:
+          type: string
+          readOnly: true
+        gym_fee:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+        min_capacity:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        max_capacity:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        price_per_hour:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+    PatchedClassPricing:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClassItemPricing'
+    PatchedExcersiceHistory:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        excersice:
+          type: string
+        time:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+          readOnly: true
+        public_id:
+          type: string
+          readOnly: true
+        excersice_time:
+          type: string
+        description:
+          type: string
+    PatchedManager:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 255
+        role:
+          allOf:
+          - $ref: '#/components/schemas/RoleEnum'
+          readOnly: true
+        reports:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        public_id:
+          type: string
+          readOnly: true
+    PatchedMeal:
+      type: object
+      properties:
+        day:
+          $ref: '#/components/schemas/DayEnum'
+        meal_type:
+          $ref: '#/components/schemas/MealTypeEnum'
+        nutrition_plan:
+          type: string
+          format: uri
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        athlete_done:
+          type: boolean
+        athlete_date_done:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+        athlete_discription:
+          type: string
+        meal_discription:
+          type: string
+    PatchedMembershipPricing:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        start_start_date:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+        end_start_date:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+        public_id:
+          type: string
+          readOnly: true
+        gym_fee:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+        type_name:
+          $ref: '#/components/schemas/MembershipPricingTypeNameEnum'
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+    PatchedMyMessage:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        created_at:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+          readOnly: true
+        updated_at:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+          readOnly: true
+        sender:
+          type: string
+          readOnly: true
+        reciver:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+        reciver_url:
+          type: string
+          readOnly: true
+        text:
+          type: string
+        titel:
+          type: string
+          maxLength: 100
+        public_id:
+          type: string
+          readOnly: true
+    PatchedMySession:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        start_time:
+          type: string
+          format: time
+        end_time:
+          type: string
+          format: time
+        days:
+          type: array
+          items:
+            $ref: '#/components/schemas/DaysEnum'
+        public_id:
+          type: string
+          readOnly: true
+        classes:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+    PatchedNutritionPricing:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        start_start_date:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+        end_start_date:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+        public_id:
+          type: string
+          readOnly: true
+        gym_fee:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+        price_per_day:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+    PatchedReceptionist:
+      type: object
+      properties:
+        public_id:
+          type: string
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 255
+        role:
+          allOf:
+          - $ref: '#/components/schemas/RoleEnum'
+          readOnly: true
+        memberships:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        home_address:
+          type: string
+          nullable: true
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 128
+        home_number:
+          type: string
+          nullable: true
+          maxLength: 11
+        father_name:
+          type: string
+          nullable: true
+          maxLength: 100
+        age:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          nullable: true
+        balance_rial:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+          readOnly: true
+          title: Balance(rial)
+        status:
+          type: string
+          readOnly: true
+        image:
+          type: string
+          format: uri
+          nullable: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        specific_payments:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        reserve_requests:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        work_histories:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+    PatchedReport:
+      type: object
+      properties:
+        start_date:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+          readOnly: true
+        end_date:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+        type_name_display:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        type_name:
+          allOf:
+          - $ref: '#/components/schemas/ReportTypeNameEnum'
+          writeOnly: true
+        total_sale:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,0})?$
+          readOnly: true
+        total_payment:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,0})?$
+          readOnly: true
+        total_reserve:
+          type: integer
+          readOnly: true
+        active_user:
+          type: integer
+          readOnly: true
+        inactive_user:
+          type: integer
+          readOnly: true
+        expired_user:
+          type: integer
+          readOnly: true
+        public_id:
+          type: string
+          readOnly: true
+    PatchedSportHistoryPricing:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        start_start_date:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+        end_start_date:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+        public_id:
+          type: string
+          readOnly: true
+        gym_fee:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+        price_per_day:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+    Receptionist:
+      type: object
+      properties:
+        public_id:
+          type: string
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 255
+        role:
+          allOf:
+          - $ref: '#/components/schemas/RoleEnum'
+          readOnly: true
+        memberships:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        home_address:
+          type: string
+          nullable: true
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 128
+        home_number:
+          type: string
+          nullable: true
+          maxLength: 11
+        father_name:
+          type: string
+          nullable: true
+          maxLength: 100
+        age:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          nullable: true
+        balance_rial:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+          readOnly: true
+          title: Balance(rial)
+        status:
+          type: string
+          readOnly: true
+        image:
+          type: string
+          format: uri
+          nullable: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        specific_payments:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        reserve_requests:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        work_histories:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+      required:
+      - balance_rial
+      - memberships
+      - password
+      - public_id
+      - reserve_requests
+      - role
+      - specific_payments
+      - status
+      - url
+      - username
+      - work_histories
+    Register:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+      required:
+      - email
+      - password
+      - role
+      - username
+    Report:
+      type: object
+      properties:
+        start_date:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+          readOnly: true
+        end_date:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+        type_name_display:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        type_name:
+          allOf:
+          - $ref: '#/components/schemas/ReportTypeNameEnum'
+          writeOnly: true
+        total_sale:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,0})?$
+          readOnly: true
+        total_payment:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,0})?$
+          readOnly: true
+        total_reserve:
+          type: integer
+          readOnly: true
+        active_user:
+          type: integer
+          readOnly: true
+        inactive_user:
+          type: integer
+          readOnly: true
+        expired_user:
+          type: integer
+          readOnly: true
+        public_id:
+          type: string
+          readOnly: true
+      required:
+      - active_user
+      - end_date
+      - expired_user
+      - inactive_user
+      - name
+      - public_id
+      - start_date
+      - total_payment
+      - total_reserve
+      - total_sale
+      - type_name
+      - type_name_display
+    ReportTypeNameEnum:
+      enum:
+      - year
+      - month
+      - day
+      type: string
+      description: |-
+        * `year` - Year
+        * `month` - Month
+        * `day` - Day
+    RoleEnum:
+      enum:
+      - receptionist
+      - coach
+      - manager
+      - athlete
+      - admin
+      type: string
+      description: |-
+        * `receptionist` - Receptionist
+        * `coach` - Coach
+        * `manager` - Manager
+        * `athlete` - Athelete
+        * `admin` - Admin
+    SportHistoryPricing:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        start_start_date:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+        end_start_date:
+          type: string
+          format: jalali-date
+          example: 1404/05/21
+          description: Date in Jalali (Shamsi) format yyyy/mm/dd
+        public_id:
+          type: string
+          readOnly: true
+        gym_fee:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+        price_per_day:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,0})?$
+      required:
+      - end_start_date
+      - price_per_day
+      - public_id
+      - start_start_date
+      - url
+    TokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - password
+      - refresh
+      - username
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -164,6 +164,9 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'modern sport hub api',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+    ],
 }
 
 AUTH_USER_MODEL = 'basicusers.BaseUser'

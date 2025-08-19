@@ -1,5 +1,4 @@
-from datetime import timedelta
-
+from datetime import timedelta,datetime
 
 def class_only_fields():
     return ['public_id','name','session__public_id','coach__public_id','start_date','start_time','end_date','end_time',
@@ -16,3 +15,11 @@ def count_class_days(start_date, end_date, days):
             count += 1
         current += timedelta(days=1)
     return count
+
+def hours_between(start_time, end_time):
+   
+    dummy_date = datetime(2000, 1, 1)
+    start_dt = datetime.combine(dummy_date, start_time)
+    end_dt = datetime.combine(dummy_date, end_time)
+    delta_hours = (end_dt - start_dt).total_seconds() / 3600
+    return delta_hours

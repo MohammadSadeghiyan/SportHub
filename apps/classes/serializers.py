@@ -17,7 +17,7 @@ class ClassSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model=Class
         fields='__all__'
-        read_only_fields=('url','status','class_salary_get_per_athlete_rial')
+        read_only_fields=('url','status','class_salary_get_per_athlete_rial','count_registered')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

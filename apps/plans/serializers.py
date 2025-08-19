@@ -12,8 +12,8 @@ class NutritionPlanSerializer(serializers.HyperlinkedModelSerializer):
     coach_url=serializers.HyperlinkedRelatedField(view_name='coaches:coach-detail',lookup_field='public_id',read_only=True)
     start_date=JalaliDateField()
     end_date=JalaliDateField()
-    created_at=JalaliDateField()
-    registered_at=JalaliDateField()
+    created_at=JalaliDateField(read_only=True)
+    registered_at=JalaliDateField(read_only=True)
     class Meta:
         model=NutritionPlan
         fields=['url','athlete','coach','athlete_url','coach_url','name','public_id','description','status','confirmation_coach',
@@ -47,3 +47,28 @@ class NutritionPlanSerializer(serializers.HyperlinkedModelSerializer):
     
 
 
+class MealSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='plans:meal-detail',
+        lookup_field='public_id',  
+        read_only=True
+    )
+    athlete_date_done = JalaliDateField()
+    nutrition_plan = serializers.HyperlinkedRelatedField(
+        view_name='plans:nutritionplan-detail',
+        lookup_field='public_id',
+        read_only=True
+    )
+
+    class Meta:
+        model = Meal
+        fields = [
+            'day',
+            'meal_type',
+            'nutrition_plan',
+            'url',
+            'athlete_done',
+            'athlete_date_done',
+            'athlete_discription',
+            'meal_discription'
+        ]

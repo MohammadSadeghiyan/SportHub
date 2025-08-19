@@ -8,7 +8,8 @@ class NutritionPlan(models.Model):
     STATUS_CHOICES=(
         ('r','registered'),
         ('nr','not registered'),
-        ('c','cancel')
+        ('c','cancel'),
+        ('f','finished')
     )
     public_id=ShortUUIDField(editable=False,unique=True)
     confirmation_coach=models.BooleanField(default=False)
@@ -40,6 +41,7 @@ class Meal(models.Model):
         ('lunch', 'Lunch'),
         ('dinner', 'Dinner')
     ]
+    public_id=ShortUUIDField(editable=False,unique=True)
     nutrition_plan = models.ForeignKey(NutritionPlan, on_delete=models.CASCADE, null=True,related_name='meals')
     day = models.CharField(max_length=10, choices=DAY_CHOICES)
     meal_type = models.CharField(max_length=10, choices=MEAL_TYPE)

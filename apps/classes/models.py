@@ -25,7 +25,7 @@ class Class(models.Model):
     )
     public_id=ShortUUIDField(editable=False,unique=True)
     name=models.CharField(max_length=100)
-    session=models.ManyToManyField(Mysession,related_name='classes')
+    session=models.ForeignKey(Mysession,on_delete=models.SET_NULL,null=True,related_name='classes')
     start_date=models.DateField()
     days = ArrayField(
         models.CharField(max_length=3, choices=DAYS_OF_WEEK),

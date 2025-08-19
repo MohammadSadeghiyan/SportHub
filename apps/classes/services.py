@@ -3,7 +3,8 @@ from apps.classes.models import Class
 from rest_framework.exceptions import ValidationError
 from apps.pricing.models import ClassItemPricing
 from django.utils import timezone
-from .helpers import count_class_days
+from .helpers import count_class_days,hours_between
+from decimal import Decimal
 class ClassService:
 
     @classmethod
@@ -17,7 +18,7 @@ class ClassService:
         end_date=serializer.validated_data['end_date']
         start_time=serializer.validated_data['start_time']
         end_time=serializer.validated_data['end_time']
-        session=serializer.validated_data['session']
+        session=serializer.validated_data.get('session')
         capacity=serializer.validated_data['capacity']
         conflicts = Class.objects.filter(coach=coach).filter(days__overlap=days)\
                         .filter(start_date__lte=end_date,end_date__gte=start_date)\
@@ -28,7 +29,7 @@ class ClassService:
                                         max_capacity__gte=capacity,min_capacity__lte=capacity)
         if not pricing.exists():
             raise ValidationError({'pricing policy not exist':'policy pricing for this information isnot exits . please talk with receptionists'})
-        class_salary_get_per_athlete_rial=pricing.first().price_per_hour*(end_time-start_time)*count_class_days(start_date,end_date,days)
+        class_salary_get_per_athlete_rial = Decimal(pricing.first().price_per_hour) * Decimal(hours_between(start_time, end_time)) * count_class_days(start_date, end_date, days)
         if start_date>timezone.now().date():status='ia'
         else:status='ac'
         serializer.instance=Class.objects.create(coach=coach,**serializer.validated_data
@@ -59,7 +60,7 @@ class ClassService:
                                         max_capacity__gte=capacity,min_capacity__lte=capacity)
         if not pricing.exists():
             raise ValidationError({'pricing policy not exist':'policy pricing for this information isnot exits . please talk with receptionists'})
-        class_salary_get_per_athlete_rial=pricing.first().price_per_hour*(end_time-start_time)*count_class_days(start_date,end_date,days)
+        class_salary_get_per_athlete_rial = Decimal(pricing.first().price_per_hour) * Decimal(hours_between(start_time, end_time)) * count_class_days(start_date, end_date, days)
         if start_date>timezone.now().date():status='ia'
         else:status='ac'
         athlete_class=instance.reserves.filter(status='ack').value_list('athlete',flat=True)

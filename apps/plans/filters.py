@@ -30,3 +30,21 @@ class PlanFilter(FilterSet):
         }
 
 
+class MealFilter(FilterSet):
+    athlete=ModelChoiceFilter(field_name='nutrition_plan__athlete__public_id',queryset=Athlete.objects.all())
+    athlete_date_done = CharFilter( method=filter_date)
+    athlete_date_done__gte = CharFilter(method=filter_date)
+    athlete_date_done__lte = CharFilter( method=filter_date)
+   
+
+    class Meta:
+        model=Meal
+        fields={
+            'meal_discription':['icontains'],
+            'athlete_discription':['icontains'],
+            'athlete_done':['exact'],
+            'day':['exact'],
+            'meal_type':['exact']
+
+        }
+
