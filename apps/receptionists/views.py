@@ -10,7 +10,7 @@ class ReceptionistViewSet(viewsets.ModelViewSet):
         user=self.request.user
         if user.role=='manager':
             return Receptionist.objects.all()
-        return Receptionist.objects.get(public_id=user.public_id)
+        return Receptionist.objects.filter(public_id=user.public_id)
     serializer_class=ReceptionistSerializer
     permission_classes=[permissions.IsAuthenticated,IsManagerOrRecptionist]
     lookup_field='public_id'

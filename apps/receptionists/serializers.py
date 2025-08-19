@@ -4,7 +4,7 @@ from .models import Receptionist
 
 
 class ReceptionistSerializer(MidUserSerializer,serializers.HyperlinkedModelSerializer):
-    url=serializers.HyperlinkedIdentityField(view_name='receptionists:receptionist-detail',read_only=True)
+    url=serializers.HyperlinkedIdentityField(view_name='receptionists:receptionist-detail',lookup_field='public_id',read_only=True)
     work_histories=serializers.HyperlinkedRelatedField(view_name='workhistories:receptionist-workhistory-detail'
                                                        ,lookup_field='public_id',many=True,read_only=True)
     specific_payments=serializers.HyperlinkedRelatedField(view_name='payments:specificpayments-detail',
