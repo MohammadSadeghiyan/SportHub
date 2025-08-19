@@ -29,7 +29,7 @@ class ExcersiceSerializer(serializers.HyperlinkedModelSerializer):
     end_date=JalaliDateField()
     class Meta:
         model=Excersice
-        fields=['url','sport_history','excersice_history','start_date','end_date','name','name','status']
+        fields=['url','sport_history','excersice_history','start_date','end_date','name','name','status','public_id']
     
     def __init__(self, *args,**kwargs):
         super().__init__(*args, **kwargs)

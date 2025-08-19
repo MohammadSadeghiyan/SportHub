@@ -8,11 +8,13 @@ class BasePricingService:
 
     @classmethod
     def _check_exists(cls, exclude_id=None, **filters):
+        print('yes')
         qs = cls.model.objects
         if exclude_id:
             qs = qs.exclude(public_id=exclude_id)
         if qs.filter(**filters).exists():
             raise ValidationError({'pricing': 'A pricing with these details already exists.'})
+        print('hi')
 
     @classmethod
     def create(cls, serializer):
@@ -38,13 +40,15 @@ class ClassPricingService(BasePricingService):
         with transaction.atomic():
             serializer.instance = class_pricing = ClassPricing.objects.create()
             for item in items:
+                print('no')
                 cls._check_exists(
                     session_ref=item.get('session_ref'),
                     end_start_date__gte=item.get('start_start_date'),
-                    max_capacity__gte= serializer.validated_data.get('min_capacity')
+                    max_capacity__gte= item.get('min_capacity')
 
                 )
                 ClassItemPricing.objects.create(**item, pricing=class_pricing)
+                print('ok')
 
     @classmethod
     def delete(cls, instance):

@@ -37,6 +37,7 @@ class Class(models.Model):
     end_time=models.TimeField()
     end_date=models.DateField()
     capacity=models.PositiveSmallIntegerField()
+    count_registered=models.PositiveSmallIntegerField(null=True)
     coach=models.ForeignKey(Coach,on_delete=models.SET_NULL,null=True,related_name='classes')
     class_salary_get_per_athlete_rial=models.DecimalField(max_digits=9,decimal_places=0,blank=True,validators=[MinValueValidator(0)])
     

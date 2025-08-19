@@ -50,7 +50,7 @@ class ClassItemPricingSerializer(serializers.HyperlinkedModelSerializer):
     pricing=serializers.HyperlinkedRelatedField(view_name='pricing:classpricing-detail',lookup_field='public_id',read_only=True)
     session_ref=serializers.SlugRelatedField(queryset=Mysession.objects.all(),slug_field='public_id')
     session_url=serializers.HyperlinkedRelatedField(view_name='mysession:mysession-detail',lookup_field='public_id'
-                                                    ,read_only=True,source='session_ref')
+                                                    ,read_only=True)
     start_start_date=JalaliDateField()
     end_start_date=JalaliDateField()
     class Meta:

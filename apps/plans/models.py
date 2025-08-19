@@ -5,11 +5,18 @@ from django.core.validators import MinValueValidator
 from shortuuidfield import ShortUUIDField
 
 class NutritionPlan(models.Model):
+    STATUS_CHOICES=(
+        ('r','registered'),
+        ('nr','not registered'),
+        ('c','cancel')
+    )
     public_id=ShortUUIDField(editable=False,unique=True)
+    confirmation_coach=models.BooleanField(default=False)
     athlete=models.ForeignKey(Athlete,on_delete=models.CASCADE,related_name='nutritionplans')
     coach=models.ForeignKey(Coach,on_delete=models.SET_NULL,null=True,related_name='nutrition_plans')
     name=models.CharField(max_length=40)
     description = models.TextField(blank=True)  
+    status=models.CharField(max_length=2,choices=STATUS_CHOICES,default='nr')
     start_date = models.DateField()
     end_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)

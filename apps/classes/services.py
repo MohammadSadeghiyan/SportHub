@@ -11,7 +11,7 @@ class ClassService:
         user=request.user
         if user.role=='coach':
             coach=Coach.objects.get(public_id=user.public_id)
-        else :coach=serializer.validated_data['coach']
+        else :coach=serializer.validated_data.pop('coach')
         days=serializer.validated_data['days']
         start_date=serializer.validated_data['start_date']
         end_date=serializer.validated_data['end_date']

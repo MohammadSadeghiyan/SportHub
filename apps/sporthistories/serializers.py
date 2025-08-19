@@ -25,7 +25,8 @@ class SportHistorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = SportHistory
         fields = [
-            'url','public_id','coach','athlete','start_date','end_date','confirmation_coach','balance_for_coaching_rial','status','excersices',
+            'url','public_id','coach','athlete','start_date','end_date','confirmation_coach','balance_for_coaching_rial','status',
+            'excersices',
         ]
         read_only_fields = ('balance_for_coaching_rial', 'status')
 

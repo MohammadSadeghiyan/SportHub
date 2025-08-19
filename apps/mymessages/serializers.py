@@ -11,7 +11,7 @@ class MyMessageSerializer(serializers.HyperlinkedModelSerializer):
     reciver=serializers.SlugRelatedField(queryset=MidUser.objects.all(),slug_field='username')
     class Meta:
         model=Mymessage
-        fields=['url','created_at','updated_at','sender','reciver','reciver_url','text','titel']
+        fields=['url','created_at','updated_at','sender','reciver','reciver_url','text','titel','public_id']
 
     
     def get_sender(self,obj):

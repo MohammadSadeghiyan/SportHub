@@ -6,7 +6,7 @@ class MySessionSerializer(serializers.HyperlinkedModelSerializer):
     classes=serializers.HyperlinkedRelatedField(view_name='classes:class-detail',lookup_field='public_id',many=True,read_only=True)
     class Meta:
         model=Mysession
-        fields=['url','name','start_time','end_time','days','public_id','classes']
+        fields=['url','name','start_time','end_time','days','public_id','classes','public_id']
 
     def validate(self, attrs):
         if attrs['end_time']<=attrs['start_time']:

@@ -5,7 +5,7 @@ from apps.mysessions.models import Mysession
 
 class ClassFilter(FilterSet):
     session=ModelChoiceFilter(field_name='session__public_id',queryset=Mysession.objects.all())
-    coach=ModelChoiceFilter('coach__public_id',queryset=Coach.objects.all())
+    coach=ModelChoiceFilter(field_name='coach__public_id',queryset=Coach.objects.all())
     days = CharFilter(method='filter_days')
     days__contains = CharFilter(method='filter_days_contains', lookup_expr='contains')
     end_date = CharFilter(method=filter_date)

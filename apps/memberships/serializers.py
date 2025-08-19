@@ -11,7 +11,7 @@ class AbstractMembershipSerializer(serializers.ModelSerializer):
     end_date=JalaliDateField(read_only=True)
     class Meta:
         model=Membership
-        fields=['start_date','end_date','type_name','status','user','membership_cost_rial']
+        fields=['start_date','end_date','type_name','status','user','membership_cost_rial','public_id']
         read_only_fields=('end_date','status','user','membership_cost_rial')
 
     

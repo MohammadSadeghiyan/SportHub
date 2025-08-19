@@ -8,7 +8,7 @@ class ManagerSerializer(serializers.HyperlinkedModelSerializer):
     password=serializers.CharField(max_length=255,write_only=True)
     class Meta:
         model=Manager
-        fields=['url','username','password','role','reports']
+        fields=['url','username','password','role','reports','public_id']
         read_only_fields=('role','reports')
 
 
