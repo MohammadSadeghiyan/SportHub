@@ -17,7 +17,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             self.fields[field].required=True
 
     def validate_role(self,value):
-        if value in ['receptionist','athlete','coach']:
+        if value in ['athlete','coach']:
             return value
         raise serializers.ValidationError({'role':'role isnt true.'})
     
