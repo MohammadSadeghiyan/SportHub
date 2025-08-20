@@ -6,7 +6,7 @@ from django.utils import timezone
 from apps.mysessions.models import Mysession
 class ClassSerializer(serializers.HyperlinkedModelSerializer):
     url=serializers.HyperlinkedIdentityField(view_name='classes:class-detail',lookup_field='public_id',read_only=True)
-    reserves=serializers.HyperlinkedRelatedField(view_name='reservations:reserve-detail',lookup_field='public_id',read_only=True)
+    reserves=serializers.HyperlinkedRelatedField(view_name='reservations:reservation-detail',lookup_field='public_id',read_only=True,many=True)
     coach=serializers.SlugRelatedField(slug_field='username',queryset=Coach.objects.all())
     session=serializers.SlugRelatedField(queryset=Mysession.objects.all(),slug_field='public_id')
     session_url=serializers.HyperlinkedRelatedField(view_name='mysessions:session-detail',lookup_field='public_id',read_only=True)

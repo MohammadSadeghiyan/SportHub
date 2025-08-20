@@ -9,7 +9,9 @@ class MySessionSerializer(serializers.HyperlinkedModelSerializer):
         fields=['url','name','start_time','end_time','days','public_id','classes','public_id']
 
     def validate(self, attrs):
-        if attrs['end_time']<=attrs['start_time']:
+        start_time=attrs.get('start_time')if attrs.get('start_time',None) else self.instance.start_time
+        end_time=attrs.get('end_time')if attrs.get('end_time',None) else self.instance.end_time
+        if start_time>end_time:
             raise serializers.ValidationError({'time':'end time must be bigger than start time'})
         return attrs
 

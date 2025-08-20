@@ -42,28 +42,35 @@ class ClassService:
         user=request.user
         if user.role=='coach':
             coach=Coach.objects.get(public_id=user.public_id)
-        else :coach=serializer.validated_data.get('coach',instance.coach)
-        days=serializer.validated_data.instance.get('days',instance.days)
-        start_date=serializer.validated_data.get('start_date',instance.start_date)
-        end_date=serializer.validated_data.get('end_date',instance.end_date)
-        start_time=serializer.validated_data.get('start_time',instance.start_time)
-        end_time=serializer.validated_data.get('end_time',instance.end_time)
-        session=serializer.validated_data.get('session',instance.session)
-        capacity=serializer.validated_data.get('capacity',instance.capacity)
-
+        else :coach=serializer.validated_data.pop('coach',instance.coach)
+        days=serializer.validated_data.pop('days',instance.days)
+        start_date=serializer.validated_data.pop('start_date',instance.start_date)
+        end_date=serializer.validated_data.pop('end_date',instance.end_date)
+        start_time=serializer.validated_data.pop('start_time',instance.start_time)
+        end_time=serializer.validated_data.pop('end_time',instance.end_time)
+        session=serializer.validated_data.pop('session',instance.session)
+        capacity=serializer.validated_data.pop('capacity',instance.capacity)
+        name=serializer.validated_data.pop('name',instance.name)
         confilicts=Class.objects.exclude(public_id=instance.public_id).filter(coach=coach).filter(days__overlap=days)\
                         .filter(start_date__lte=end_date,end_date__gte=start_date)\
                             .filter(start_time__lt=end_time,end_time__gt=start_time)
+        
         if confilicts.exists():
             raise ValidationError({'confilict':'you have already class in this time'})
+        
+        
         pricing=ClassItemPricing.objects.filter(start_start_date__lte=start_date,end_start_date__gte=start_date,session_ref=session,
                                         max_capacity__gte=capacity,min_capacity__lte=capacity)
         if not pricing.exists():
             raise ValidationError({'pricing policy not exist':'policy pricing for this information isnot exits . please talk with receptionists'})
+        
+        
         class_salary_get_per_athlete_rial = Decimal(pricing.first().price_per_hour) * Decimal(hours_between(start_time, end_time)) * count_class_days(start_date, end_date, days)
-        if start_date>timezone.now().date():status='ia'
+        
+        if start_date>timezone.now().date():status='ia' 
         else:status='ac'
-        athlete_class=instance.reserves.filter(status='ack').value_list('athlete',flat=True)
+        
+        athlete_class=instance.reserves.filter(status='ack').values_list('athlete',flat=True)
         if athlete_class:
 
             for athlete in athlete_class:
@@ -74,19 +81,19 @@ class ClassService:
 
         instance.delete()
         #add celery for message to users of class if want get new class
-        serializer.instance=Class.objects.create(coach=coach,**serializer.validated_data
+        serializer.instance=Class.objects.create(name=name,coach=coach,start_date=start_date,end_date=end_date,days=days,start_time=start_time,
+                                                 end_time=end_time,session=session,capacity=capacity
                                                  ,class_salary_get_per_athlete_rial=class_salary_get_per_athlete_rial,status=status)
        
 
 
     @classmethod
-    def delete(instance):
+    def delete(cls,instance):
         if instance.status=='a':
             raise ValidationError({'start class':'class start so you can delete that'})
-        
         if instance.status=='c':
             return super().perform_destroy(instance)
-        athlete_class=instance.reserves.filter(status='ack').value_list('athlete',flat=True)
+        athlete_class=instance.reserves.filter(status='ack').values_list('athlete',flat=True)
         if athlete_class:
 
             for athlete in athlete_class:

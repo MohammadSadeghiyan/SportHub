@@ -7,6 +7,9 @@ from .helpers import reservation_only_fields
 from apps.classes.models import Class
 from rest_framework.exceptions import ValidationError
 from apps.athletes.models import Athlete
+from apps.basicusers.models import BaseUser
+
+
 class ReservationViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
@@ -25,11 +28,12 @@ class ReservationViewSet(viewsets.ModelViewSet):
         if Class.objects.filter(public_id=serializer.validated_data['class_ref'],status='f').exists():
             raise ValidationError({'end_date':'class that you want reserve it is finished'})
         if self.request.user.role in ['manager','receptionist']:
-            athlete=serializer.validated_data.pop('athlete_ref')
+            athlete=serializer.validated_data.pop('athlete')
         else :
             athlete=Athlete.objects.get(public_id=self.request.user.public_id)
-
-        serializer.instance=Reservation.objects.create(athlete=athlete,**serializer.validated_data)
+        reserved_by=BaseUser.objects.get(public_id=self.request.user.public_id)
+        salary_rial=Class.objects.get(public_id=serializer.validated_data['class_ref'].public_id).class_salary_get_per_athlete_rial
+        serializer.instance=Reservation.objects.create(athlete=athlete,**serializer.validated_data,salary_rial=salary_rial,reserved_by=reserved_by)
 
   
     
@@ -43,4 +47,5 @@ class ReservationViewSet(viewsets.ModelViewSet):
                 instance.athlete.balance_rial+=instance.salary_rial
                 instance.class_ref.coach.save()
                 instance.athlete.save()
+                instance.delete()
             else :raise ValidationError({'class start':'you can not delete this reserve because class is start'})

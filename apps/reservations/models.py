@@ -1,6 +1,6 @@
 from django.db import models
 from apps.classes.models import Class
-from apps.basicusers.models import MidUser
+from apps.basicusers.models import BaseUser
 from apps.athletes.models import Athlete
 from django.core.validators import MinValueValidator
 from shortuuidfield import ShortUUIDField
@@ -18,7 +18,7 @@ class Reservation(models.Model):
     salary_rial=models.DecimalField(max_digits=9,decimal_places=0,validators=[MinValueValidator(0)])
     status=models.CharField(max_length=4,choices=STATUS_CHOICES,default='wait')
     date=models.DateTimeField(auto_now_add=True)
-    reserved_by=models.ForeignKey(MidUser,on_delete=models.SET_NULL,null=True,related_name='reserve_requests')
+    reserved_by=models.ForeignKey(BaseUser,on_delete=models.SET_NULL,null=True,related_name='reserve_requests')
     registered_date=models.DateField(null=True)
 
     def __str__(self):

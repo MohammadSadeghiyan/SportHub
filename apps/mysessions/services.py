@@ -45,7 +45,8 @@ class MySessionService:
 
 
 
-        if Mysession.objects.exclude(public_id=instance.public_id).filter(days__overlap=days,start_time__lt=end_time,end_time__gt=start_time).exists():
+        else :
+            if Mysession.objects.exclude(public_id=instance.public_id).filter(days__overlap=days,start_time__lt=end_time,end_time__gt=start_time).exists():
                 raise ValidationError({'confilicts':'you can not make session in this time because confilict make'})
         for attr,value in serializer.validated_data.items():
                 setattr(instance,attr,value)

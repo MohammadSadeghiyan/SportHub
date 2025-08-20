@@ -5,7 +5,6 @@ from .filters import MySessionFilter
 from .permissions import ManagerOrRecptionistOrCoachReadOnlyOrAthleteReadOnly
 from django.db.models import Prefetch
 from apps.classes.models import Class
-from rest_framework.exceptions import ValidationError
 from .services import MySessionService
 
 
