@@ -9,7 +9,7 @@ class ManagerOrSelfRecptionist(permissions.BasePermission):
         return False
     
     def has_object_permission(self, request, view, obj):
-        if request.role=='manager':
+        if request.user.role=='manager':
             return True
         return request.user.public_id==obj.user.public_id
     
@@ -18,18 +18,14 @@ class ManagerOrRecptionistOrSelfCoach(permissions.BasePermission):
 
     def has_permission(self, request, view):
         user=request.user
-        if user.role=='manager' and request.method in permissions.SAFE_METHODS:
-            return True
-        if user.role in ['receptionist','coach']:
+        if user.role in ['manager','receptionist','coach']:
             return True
         return False
     
     
     def has_object_permission(self, request, view, obj):
         user=request.user
-        if user.role=='manager':
-            return True
-        if request.role=='receptionist':
+        if user.role in ['manager','receptioinst']:
             return True
         return request.user.public_id==obj.user.public_id
     

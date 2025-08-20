@@ -11,7 +11,7 @@ class ReceptionistWorkHistoryViewSet(viewsets.ModelViewSet):
         if user.role in 'manager':
             return WorkHistory.objects.all().select_related('user').only(*get_work_history_only_fields())
         else: 
-            other_receptions_id=Receptionist.objects.exclude(public_id=user.public_id).only('public_id')
+            other_receptions_id=Receptionist.objects.exclude(public_id=user.public_id).values_list('public_id',flat=True)
             return WorkHistory.objects.exclude(user__role='receptionist',user__public_id__in=other_receptions_id)\
                                         .select_related('user').only(*get_work_history_only_fields())
   
@@ -60,14 +60,14 @@ class CoachWorkHistoryViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         user=self.request.user
-        if user.role=='manager':
+        if user.role in['manager','receptionist']:
             return super().perform_create(serializer)
         coach=Coach.objects.get(public_id=user.public_id)
         serializer.instance= WorkHistory.objects.create(**serializer.validated_data,user=coach)
     
     def perform_update(self, serializer):
         user=self.request.user
-        if user.role=='receptionist':
+        if user.role in['receptionist','manager']:
             return super().perform_update(serializer)
         coach=Coach.objects.get(public_id=user.public_id)
         for attr, value in serializer.validated_data.items():
