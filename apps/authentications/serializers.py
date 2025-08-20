@@ -3,6 +3,9 @@ from apps.basicusers.models import MidUser
 from apps.athletes.models import Athlete
 from apps.coaches.models import Coach
 from apps.receptionists.models import Receptionist
+
+
+
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model=MidUser
@@ -40,3 +43,30 @@ class RegisterSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True)
+
+
+class LogoutSerializer(serializers.Serializer):
+    refresh=serializers.CharField()
+
+
+class RequestPasswordEmailSerializer(serializers.Serializer):
+    email=serializers.EmailField()
+
+    class Meta:
+        fields=['email']
+
+
+    def validate_email(self, value):
+        email=value
+        if MidUser.objects.filter(email=email).exists():
+            return value
+        raise serializers.ValidationError({"email":'email is not true'})
+    
+class PasswordResetConfirmSerializer(serializers.Serializer):
+    new_password = serializers.CharField(write_only=True)
+    confirm_password = serializers.CharField(write_only=True)
+
+    def validate(self, data):
+        if data['new_password'] != data['confirm_password']:
+            raise serializers.ValidationError("Passwords do not match.")
+        return data
