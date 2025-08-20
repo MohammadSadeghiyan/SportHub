@@ -6,7 +6,9 @@ class ManagerOrReceptionOrSelfCoachOrSelfAthlete(permissions.BasePermission):
         user=request.user
         if user.role=='manager' and request.method in permissions.SAFE_METHODS:
             return True
-        elif user.role!='manager':return True
+        elif user.role=='coach' and request.method!='POST':return True
+        elif user.role not in['coach','manager']:return True
+        return False
     
     def has_object_permission(self, request, view, obj):
         if obj.status=='s' and obj.end_date<=timezone.now().date() and request.method in ['PUT',"PATCH",'DELETE']:
@@ -16,9 +18,9 @@ class ManagerOrReceptionOrSelfCoachOrSelfAthlete(permissions.BasePermission):
             return True
         elif user.role=='receptionist':
             return True
-        elif user.role=='coach' and obj.coach.public_id==user.coach.public_id:
+        elif user.role=='coach' and obj.coach.public_id==user.public_id:
             return True
-        elif user.role=='athlete' and obj.athlete.public_id==user.athlete.public_id:
+        elif user.role=='athlete' and obj.athlete.public_id==user.public_id:
             return True
         return False
     

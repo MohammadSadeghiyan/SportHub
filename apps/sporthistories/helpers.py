@@ -5,14 +5,13 @@ def coach_sport_history_serializer_read_only_fields():
 
 def make_uri_excersice(obj,request):
     excersices=obj.excersices.all()
-    return {
-                    'excersices':[
+    return  [
                      request.build_absolute_uri(f'/api/excersices/{excersice.public_id}')
                      for excersice in excersices
-            ]}
+            ]
 
 def athlete_sport_history_serializer_read_only_fields():
-    fields=['coconfirmation_coach','athlete']
+    fields=['confirmation_coach','athlete']
     return fields
 
 

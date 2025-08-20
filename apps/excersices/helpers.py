@@ -14,9 +14,10 @@ def get_fields_excersice_history_pass_to_only(user):
 def get_fields_excersice_pass_to_only(params):
         include=params.get('include')      
         excersice_fields=[f.name for f in Excersice._meta.get_fields()]
+        raw_history_fields=[f.name for f in Excersice_history._meta.get_fields() ] if include and 'history' in include else['public_id']
         history_fields = ['excersice_history__'+f.name for f in Excersice_history._meta.get_fields()] \
                             if include and 'history' in include else ['excersice_history__public_id']
         realted_fields=['sport_history__coach__public_id','sport_history__athlete__public_id'
                         ,'excersice_history__excersice__public_id']
         fields_pass_to_only=excersice_fields+history_fields+realted_fields
-        return fields_pass_to_only,history_fields
+        return fields_pass_to_only,history_fields,raw_history_fields

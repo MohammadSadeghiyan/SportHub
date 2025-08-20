@@ -12,7 +12,8 @@ class SportHistory(models.Model):
     STATUS_CHOICES=(
         ('ns','not start'),
         ('s','start'),
-        ('c','cancel')
+        ('c','cancel'),
+        ('f','finished')
     )
     status=models.CharField(max_length=2,choices=STATUS_CHOICES,default='ns')
     public_id=ShortUUIDField(editable=False,unique=True)
@@ -27,8 +28,7 @@ class SportHistory(models.Model):
 
     def save(self,*args,**kwargs):
         if self.status!='c':
-
-            priceing=SportHistoryPricing.objects.filter(start_start_date__gte=self.start_date,end_start_date__lte=self.start_date)
+            priceing=SportHistoryPricing.objects.filter(start_start_date__lte=self.start_date,end_start_date__gte=self.start_date)
             if priceing.exists():
                 self.pricing=priceing.first()
                 self.balance_for_coaching_rial=priceing.first().price_per_day*((self.end_date-self.start_date).days)

@@ -5,7 +5,7 @@ from apps.basicusers.serializers import MidUserSerializer
 class AthleteSerializer(MidUserSerializer,serializers.HyperlinkedModelSerializer):
     url=serializers.HyperlinkedIdentityField(view_name='athletes:athlete-detail',lookup_field='public_id',read_only=True)
     reserves=serializers.HyperlinkedRelatedField(view_name='reservations:reserve-detail',lookup_field='public_id',read_only=True,many=True)
-    sport_histories=serializers.HyperlinkedRelatedField(view_name='sporthistories:sporthistory-detail',lookup_field='public_id'
+    sport_histories=serializers.HyperlinkedRelatedField(view_name='sporthistories:sport-history-detail',lookup_field='public_id'
                                                         ,read_only=True,many=True)
     class Meta(MidUserSerializer.Meta):
         model=Athlete

@@ -1,6 +1,6 @@
 from rest_framework import permissions
 
-class IsCoachOrAthleteExcersice(permissions.BasePermission):
+class IsCoachOrAthleteExcersiceOrManagerReceptionistReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
         user=request.user
         if user.role=='manager' and request.method in permissions.SAFE_METHODS:return True
@@ -19,11 +19,9 @@ class IsCoachOrAthleteExcersice(permissions.BasePermission):
 class IsCoachOrAthleteHistory(permissions.BasePermission):
     def has_permission(self, request, view):
         user=request.user
-        if user.role=='manager' and request.method in permissions.SAFE_METHODS:
+        if user.role in ['coach','manager','receptionist']and request.method in permissions.SAFE_METHODS:
             return True
         elif user.role=='athlete':
-            return True
-        elif user.role=='coach' and request.method in permissions.SAFE_METHODS:
             return True
     
     def has_object_permission(self, request, view, obj):

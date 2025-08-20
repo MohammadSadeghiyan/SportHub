@@ -12,11 +12,13 @@ from apps.djalalidates.helpers import start_date_validator
 
 class SportHistorySerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(
-        view_name='sport-histories:sport-history-detail',
+        view_name='sporthistories:sport-history-detail',
         read_only=True,
         lookup_field='public_id'  
     )
     coach = serializers.SlugRelatedField(queryset=Coach.objects.all(), slug_field='public_id')
+    coach_url=serializers.HyperlinkedRelatedField(source='coach',view_name='coaches:coach-detail',lookup_field='public_id',read_only=True)
+    athlete_url=serializers.HyperlinkedRelatedField(source='athlete',view_name='athletes:athlete-detail',lookup_field='public_id',read_only=True)
     athlete = serializers.SlugRelatedField(queryset=Athlete.objects.all(), slug_field='public_id')
     excersices = serializers.SerializerMethodField()
     start_date = JalaliDateField()
@@ -26,9 +28,17 @@ class SportHistorySerializer(serializers.HyperlinkedModelSerializer):
         model = SportHistory
         fields = [
             'url','public_id','coach','athlete','start_date','end_date','confirmation_coach','balance_for_coaching_rial','status',
-            'excersices',
+            'excersices','athlete_url','coach_url'
         ]
-        read_only_fields = ('balance_for_coaching_rial', 'status')
+        read_only_fields = ('balance_for_coaching_rial', 'status','athlete_url','coach_url','url')
+
+    
+    def validate(self, attrs):
+        start_date=attrs.get('start_date',self.instance.start_date) if self.instance else attrs.get('start_date')
+        end_date=attrs.get('end_date',self.instance.end_date)if self.instance else attrs.get('end_date')
+        if start_date>end_date:
+                raise serializers.ValidationError({'end date':'end date must be bigger than start date'})
+        return attrs
 
     def validate_start_date(self, value):
         start_date_validator(value)

@@ -24,7 +24,10 @@ class SportHistoryService:
             coach.save()   
 
             new_athlete=serializer.validated_data.pop('athlete',instance.athlete)
-            serializer.instance=SportHistory.objects.create(**serializer.validated_data,athlete=new_athlete)
+            start_date=serializer.validated_data.pop('start_date',instance.start_date)
+            end_date=serializer.validated_data.pop('end_date',instance.end_date)
+            coach=serializer.validated_data.pop('coach',instance.coach)
+            serializer.instance=SportHistory.objects.create(start_date=start_date,athlete=new_athlete,end_date=end_date,)
 
         else : raise ValidationError({'finished':'your history is finished so you can update that'})
 
@@ -67,7 +70,9 @@ class SportHistoryService:
             athlete= Athlete.objects.get(public_id=user.public_id)
         else:
             athlete=serializer.validated_data.pop('athlete')
-        
+        if SportHistory.objects.filter(start_date__lte=serializer.validated_data['start_date'],
+                                    end_date__gte=serializer.validated_data['end_date']).exists():
+            raise ValidationError({'active sport history':'you have a active sport history so you can make a new instance of it in this time'})
         serializer.instance=SportHistory.objects.create(**serializer.validated_data,athlete=athlete,status='ns')
 
 
