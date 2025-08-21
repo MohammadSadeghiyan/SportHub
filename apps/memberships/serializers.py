@@ -11,14 +11,15 @@ class AbstractMembershipSerializer(serializers.ModelSerializer):
     end_date=JalaliDateField(read_only=True)
     class Meta:
         model=Membership
-        fields=['start_date','end_date','type_name','status','user','membership_cost_rial','public_id']
-        read_only_fields=('end_date','status','user','membership_cost_rial')
+        fields=['start_date','end_date','type_name','status','status_activation','user','membership_cost_rial','public_id']
+        read_only_fields=('end_date','status','user','membership_cost_rial','status_activation')
 
     
     
     def validate_start_date(self,value):
-        if value>timezone.now().date():
+        if value<timezone.now().date():
             raise serializers.ValidationError({'start_date':'start date must be bigger than now '})
+        return value
 
 
 class CoachMembershipSerializer(serializers.HyperlinkedModelSerializer,AbstractMembershipSerializer):

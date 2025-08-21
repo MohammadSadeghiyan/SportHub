@@ -6,10 +6,13 @@ class AthleteSerializer(MidUserSerializer,serializers.HyperlinkedModelSerializer
     url=serializers.HyperlinkedIdentityField(view_name='athletes:athlete-detail',lookup_field='public_id',read_only=True)
     reserves=serializers.HyperlinkedRelatedField(view_name='reservations:reserve-detail',lookup_field='public_id',read_only=True,many=True)
     sport_histories=serializers.HyperlinkedRelatedField(view_name='sporthistories:sport-history-detail',lookup_field='public_id'
-                                                        ,read_only=True,many=True)
+                                                         ,read_only=True,many=True)
+               
+    memberships=serializers.HyperlinkedRelatedField(read_only=True,view_name='memberships:athlete-membership-detail',many=True
+                                                        ,lookup_field='public_id')                                        
     class Meta(MidUserSerializer.Meta):
         model=Athlete
-        fields=MidUserSerializer.Meta.fields+['url','sport_histories','reserves','weight','height']
+        fields=MidUserSerializer.Meta.fields+['url','sport_histories','reserves','weight','height','memberships']
         read_only_fields=MidUserSerializer.Meta.read_only_fields+('sport_history','reserves')
 
 

@@ -1,7 +1,7 @@
 from .views import *
 from rest_framework.routers import SimpleRouter
 
-app_name='memeberships'
+app_name='memberships'
 
 router=SimpleRouter()
 router.register('athlete-memberships',AthleteMembershipViewSet,'athlete-membership')

@@ -4,13 +4,12 @@ from .models import MidUser
 from apps.djalalidates.serializers import JalaliDateField
 class MidUserSerializer(serializers.ModelSerializer):
     password=serializers.CharField(max_length=255,write_only=True)
-    memberships=serializers.HyperlinkedRelatedField(read_only=True,view_name='memberships:membership-detail',many=True
-                                                        ,lookup_field='public_id')
+    
     status=serializers.CharField(source='get_status_display',read_only=True)
     date_joined=JalaliDateField()
     class Meta:
         model=MidUser
-        fields=['public_id','username','password','role','memberships',
+        fields=['public_id','username','password','role',
                 'home_address','phone_number',
                 'home_number','father_name','age',
                 'balance_rial','status','image']

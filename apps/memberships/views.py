@@ -12,7 +12,7 @@ class AthleteMembershipViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.role in ['receptionist','manager']:
-            return Membership.objects.all().select_related('user').only(*MembershipOnlyfields())
+            return Membership.objects.filter(user__role='athlete').select_related('user').only(*MembershipOnlyfields())
         return Membership.objects.filter(user__public_id=self.request.user.public_id).select_related('user')\
                 .only(*MembershipOnlyfields())
  
@@ -38,7 +38,7 @@ class CoachMembershipViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.role in ['receptionist','manager']:
-            return Membership.objects.all().select_related('user').only(*MembershipOnlyfields())
+            return Membership.objects.filter(user__role='coach').select_related('user').only(*MembershipOnlyfields())
         return Membership.objects.filter(user__public_id=self.request.user.public_id).select_related('user')\
                 .only(*MembershipOnlyfields())
     

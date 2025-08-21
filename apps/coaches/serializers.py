@@ -31,15 +31,17 @@ class CoachSerializer(serializers.HyperlinkedModelSerializer,MidUserSerializer):
     url=serializers.HyperlinkedIdentityField(view_name='coaches:coach-detail',lookup_field='public_id',read_only=True)
     work_histories=serializers.HyperlinkedRelatedField(view_name='workhistories:coach-workhistory-detail',lookup_field='public_id',
                                                        many=True,read_only=True)
+    memberships=serializers.HyperlinkedRelatedField(read_only=True,view_name='memberships:coach-membership-detail',many=True
+                                                        ,lookup_field='public_id')
     classes=serializers.HyperlinkedRelatedField(read_only=True,lookup_field='public_id'
                                                 ,view_name='classes:class-detail',many=True)
     athletes=serializers.HyperlinkedRelatedField(view_name='athletes:athlete-detail'
                                                  ,lookup_field='public_id',many=True,read_only=True)
-    sport_histories=serializers.HyperlinkedRelatedField(view_name='sporthistories:sporthistory-detail'
+    sport_histories=serializers.HyperlinkedRelatedField(view_name='sporthistories:sport-history-detail'
                                                         ,lookup_field='public_id',read_only=True,many=True)
     class Meta(MidUserSerializer.Meta):
         model = Coach
-        fields=['url']+MidUserSerializer.Meta.fields+['classes','athletes','sport_histories','work_histories']
+        fields=['url']+MidUserSerializer.Meta.fields+['classes','athletes','sport_histories','work_histories','memberships']
 
     def create(self, validated_data):
         password=validated_data.pop('password')

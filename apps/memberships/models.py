@@ -9,9 +9,15 @@ class Membership(models.Model):
         ('year','Year'),
         ('month','Month')
     ]
+    STATUS_CHOICES=(
+        ('ns','not start'),
+        ('s','start'),
+        ('f','finished')
+    )
     public_id=ShortUUIDField(editable=False,unique=True)
     user=models.ForeignKey(MidUser,on_delete=models.SET_NULL,null=True,related_name='memberships')
-    status=models.BooleanField(default=False)
+    status_activation=models.BooleanField(default=False)
+    status=models.CharField(max_length=2,choices=STATUS_CHOICES,default='ns')
     type_name=models.CharField(max_length=5,choices=MEMBERSHIP_CHOICES)
     start_date=models.DateField(blank=True,null=True)
     end_date=models.DateField(blank=True,null=True)

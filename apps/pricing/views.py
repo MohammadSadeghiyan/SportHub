@@ -30,7 +30,7 @@ class ClassItemPricingViewSet(viewsets.ModelViewSet):
         return ClassItemPricing.objects.all()
     
     serializer_class=ClassItemPricingSerializer
-    permission_classes=[permissions.IsAuthenticated,ManagerNoCreatePermission]
+    permission_classes=[permissions.IsAuthenticated,ManagerNoCreatePermissionOrReceptionistReadOnly]
     filterset_class=ClassItemPricingFilter
     lookup_field='public_id'
     def perform_update(self, serializer):

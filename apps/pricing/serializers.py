@@ -15,7 +15,9 @@ class AbstractPricingSerializer(serializers.ModelSerializer):
         return value
     
     def validate(self, data):
-        if data['start_start_date']>data['end_start_date']:
+        start_start_date=data.get('start_start_date',self.instance.start_start_date)
+        end_start_date=data.get('end_start_date',self.instance.end_start_date)
+        if start_start_date>end_start_date:
             raise serializers.ValidationError({'end_start_date':'end start date must be bigger than start start date'})
         return data
         
@@ -63,7 +65,9 @@ class ClassItemPricingSerializer(serializers.HyperlinkedModelSerializer):
         return value
     
     def validate(self, data):
-        if data['start_start_date']>data['end_start_date']:
+        start_start_date=data.get('start_start_date',self.instance.start_start_date)
+        end_start_date=data.get('end_start_date',self.instance.end_start_date)
+        if start_start_date>end_start_date:
             raise serializers.ValidationError({'end_start_date':'end start date must be bigger than start start date'})
         if data['max_capacity']<data['min_capacity']:
             raise serializers.ValidationError({'max_capacity':'max capacity must be bigger than min capacity'})
