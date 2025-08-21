@@ -17,6 +17,7 @@ class NutritionplanService:
         end_date=serializer.validated_data.get('end_date')
         pricing=NutritionPricing.objects.filter(start_start_date__lt=start_date,end_start_date__gt=start_date)
         if pricing.exists():
+            print(pricing.first().public_id)
             salary=pricing.first().price_per_day*Decimal((end_date-start_date).days)
             serializer.instance=NutritionPlan.objects.create(coach=coach,athlete=athlete,**serializer.validated_data,salary_rial=salary)
         else:
@@ -25,43 +26,47 @@ class NutritionplanService:
 
     
     @classmethod
-    def update(cls,instance,serializer):
-        if instance.status=='s':
-            athlete=serializer.validated_data.get('athlete',instance.athlete)
-            coach=serializer.validated_data.get('coach',instance.coach)
-            if athlete!=instance.athlete or coach!=instance.coach:
-                raise ValidationError({'status':'you can not change athlete or coach of nutrition plans that start'})
-            else:
-                start_date=serializer.validated_data.get('start_date',instance.start_date)
-                end_date=serializer.validated_data.get('end_date',instance.end_date)
-                if end_date!=instance.end_data and instance.start_date!=start_date:
-                    instance.status='ns'
-                    instance.confirmation_coach=False
-                    instance.coach.balance_rial-=instance.salary_rial
-                    instance.athlete.balance_rial+=instance.salary_rial
-                    instance.athlete.save()
-                    instance.coach.save()
+    def update(cls, instance, serializer):
+        data = serializer.validated_data
+        start_date = data.get('start_date', instance.start_date)
+        end_date = data.get('end_date', instance.end_date)
+        athlete = data.get('athlete', instance.athlete)
+        coach = data.get('coach', instance.coach)
 
-                    for attr,val in serializer.validated_data.items():
-                        if attr !='confirmatoin_coach':
-                            setattr(instance,attr,val)
+        if instance.status == 'r':
+            if athlete != instance.athlete or coach != instance.coach:
+                raise ValidationError({
+                    'status': 'You cannot change athlete or coach of started nutrition plans'
+                })
 
-                    instance.save()
-                
-                else :
-                    for attr,val in serializer.validated_data.items():
-                            setattr(instance,attr,val)
+            if start_date != instance.start_date or end_date != instance.end_date:
+                instance.status = 'nr'
+                instance.confirmation_coach = False
+                instance.coach.balance_rial -= instance.salary_rial
+                instance.athlete.balance_rial += instance.salary_rial
+                instance.athlete.save()
+                instance.coach.save()
 
-                    instance.save()
+        for attr, val in data.items():
+            if attr != 'confirmation_coach':
+                setattr(instance, attr, val)
 
-        else:
-            for attr,val in serializer.validated_data.items():
-                    setattr(instance,attr,val)
+        pricing = NutritionPricing.objects.filter(
+            start_start_date__lt=start_date,
+            end_start_date__gt=start_date
+        ).first()
 
-            instance.save()
+        if not pricing:
+            raise ValidationError({
+                'pricing_policy_not_exist': 'Please tell to the manager or receptionist'
+            })
 
-        serializer.instance=instance
-    
+        instance.salary_rial = pricing.price_per_day * Decimal((end_date - start_date).days)
+        instance.save()
+
+        serializer.instance = instance
+        return instance
+
 
     @classmethod 
     def delete(cls,instance):
@@ -72,6 +77,13 @@ class NutritionplanService:
 
 
 class MealService:
+
+    @classmethod
+    def create(cls,serializer):
+        plan=serializer.validated_data['nutrition_plan']
+        if plan.status!='r':
+            raise ValidationError({'plan finished or not registered':'you can not create meal that relative to the plans that finished'})
+        serializer.save()
 
     @classmethod 
     def delete(cls,instance):
@@ -88,3 +100,4 @@ class MealService:
             setattr(instance,attr,val)
 
         instance.save()
+        serializer.instance=instance

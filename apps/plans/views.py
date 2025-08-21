@@ -47,11 +47,11 @@ class MealViewSet(viewsets.ModelViewSet):
             return Meal.objects.all().select_related('nutrition_plan').only(*meal_only_fields())
         elif self.request.user.role=='athlete':
             return Meal.objects.filter(nutrition_plan__athlete__public_id=self.request.user.public_id).select_related('nutrition_plan')\
-                                    .only(*meal_only_fields)
+                                    .only(*meal_only_fields())
         
         elif self.request.user.role=='coach':
             Meal.objects.filter(nutrition_plan__coach__public_id=self.request.user.public_id).select_related('nutrition_plan')\
-                                    .only(*meal_only_fields)
+                                    .only(*meal_only_fields())
         
 
         
@@ -63,6 +63,8 @@ class MealViewSet(viewsets.ModelViewSet):
     permission_classes=[permissions.IsAuthenticated,AthleteOrCoachReadOnlyOrReceptionistOrManager]
 
     
+    def perform_create(self, serializer):
+        MealService.create(serializer)
 
     def perform_update(self, serializer):
         MealService.update(serializer,self.get_object())

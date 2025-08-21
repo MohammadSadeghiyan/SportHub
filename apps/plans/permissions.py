@@ -19,8 +19,6 @@ class AthleteOrCoachOrManagerOrRecptionist(permissions.BasePermission):
 class AthleteOrCoachReadOnlyOrReceptionistOrManager(permissions.BasePermission):
 
     def has_permission(self, request, view):
-        if request.method =='POST':
-            return False
         if request.user.role in['coach','manager','receptionist'] and request.method in permissions.SAFE_METHODS:
             return True
         if request.user.role=='athlete':

@@ -24,10 +24,11 @@ class NutritionPlanSerializer(serializers.HyperlinkedModelSerializer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         user=self.context.get('request').user
+        if user.role!='coach':
+            self.fields['confirmation_coach'].read_only=True
         if user.role=='athlete':
             self.fields['athlete'].read_only=True
             self.fields['description'].read_only=True
-            self.fields['confirmation_coach'].read_only=True
         elif user.role=='coach':
             self.fields['coach'].read_only=True
             self.fields['athlete'].read_only=True
@@ -36,7 +37,9 @@ class NutritionPlanSerializer(serializers.HyperlinkedModelSerializer):
 
     
     def validate(self, attrs):
-        if attrs['end_date']<attrs['start_date']:
+        end_date=attrs.get('end_date') if attrs.get('end_date',None) else self.instance.end_date
+        start_date=attrs.get('start_date',None) if attrs.get('start_date',None) else self.instance.start_date
+        if end_date<start_date:
             raise serializers.ValidationError({'end date':'end date must be bigger than end date'})
         return attrs
     
@@ -53,8 +56,10 @@ class MealSerializer(serializers.HyperlinkedModelSerializer):
         lookup_field='public_id',  
         read_only=True
     )
-    athlete_date_done = JalaliDateField()
-    nutrition_plan = serializers.HyperlinkedRelatedField(
+    nutrition_plan=serializers.SlugRelatedField(queryset=NutritionPlan.objects.all(),slug_field='public_id')
+    athlete_date_done = JalaliDateField(read_only=True)
+    nutrition_plan_url = serializers.HyperlinkedRelatedField(
+        source='nutrition_plan',
         view_name='plans:nutritionplan-detail',
         lookup_field='public_id',
         read_only=True
@@ -63,12 +68,20 @@ class MealSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Meal
         fields = [
+            'url',
             'day',
             'meal_type',
             'nutrition_plan',
+            'nutrition_plan_url',
             'url',
-            'athlete_done',
             'athlete_date_done',
-            'athlete_discription',
             'meal_discription'
         ]
+
+    
+    def validate_nutrition_plan(self,value):
+        nutrition_plan=NutritionPlan.objects.filter(public_id=value.public_id,athlete__public_id=self.context.get('request').user.public_id)
+        if nutrition_plan.exists():
+            return value
+        else :
+            raise serializers.ValidationError({'nutrition plan':'this plan isnot for you'})

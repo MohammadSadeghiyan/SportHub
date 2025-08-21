@@ -41,8 +41,6 @@ class MealFilter(FilterSet):
         model=Meal
         fields={
             'meal_discription':['icontains'],
-            'athlete_discription':['icontains'],
-            'athlete_done':['exact'],
             'day':['exact'],
             'meal_type':['exact']
 

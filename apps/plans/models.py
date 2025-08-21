@@ -8,7 +8,6 @@ class NutritionPlan(models.Model):
     STATUS_CHOICES=(
         ('r','registered'),
         ('nr','not registered'),
-        ('c','cancel'),
         ('f','finished')
     )
     public_id=ShortUUIDField(editable=False,unique=True)
@@ -24,6 +23,9 @@ class NutritionPlan(models.Model):
     registered_at = models.DateTimeField(null=True)
     salary_rial=models.DecimalField(max_digits=9,decimal_places=0,validators=[MinValueValidator(0)])
 
+
+    def __str__(self):
+        return f'{self.start_date}_{self.end_date}{self.coach}_{self.athlete}'
 
 
 class Meal(models.Model):
@@ -46,9 +48,7 @@ class Meal(models.Model):
     day = models.CharField(max_length=10, choices=DAY_CHOICES)
     meal_type = models.CharField(max_length=10, choices=MEAL_TYPE)
     meal_discription = models.TextField() 
-    athlete_done=models.BooleanField(default=False)
-    athlete_date_done=models.DateField(null=True,blank=True)
-    athlete_discription=models.TextField() 
+    athlete_date_done=models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.get_day_display()} - {self.get_meal_type_display()}'
