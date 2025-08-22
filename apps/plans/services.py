@@ -17,7 +17,6 @@ class NutritionplanService:
         end_date=serializer.validated_data.get('end_date')
         pricing=NutritionPricing.objects.filter(start_start_date__lt=start_date,end_start_date__gt=start_date)
         if pricing.exists():
-            print(pricing.first().public_id)
             salary=pricing.first().price_per_day*Decimal((end_date-start_date).days)
             serializer.instance=NutritionPlan.objects.create(coach=coach,athlete=athlete,**serializer.validated_data,salary_rial=salary)
         else:

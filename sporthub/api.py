@@ -34,6 +34,7 @@ urlpatterns=[
     path('api/',include('apps.mysessions.urls')),
     path('api/',include('apps.reservations.urls')),
     path('api/',include('apps.plans.urls')),
+    path('api/',include('apps.orders.urls')),
     path('api/',include(router.urls)),
     path('api/',include(manager_router.urls)),
     path('api/',include('apps.pricing.urls')),

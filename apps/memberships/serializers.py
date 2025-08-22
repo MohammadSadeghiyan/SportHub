@@ -42,7 +42,7 @@ class AthleteMembershipSerializer(serializers.HyperlinkedModelSerializer,Abstrac
 
     user=serializers.SlugRelatedField(slug_field='username',queryset=Athlete.objects.all())
 
-    user_url=serializers.HyperlinkedRelatedField(source='user',view_name='coaches:coach-detail',lookup_field='public_id',read_only=True)
+    user_url=serializers.HyperlinkedRelatedField(source='user',view_name='athletes:athlete-detail',lookup_field='public_id',read_only=True)
 
     class Meta(AbstractMembershipSerializer.Meta):
         fields=AbstractMembershipSerializer.Meta.fields+['url','user_url','user']

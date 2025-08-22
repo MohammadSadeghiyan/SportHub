@@ -9,13 +9,8 @@ from apps.pricing.models import SportHistoryPricing
 # Create your models here.
 
 class SportHistory(models.Model):
-    STATUS_CHOICES=(
-        ('ns','not start'),
-        ('s','start'),
-        ('c','cancel'),
-        ('f','finished')
-    )
-    status=models.CharField(max_length=2,choices=STATUS_CHOICES,default='ns')
+
+    status=models.BooleanField(default=False)
     public_id=ShortUUIDField(editable=False,unique=True)
     athlete=models.ForeignKey(Athlete,on_delete=models.CASCADE,related_name='sport_histories')
     coach=models.ForeignKey(Coach,on_delete=models.SET_NULL,null=True,related_name='sport_histories')
@@ -25,23 +20,5 @@ class SportHistory(models.Model):
     balance_for_coaching_rial=models.DecimalField(verbose_name='balance for coaching(rial)',max_digits=12,decimal_places=0,
                                                   validators=[MinValueValidator(0)])
     
-
-    def save(self,*args,**kwargs):
-        if self.status!='c':
-            priceing=SportHistoryPricing.objects.filter(start_start_date__lte=self.start_date,end_start_date__gte=self.start_date)
-            if priceing.exists():
-                self.pricing=priceing.first()
-                self.balance_for_coaching_rial=priceing.first().price_per_day*((self.end_date-self.start_date).days)
-                super().save(*args,**kwargs)
-            else :raise ValidationError({'sport price':'price for this sport history is not defined please talk with gym receptionists'})
-        
-        
-       
-
-
-
-
-
-  
     def __str__(self):
         return f'{self.athlete.username}_{self.coach.username}_{self.start_date}'

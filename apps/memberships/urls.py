@@ -5,6 +5,6 @@ app_name='memberships'
 
 router=SimpleRouter()
 router.register('athlete-memberships',AthleteMembershipViewSet,'athlete-membership')
-router.register('coach-memeberships',CoachMembershipViewSet,'coach-membership')
+router.register('coach-memberships',CoachMembershipViewSet,'coach-membership')
 
 urlpatterns=router.urls

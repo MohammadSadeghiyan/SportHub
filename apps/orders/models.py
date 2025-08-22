@@ -35,19 +35,39 @@ class AbstractOrderItem(models.Model):
     class Meta:
         abstract = True
 
-class SportHistoryItem(AbstractOrderItem):
-    sporthistory=models.ForeignKey(SportHistory,on_delete=models.CASCADE,related_name='orders')
 
+
+class SportHistoryItem(AbstractOrderItem):
+    sporthistory=models.OneToOneField(SportHistory,on_delete=models.CASCADE,related_name='order')
+    public_id=ShortUUIDField(editable=False,unique=True)
     def save(self,*args,**kwargs):
         self.price=self.sporthistory.balance_for_coaching_rial
         super().save(*args,**kwargs)
 
+
+
 class MembershipItem(AbstractOrderItem):
-    membership = models.ForeignKey(Membership, on_delete=models.CASCADE,related_name='orders')
+    membership = models.OneToOneField(Membership, on_delete=models.CASCADE,related_name='order')
+    public_id=ShortUUIDField(editable=False,unique=True)
+    def save(self,*args,**kwargs):
+        self.price=self.membership.membership_cost_rial
+        super().save(*args,**kwargs)
+
+
 
 class NutritionPlanItem(AbstractOrderItem):
-    plan = models.ForeignKey(NutritionPlan, on_delete=models.CASCADE,related_name='orders')
+    plan = models.OneToOneField(NutritionPlan, on_delete=models.CASCADE,related_name='order')
+    public_id=ShortUUIDField(editable=False,unique=True)
+    def save(self,*args,**kwargs):
+        self.price=self.plan.salary_rial
+        super().save(*args,**kwargs)
 
+
+        
 class ReservationItem(AbstractOrderItem):
-    reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE,related_name='orders')
+    reservation = models.OneToOneField(Reservation, on_delete=models.CASCADE,related_name='order')
+    public_id=ShortUUIDField(editable=False,unique=True)
 
+    def save(self,*args,**kwargs):
+        self.price=self.reservation.salary_rial
+        super().save(*args,**kwargs)
