@@ -15,13 +15,14 @@ def handel_order_and_order_item(sender, instance, created, **kwargs):
         SportHistoryItem.objects.create(order=pended_order,sporthistory=instance,price=instance.balance_for_coaching_rial)
 
     else:
-        pended_orders=Order.objects.filter(user__public_id=instance.athlete.public_id,status='pending')
-        pended_order=pended_orders.first()
-        pended_order.price+=instance.membership_cost_rial
-        pended_order.save()
-        sporthistory=SportHistory.objects.get(sporthistory=instance,order=pended_order)
-        sporthistory.price=instance.balance_for_coaching_rial
-        sporthistory.save()
-    
+        if instance.status!='c':
+            pended_orders=Order.objects.filter(user__public_id=instance.athlete.public_id,status='pending')
+            pended_order=pended_orders.first()
+            pended_order.price+=instance.balance_for_coaching_rial
+            pended_order.save()
+            sporthistory=SportHistoryItem.objects.get(sporthistory=instance,order=pended_order)
+            sporthistory.price=instance.balance_for_coaching_rial
+            sporthistory.save()
+        
             
     

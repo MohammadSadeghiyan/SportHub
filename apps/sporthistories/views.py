@@ -54,9 +54,8 @@ class SportHistoryViewSet(viewsets.ModelViewSet):
         
     def perform_update(self, serializer):
         instance=self.get_object()  
-        if instance.status=='s':
-            SportHistoryService.update(instance,serializer)
-        else :return super().perform_update(serializer)
+        
+        SportHistoryService.update(instance,serializer)
             
     
     def perform_destroy(self, instance):

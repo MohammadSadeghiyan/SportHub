@@ -2,6 +2,7 @@ from django.utils import timezone
 from .models import SportHistory
 from rest_framework.exceptions import ValidationError
 from apps.athletes.models import Athlete
+from apps.orders.models import Order
 from decimal import Decimal
 from apps.pricing.models import SportHistoryPricing
 from django.db.models import Q
@@ -10,11 +11,12 @@ from django.db.models import Q
 class SportHistoryService:
     @classmethod
     def update(cls,instance,serializer):
-        if instance.status:
+        coach=instance.coach
+        athlete=instance.athlete
+        if instance.status=='r':
             if instance.end_date>timezone.now().date():    
-                coach=instance.coach
-                athlete=instance.athlete
-                instance.status=False
+                
+                instance.status='c'
                 instance.save()
             
 
@@ -34,7 +36,7 @@ class SportHistoryService:
             start_date=serializer.validated_data.pop('start_date',instance.start_date)
             end_date=serializer.validated_data.pop('end_date',instance.end_date)
             coach=serializer.validated_data.pop('coach',instance.coach)
-            overlapping_histories = SportHistory.objects.filter(athlete=athlete,status=True)\
+            overlapping_histories = SportHistory.objects.filter(athlete=athlete,status='r')\
                                 .filter(Q(start_date__lte=end_date, end_date__gte=start_date) |
                                     Q(start_date__gte=start_date, start_date__lte=end_date) |
                                          Q(end_date__gte=start_date, end_date__lte=end_date)
@@ -44,11 +46,22 @@ class SportHistoryService:
                 raise ValidationError({
                 'sport_history': 'You have a sport history in this time period and cannot create a new one'
                 })
-            serializer.instance=SportHistory.objects.create(start_date=start_date,athlete=new_athlete,end_date=end_date)
-        else : 
+            priceing=SportHistoryPricing.objects.filter(start_start_date__lte=start_date,end_start_date__gte=start_date)
+            if priceing.exists():
+                balance_for_coaching_rial=priceing.first().price_per_day*((end_date-start_date).days)
+                serializer.instance=SportHistory.objects.create(start_date=start_date,athlete=new_athlete,end_date=end_date,coach=coach,
+                                                            balance_for_coaching_rial=balance_for_coaching_rial)
+
+            else :raise ValidationError({'sport price':'price for this sport history is not defined please talk with gym receptionists'})
+        else:
+            pended_order=Order.objects.filter(user=athlete,status='pending')
+            pended_order=pended_order.first()
+            pended_order.price-=instance.balance_for_coaching_rial
+            pended_order.save()   
+        
             for attr,val in serializer.validated_data.items():
                 setattr(instance,attr,val)
-            overlapping_histories = SportHistory.objects.filter(status=True,athlete=instance.athlete)\
+            overlapping_histories = SportHistory.objects.filter(status='r',athlete=instance.athlete)\
                                 .filter(Q(start_date__lte=instance.end_date, end_date__gte=instance.start_date) |
                                     Q(start_date__gte=instance.start_date, start_date__lte=instance.end_date) |
                                          Q(end_date__gte=instance.start_date, end_date__lte=instance.end_date)
@@ -58,13 +71,20 @@ class SportHistoryService:
                 raise ValidationError({
                 'sport_history': 'You have a sport history in this time period and cannot create a new one'
                 })
-            instance.save()
-            serializer.instance=instance
+            priceing=SportHistoryPricing.objects.filter(start_start_date__lte=instance.start_date,end_start_date__gte=instance.start_date)
+            if priceing.exists():
+                balance_for_coaching_rial=priceing.first().price_per_day*((instance.end_date-instance.start_date).days)
+                print((instance.end_date-instance.start_date).days)
+                instance.balance_for_coaching_rial=balance_for_coaching_rial
+                instance.save()
+                serializer.instance=instance
+            else :raise ValidationError({'sport price':'price for this sport history is not defined please talk with gym receptionists'})
+           
 
     
     @classmethod
     def delete(cls,instance):
-        if instance.status:
+        if instance.status=='r':
             coach=instance.coach
             athlete=instance.athlete
             salary=instance.balance_for_coaching_rial
@@ -103,7 +123,7 @@ class SportHistoryService:
             athlete=serializer.validated_data.pop('athlete')
         end_date=serializer.validated_data.get('end_date')
         start_date=serializer.validated_data.get('start_date')
-        overlapping_histories = SportHistory.objects.filter(status=True,athlete=athlete).filter(Q(start_date__lte=end_date, end_date__gte=start_date) |
+        overlapping_histories = SportHistory.objects.filter(status='r',athlete=athlete).filter(Q(start_date__lte=end_date, end_date__gte=start_date) |
                                     Q(start_date__gte=start_date, start_date__lte=end_date) |
                                          Q(end_date__gte=start_date, end_date__lte=end_date)
         )

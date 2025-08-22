@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import *
 
 class SporthistoryItemNestedSerializer(serializers.HyperlinkedModelSerializer):
-    url=serializers.HyperlinkedIdentityField(view_name='orders:sporthistory-item-detail',lookup_field='public_id',read_only=True,many=True)
+    url=serializers.HyperlinkedIdentityField(view_name='orders:sporthistory-item-detail',lookup_field='public_id',read_only=True)
     sporthistory=serializers.HyperlinkedRelatedField(view_name='sporthistories:sport-history-detail',lookup_field='public_id',read_only=True)
     class Meta:
         model=SportHistoryItem
@@ -54,7 +54,7 @@ class MembershipItemSerializer(MembershipItemNestedSerializer):
 
 
 class NutritoinPlanItemNestedSerializer(serializers.HyperlinkedModelSerializer):
-    url=serializers.HyperlinkedIdentityField(view_name='orders:membersipitem-detail',lookup_field='public_id',read_only=True)
+    url=serializers.HyperlinkedIdentityField(view_name='orders:nutrition-plan-item-detail',lookup_field='public_id',read_only=True)
     plan_url=serializers.HyperlinkedRelatedField(source='plan',view_name='plans:nutritionplan-detail',lookup_field='public_id',read_only=True)
     plan=serializers.SlugRelatedField(slug_field='public_id',queryset=NutritionPlan.objects.all())
     

@@ -3,6 +3,7 @@ from apps.athletes.models import Athlete
 from rest_framework.exceptions import ValidationError
 from apps.pricing.models import NutritionPricing
 from decimal import Decimal
+from apps.orders.models import Order
 class NutritionplanService:
 
     @classmethod
@@ -45,7 +46,11 @@ class NutritionplanService:
                 instance.athlete.balance_rial += instance.salary_rial
                 instance.athlete.save()
                 instance.coach.save()
-
+        else:
+                pended_order=Order.objects.filter(user=athlete,status='pending')
+                pended_order=pended_order.first()
+                pended_order.price-=instance.salary_rial
+                pended_order.save()
         for attr, val in data.items():
             if attr != 'confirmation_coach':
                 setattr(instance, attr, val)
@@ -59,12 +64,12 @@ class NutritionplanService:
             raise ValidationError({
                 'pricing_policy_not_exist': 'Please tell to the manager or receptionist'
             })
-
+        
+        instance.confirmation_coach=False
         instance.salary_rial = pricing.price_per_day * Decimal((end_date - start_date).days)
         instance.save()
 
         serializer.instance = instance
-        return instance
 
 
     @classmethod 

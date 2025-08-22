@@ -9,8 +9,12 @@ from apps.pricing.models import SportHistoryPricing
 # Create your models here.
 
 class SportHistory(models.Model):
-
-    status=models.BooleanField(default=False)
+    STATUS_CHOICES=(
+        ('r','registered'),
+        ('nr','not registered'),
+        ('c','cancel')
+    )
+    status=models.CharField(max_length=2,choices=STATUS_CHOICES)
     public_id=ShortUUIDField(editable=False,unique=True)
     athlete=models.ForeignKey(Athlete,on_delete=models.CASCADE,related_name='sport_histories')
     coach=models.ForeignKey(Coach,on_delete=models.SET_NULL,null=True,related_name='sport_histories')
