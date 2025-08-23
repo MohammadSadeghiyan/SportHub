@@ -3,7 +3,7 @@ from rest_framework import permissions
 class ManagerOrAthleteOrReceptionist(permissions.BasePermission):
 
     def has_permission(self, request, view):
-        if request.user.role in ['manager','receptionist','athlete'] and request.method not in['PUT',"PATCH"]:
+        if request.user.role in ['manager','receptionist','athlete'] :
             return True
         return False
     

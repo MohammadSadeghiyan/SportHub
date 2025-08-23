@@ -75,7 +75,7 @@ class NutritionPlanItmeSerializer(NutritoinPlanItemNestedSerializer):
 
 
 class ReservationItemNestedSerializer(serializers.HyperlinkedModelSerializer):
-    url=serializers.HyperlinkedIdentityField(view_name='orders:membersipitem-detail',lookup_field='public_id',read_only=True)
+    url=serializers.HyperlinkedIdentityField(view_name='orders:reservation-item-detail',lookup_field='public_id',read_only=True)
     reservation_url=serializers.HyperlinkedRelatedField(source='reservation',view_name='reservations:reservation-detail',lookup_field='public_id',read_only=True)
     reservation=serializers.SlugRelatedField(slug_field='public_id',queryset=Reservation.objects.all())
     

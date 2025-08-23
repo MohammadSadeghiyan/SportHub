@@ -177,7 +177,8 @@ class NutritionPlanItemViewSet(mixins.RetrieveModelMixin,mixins.ListModelMixin,m
     def perform_destroy(self, instance):
         if instance.order.status=='paid':
             raise exceptions.ValidationError({'order paid':'you can not delete order that paid it'})
-        return super().perform_destroy(instance)
+        nutrition_plan=NutritionPlan.objects.get(public_id=instance.plan.public_id)
+        nutrition_plan.delete()
     
 
 
@@ -203,6 +204,7 @@ class ReservationItemViewSet(mixins.RetrieveModelMixin,mixins.ListModelMixin,mix
     def perform_destroy(self, instance):
         if instance.order.status=='paid':
             raise exceptions.ValidationError({'order paid':'you can not delete order that paid it'})
-        return super().perform_destroy(instance)
+        reservation=Reservation.objects.get(public_id=instance.reservation.public_id)
+        reservation.delete()
     
 

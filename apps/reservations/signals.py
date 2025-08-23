@@ -1,9 +1,9 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import NutritionPlan
-from apps.orders.models import Order,NutritionPlanItem
+from .models import Reservation
+from apps.orders.models import Order,ReservationItem
 
-@receiver(post_save,sender=NutritionPlan)
+@receiver(post_save,sender=Reservation)
 def handel_order_and_order_item(sender,instance,created,**kwargs):
         athlete=instance.athlete
         pended_order=Order.objects.filter(user=athlete,status='pending')
@@ -14,12 +14,6 @@ def handel_order_and_order_item(sender,instance,created,**kwargs):
         else:
             pended_order=Order.objects.create(user=athlete,price=instance.salary_rial)
             
-        if created :
-            NutritionPlanItem.objects.create(order=pended_order,plan=instance,price=instance.salary_rial)
-        else:
-            nutritionplan=NutritionPlanItem.objects.get(plan=instance,order=pended_order)
-            nutritionplan.price=instance.salary_rial
-            nutritionplan.save()
-    
+       
+        ReservationItem.objects.create(order=pended_order,reservation=instance,price=instance.salary_rial)
         
-    

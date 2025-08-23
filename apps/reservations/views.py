@@ -1,4 +1,4 @@
-from rest_framework import viewsets,permissions
+from rest_framework import mixins,viewsets,permissions
 from .models import Reservation
 from .serializers import ReservationSerializer
 from .permissions import ManagerOrAthleteOrReceptionist
@@ -10,7 +10,8 @@ from apps.athletes.models import Athlete
 from apps.basicusers.models import BaseUser
 
 
-class ReservationViewSet(viewsets.ModelViewSet):
+class ReservationViewSet(mixins.DestroyModelMixin,mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.ListModelMixin
+                         ,viewsets.GenericViewSet):
 
     def get_queryset(self):
         user=self.request.user
