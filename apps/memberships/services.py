@@ -24,7 +24,6 @@ class MembershipService:
             membership_cost_rial=pricing.price
             serializer.instance=Membership.objects.create(user=user,**serializer.validated_data,status='ns',end_date=end_date,
                                                           membership_cost_rial=membership_cost_rial)
-            membership=serializer.instance
            
             
         else :

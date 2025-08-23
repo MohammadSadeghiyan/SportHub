@@ -17,12 +17,16 @@ from azbankgateways import (
 )
 from azbankgateways.exceptions import AZBankGatewaysException
 
+from apps.orders.models import Order
+from .models import Payment
 
-def go_to_gateway_view(request):
+
+def go_to_gateway_view(request,order_public_id):
     # خواندن مبلغ از هر جایی که مد نظر است
-    amount = 1000
+    order=Order.objects.get(public_id=order_public_id)
+    amount = order.price
     # تنظیم شماره موبایل کاربر از هر جایی که مد نظر است
-    user_mobile_number = "+989112221234"  # اختیاری
+    #user_mobile_number = "+989112221234"  # اختیاری
 
     factory = bankfactories.BankFactory()
     try:
@@ -38,12 +42,15 @@ def go_to_gateway_view(request):
 
         # یو آر ال بازگشت به نرم افزار برای ادامه فرآیند
         bank.set_client_callback_url(reverse("callback-gateway"))
-        bank.set_mobile_number(user_mobile_number)  # اختیاری
+        #bank.set_mobile_number(user_mobile_number)  # اختیاری
 
         # در صورت تمایل اتصال این رکورد به رکورد فاکتور یا هر چیزی که بعدا بتوانید ارتباط بین محصول یا خدمات را با این
         # پرداخت برقرار کنید.
         bank_record = bank.ready()
-
+        
+        payment=Payment.objects.create(order=order,user=order.user,amount=amount,tracking_code=bank_record.tracking_code,status="pending")
+        
+        
         # هدایت کاربر به درگاه بانک
         return bank.redirect_gateway()
     except AZBankGatewaysException as e:
@@ -76,13 +83,22 @@ def callback_gateway_view(request):
         logging.debug("این لینک معتبر نیست.")
         raise Http404
 
+    try:
+        payment = Payment.objects.get(tracking_code=tracking_code)
+    except Payment.DoesNotExist:
+        return HttpResponse("پرداخت یافت نشد.")
     # در این قسمت باید از طریق داده هایی که در بانک رکورد وجود دارد، رکورد متناظر یا هر اقدام مقتضی دیگر را انجام دهیم
     if bank_record.is_success:
+        payment.status = "paid"
+        payment.save()
         # پرداخت با موفقیت انجام پذیرفته است و بانک تایید کرده است.
         # می توانید کاربر را به صفحه نتیجه هدایت کنید یا نتیجه را نمایش دهید.
         return HttpResponse("پرداخت با موفقیت انجام شد.")
-
+    
     # پرداخت موفق نبوده است. اگر پول کم شده است ظرف مدت ۴۸ ساعت پول به حساب شما بازخواهد گشت.
-    return HttpResponse(
+    else:
+        payment.status = "failed"
+        payment.save()
+        return HttpResponse(
         "پرداخت با شکست مواجه شده است. اگر پول کم شده است ظرف مدت ۴۸ ساعت پول به حساب شما بازخواهد گشت."
-    )
+        )
