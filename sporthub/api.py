@@ -16,7 +16,6 @@ manager_router.register('reports',ReportViewSet,basename='manager-reports')
 
 
 
-
 urlpatterns=[
     path('api-auth/', include('rest_framework.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

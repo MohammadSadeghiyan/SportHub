@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
 from .helpers import upload_to_role_based_path,validate_iran_home_phone
+from django.utils.translation import gettext_lazy as _
 from shortuuidfield import ShortUUIDField
 
 # Create your models here.
@@ -23,9 +24,9 @@ class BaseUser(AbstractUser):
     
 class MidUser(BaseUser):
     STATUS_CHOICE=[
-        ('ac','active'),
-        ('inac','inactive'),
-        ('ex','expired')
+        ('ac',_('active')),
+        ('inac',_('inactive')),
+        ('ex',_('expired'))
     ]
     home_address=models.TextField(blank=True,null=True)
     phone_number=PhoneNumberField(region="IR",blank=True,null=True)
