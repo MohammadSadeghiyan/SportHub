@@ -98,7 +98,7 @@ class ReservationItemSerializer(ReservationItemNestedSerializer):
 
 
 class AbstractOrderSerializer(serializers.ModelSerializer):
-    payments=serializers.HyperlinkedRelatedField(view_name='payments:payment-detail',lookup_field='public_id',read_only=True,many=True)
+    payments=serializers.HyperlinkedRelatedField(view_name='payment:payment-detail',lookup_field='public_id',read_only=True,many=True)
     membershipitem_items=MembershipItemNestedSerializer(many=True,read_only=True)
     class Meta:
         model=Order

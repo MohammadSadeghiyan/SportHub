@@ -18,13 +18,23 @@ from azbankgateways import (
 from azbankgateways.exceptions import AZBankGatewaysException
 
 from apps.orders.models import Order
-from .models import Payment
+from .models import *
+from rest_framework import viewsets,permissions,mixins,exceptions
+from .serializers import *
+from .permissions import *
+from .filters import *
 
-
-def go_to_gateway_view(request,order_public_id):
+def go_to_gateway_view(request,order_public_id,balance_user,user_public_id):
     # خواندن مبلغ از هر جایی که مد نظر است
-    order=Order.objects.get(public_id=order_public_id)
-    amount = order.price
+    if order_public_id:
+        order=Order.objects.get(public_id=order_public_id)
+        amount = order.price
+    else:
+        user=MidUser.objects.get(public_id=user_public_id)
+        if -(user.balance_rial)>balance_user:
+            amount=balance_user
+        else :
+            raise exceptions.ValidationError({'balnce isnt true':'you want to pay to the gym max than your negative balance . you cant do it'})
     # تنظیم شماره موبایل کاربر از هر جایی که مد نظر است
     #user_mobile_number = "+989112221234"  # اختیاری
 
@@ -47,9 +57,11 @@ def go_to_gateway_view(request,order_public_id):
         # در صورت تمایل اتصال این رکورد به رکورد فاکتور یا هر چیزی که بعدا بتوانید ارتباط بین محصول یا خدمات را با این
         # پرداخت برقرار کنید.
         bank_record = bank.ready()
-        
-        payment=Payment.objects.create(order=order,user=order.user,amount=amount,tracking_code=bank_record.tracking_code,status="pending")
-        
+        if order_public_id:
+            payment=Payment.objects.create(order=order,user=order.user,amount=amount,tracking_code=bank_record.tracking_code,status="pending")
+        else:
+            payment=Payment.objects.create(user=user_public_id,amount=amount,tracking_code=bank_record.tracking_code,status="pending")
+
         
         # هدایت کاربر به درگاه بانک
         return bank.redirect_gateway()
@@ -102,3 +114,64 @@ def callback_gateway_view(request):
         return HttpResponse(
         "پرداخت با شکست مواجه شده است. اگر پول کم شده است ظرف مدت ۴۸ ساعت پول به حساب شما بازخواهد گشت."
         )
+    
+
+
+
+class PaymentViewSet(viewsets.ReadOnlyModelViewSet):
+    
+    
+    def get_queryset(self):
+        user=self.request.user
+        if user.role in ['manager','receptionist']:
+            return Payment.objects.all().select_related('user','order')
+        return Payment.objects.filter(user__public_id=user.public_id).select_related('user','order')
+    
+    serializer_class=PaymentSerializer
+    filterset_class=PaymentFilter
+    lookup_field='public_id'
+    permission_classes=[permissions.IsAuthenticated,ManagerReceptionSelfUserReadOnly]
+    
+
+
+class ReceptionistPaymentViewSet(viewsets.ModelViewSet):
+
+    def get_queryset(self):
+        user=self.request.user
+        if user.role=='manager':
+            return RecpetionistPayment.objects.all().select_related('user')
+        return RecpetionistPayment.objects.filter(user__public_id=user.public_id).select_related('user')
+    
+    serializer_class=ReceptionistPaymentSerializer
+    filterset_class=ReceptionistPaymentFilter
+    permission_classes=[permissions.IsAuthenticated,ManagerOrReceptionistReadOnly]
+    lookup_field='public_id'
+
+
+    
+
+class WithdrawalRequestViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.RetrieveModelMixin,mixins.ListModelMixin
+                               ,viewsets.GenericViewSet):
+
+    def get_queryset(self):
+        user=self.request.user
+
+        if user.role in ['manager','receptionist']:
+            return WithdrawalRequest.objects.all().select_related('user')
+        else:
+            return WithdrawalRequest.objects.filter(user__public_id=user.public_id).select_related('user')
+    
+    serializer_class=WithdrawalRequestSerializer
+    filterset_class=WithdrawalRequestFilter
+    permission_classes=[permissions.IsAuthenticated,ManagerOrReceptionistOrSelfUser]
+    lookup_field='public_id'
+
+    def perform_create(self, serializer):
+        user=self.request.user
+        data=serializer.validated_data
+        if user.role in ['manager','receptionist']:
+            user=data.pop('user')
+        else:user=MidUser.objects.get(public_id=user.public_id)
+        WithdrawalRequest.objects.create(**serializers.validated_data,user=user)
+
+    

@@ -33,6 +33,7 @@ urlpatterns=[
     path('api/',include('apps.mymessages.urls')),
     path('api/',include('apps.mysessions.urls')),
     path('api/',include('apps.reservations.urls')),
+    path('api/',include('apps.payments.urls')),
     path('api/',include('apps.plans.urls')),
     path('api/',include('apps.orders.urls')),
     path('api/',include(router.urls)),
