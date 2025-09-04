@@ -57,8 +57,8 @@ The project also integrates **Celery + Redis** for background task scheduling, s
 
 ## Tech Stack
 
-- **Python 3.11+**
-- **Django 5**
+- **Python**
+- **Django**
 - **Django REST Framework**
 - **Celery + Celery Beat**
 - **Redis**
