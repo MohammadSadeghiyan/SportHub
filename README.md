@@ -69,8 +69,6 @@ The project also integrates **Celery + Redis** for background task scheduling, s
 - **drf-spectacular**
 - **Pillow**
 - **django-filter**
-- **یت
-
 ---
 
 ## Installation
