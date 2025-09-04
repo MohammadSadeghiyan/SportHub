@@ -74,7 +74,7 @@ The project also integrates **Celery + Redis** for background task scheduling, s
 ## Installation
 
 ```bash
-git clone https://github.com/yourusername/sporthub.git
+git clone https://github.com/MohammadSadeghiyan/sporthub.git
 cd sporthub
 
 # Create virtual environment
